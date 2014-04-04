@@ -718,6 +718,14 @@ public final class FileUtil {
         return fileOps.newOutputStream(name, append);
     }
 
+    public static Reader newReader(String name) throws FileNotFoundException {
+        return fileOps.newReader(name);
+    }
+
+    public static Reader newReader(File f) throws FileNotFoundException {
+        return fileOps.newReader(f);
+    }
+
     private static Class<? extends File> fileClass = File.class;
 
     /** Extension point to allow plugging in your own implementation of {@link File}.
@@ -754,6 +762,16 @@ public final class FileUtil {
         public OutputStream newOutputStream(String name, boolean append) throws FileNotFoundException {
             return new FileOutputStream(newFile(name), append);
         }
+
+        public final Reader newReader(String name) throws FileNotFoundException {
+            return new InputStreamReader(newInputStream(name));
+        }
+
+        public final Reader newReader(File f) throws FileNotFoundException {
+            return new InputStreamReader(newInputStream(f));
+        }
+
+        // TODO Could do newWriter as well but it was only used in 1 place in the entire project.
     }
 
     private static FileOps fileOps = new FileOps();
