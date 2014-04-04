@@ -368,7 +368,7 @@ public abstract class BasicResolver extends AbstractResolver {
                         XmlModuleDescriptorWriter.write(md, dest);
                     } else {
                         // copy and update ivy file from source to cache
-                        parser.toIvyFile(new FileInputStream(src),
+                        parser.toIvyFile(FileUtil.newInputStream(src),
                             originalMdResource.getResource(), dest, md);
                         long repLastModified = originalMdResource.getLastModified();
                         if (repLastModified > 0) {

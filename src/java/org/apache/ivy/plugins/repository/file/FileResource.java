@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.ivy.plugins.repository.Resource;
+import org.apache.ivy.util.FileUtil;
 
 public class FileResource implements Resource {
     private File file;
@@ -71,6 +72,6 @@ public class FileResource implements Resource {
     }
 
     public InputStream openStream() throws IOException {
-        return new FileInputStream(file);
+        return FileUtil.newInputStream(file);
     }
 }

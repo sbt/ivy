@@ -234,7 +234,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
             for (int i = 0; i < files.length; i++) {
                 try {
                     typeDefs(
-                        new FileInputStream(Checks.checkAbsolute(files[i].trim(),
+                        FileUtil.newInputStream(Checks.checkAbsolute(files[i].trim(),
                             "ivy.typedef.files")), true);
                 } catch (FileNotFoundException e) {
                     Message.warn("typedefs file not found: " + files[i].trim());
@@ -558,7 +558,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
     }
 
     public synchronized void loadProperties(File file, boolean overwrite) throws IOException {
-        loadProperties(new FileInputStream(file), overwrite);
+        loadProperties(FileUtil.newInputStream(file), overwrite);
     }
 
     private void loadProperties(InputStream stream, boolean overwrite) throws IOException {

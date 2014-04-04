@@ -95,7 +95,7 @@ public final class ChecksumHelper {
     }
 
     private static byte[] compute(File f, String algorithm) throws IOException {
-        InputStream is = new FileInputStream(f);
+        InputStream is = FileUtil.newInputStream(f);
 
         try {
             MessageDigest md = getMessageDigest(algorithm);

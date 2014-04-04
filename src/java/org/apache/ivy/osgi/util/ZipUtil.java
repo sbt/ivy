@@ -17,10 +17,9 @@
  */
 package org.apache.ivy.osgi.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import org.apache.ivy.util.FileUtil;
+
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -53,7 +52,7 @@ public class ZipUtil {
                 strAbsPath.length());
 
             final byte[] b = new byte[(int) (currDir.length())];
-            final FileInputStream fis = new FileInputStream(currDir);
+            final InputStream fis = FileUtil.newInputStream(currDir);
             fis.read(b);
             fis.close();
 

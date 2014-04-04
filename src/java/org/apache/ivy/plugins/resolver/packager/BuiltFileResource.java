@@ -81,6 +81,6 @@ public class BuiltFileResource implements Resource {
     }
 
     public InputStream openStream() throws IOException {
-        return new FileInputStream(file);
+        return FileUtil.newInputStream(file);
     }
 }

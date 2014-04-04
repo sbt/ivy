@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.osgi.obr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -117,9 +114,9 @@ public class OBRResolver extends AbstractOSGiResolver {
     }
 
     private void loadRepoFromFile(URI baseUri, File repoFile, String sourceLocation) {
-        FileInputStream in;
+        InputStream in;
         try {
-            in = new FileInputStream(repoFile);
+            in = FileUtil.newInputStream(repoFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("The OBR repository resolver " + getName()
                     + " couldn't be configured: the file " + sourceLocation + " was not found");

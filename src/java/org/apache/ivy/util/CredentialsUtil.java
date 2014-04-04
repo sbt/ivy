@@ -20,10 +20,7 @@ package org.apache.ivy.util;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
@@ -134,9 +131,9 @@ public final class CredentialsUtil {
     public static Credentials loadPassfile(Credentials c, File passfile) {
         if (passfile != null && passfile.exists()) {
             Properties props = new EncrytedProperties();
-            FileInputStream fis = null;
+            InputStream fis = null;
             try {
-                fis = new FileInputStream(passfile);
+                fis = FileUtil.newInputStream(passfile);
                 props.load(fis);
                 String username = c.getUserName();
                 String passwd = c.getPasswd();

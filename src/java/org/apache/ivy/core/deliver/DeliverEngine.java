@@ -20,6 +20,7 @@ package org.apache.ivy.core.deliver;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorUpdater;
 import org.apache.ivy.plugins.report.XmlReportParser;
 import org.apache.ivy.plugins.repository.Resource;
 import org.apache.ivy.util.ConfigurationUtils;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.xml.sax.SAXException;
 
@@ -120,7 +122,7 @@ public class DeliverEngine {
                     + "; please resolve dependencies before delivering!");
         }
         Properties props = new Properties();
-        FileInputStream in = new FileInputStream(ivyProperties);
+        InputStream in = FileUtil.newInputStream(ivyProperties);
         props.load(in);
         in.close();
 

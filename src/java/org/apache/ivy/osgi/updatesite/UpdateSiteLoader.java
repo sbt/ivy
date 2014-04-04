@@ -46,6 +46,7 @@ import org.apache.ivy.osgi.updatesite.xml.UpdateSite;
 import org.apache.ivy.osgi.updatesite.xml.UpdateSiteDigestParser;
 import org.apache.ivy.plugins.repository.url.URLRepository;
 import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.xml.sax.SAXException;
 
@@ -195,9 +196,9 @@ public class UpdateSiteLoader {
                 return false;
             }
 
-            readIn = new FileInputStream(report.getLocalFile());
+            readIn = FileUtil.newInputStream(report.getLocalFile());
         } else {
-            InputStream in = new FileInputStream(report.getLocalFile());
+            InputStream in = FileUtil.newInputStream(report.getLocalFile());
 
             try {
                 // compressed, let's get the pointer on the actual xml
@@ -232,7 +233,7 @@ public class UpdateSiteLoader {
         if (report.getDownloadStatus() == DownloadStatus.FAILED) {
             return null;
         }
-        InputStream in = new FileInputStream(report.getLocalFile());
+        InputStream in = FileUtil.newInputStream(report.getLocalFile());
         try {
             UpdateSite site = EclipseUpdateSiteParser.parse(in);
             site.setUri(normalizeSiteUri(site.getUri(), siteUri));
@@ -281,7 +282,7 @@ public class UpdateSiteLoader {
         if (report.getDownloadStatus() == DownloadStatus.FAILED) {
             return null;
         }
-        InputStream in = new FileInputStream(report.getLocalFile());
+        InputStream in = FileUtil.newInputStream(report.getLocalFile());
         try {
             ZipInputStream zipped = findEntry(in, "digest.xml");
             if (zipped == null) {
@@ -307,7 +308,7 @@ public class UpdateSiteLoader {
             if (report.getDownloadStatus() == DownloadStatus.FAILED) {
                 return null;
             }
-            InputStream in = new FileInputStream(report.getLocalFile());
+            InputStream in = FileUtil.newInputStream(report.getLocalFile());
             try {
                 ZipInputStream zipped = findEntry(in, "feature.xml");
                 if (zipped == null) {

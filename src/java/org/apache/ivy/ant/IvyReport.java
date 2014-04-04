@@ -310,7 +310,7 @@ public class IvyReport extends IvyTask {
         InputStream xsltStream = null;
         try {
             // create stream to stylesheet
-            xsltStream = new BufferedInputStream(new FileInputStream(style));
+            xsltStream = new BufferedInputStream(FileUtil.newInputStream(style));
             Source xsltSource = new StreamSource(xsltStream, JAXPUtils.getSystemId(style));
 
             // create transformer
@@ -347,7 +347,7 @@ public class IvyReport extends IvyTask {
                 InputStream inStream = null;
                 OutputStream outStream = null;
                 try {
-                    inStream = new BufferedInputStream(new FileInputStream(reportFile));
+                    inStream = new BufferedInputStream(FileUtil.newInputStream(reportFile));
                     outStream = new BufferedOutputStream(new FileOutputStream(outFile));
                     StreamResult res = new StreamResult(outStream);
                     Source src = new StreamSource(inStream, JAXPUtils.getSystemId(style));

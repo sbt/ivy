@@ -30,6 +30,7 @@ import java.util.jar.Manifest;
 
 import org.apache.ivy.osgi.util.Version;
 import org.apache.ivy.osgi.util.VersionRange;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * Provides an OSGi manifest parser.
@@ -83,7 +84,7 @@ public class ManifestParser {
     }
 
     public static BundleInfo parseManifest(File manifestFile) throws IOException, ParseException {
-        FileInputStream fis = new FileInputStream(manifestFile);
+        InputStream fis = FileUtil.newInputStream(manifestFile);
         try {
             BundleInfo parseManifest = parseManifest(fis);
             return parseManifest;

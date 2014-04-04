@@ -17,6 +17,8 @@
  */
 package org.apache.ivy.osgi.repo;
 
+import org.apache.ivy.util.FileUtil;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -99,7 +101,7 @@ public class FSManifestIterable extends AbstractFSManifestIterable<File> {
     }
 
     protected InputStream getInputStream(File f) throws FileNotFoundException {
-        return new FileInputStream(f);
+        return FileUtil.newInputStream(f);
     }
 
     protected List<File> listBundleFiles(File dir) {

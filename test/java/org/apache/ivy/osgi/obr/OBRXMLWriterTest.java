@@ -67,7 +67,7 @@ public class OBRXMLWriterTest extends TestCase {
             out.close();
         }
 
-        FileInputStream in = new FileInputStream(obrFile);
+        FileInputStream in = FileUtil.newInputStream(obrFile);
         BundleRepoDescriptor repo;
         try {
             repo = OBRXMLParser.parse(new URI("file:///test"), in);

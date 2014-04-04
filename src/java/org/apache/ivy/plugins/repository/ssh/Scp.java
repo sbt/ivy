@@ -310,10 +310,10 @@ public class Scp {
 
         readResponse(is);
 
-        FileInputStream fis = null;
+        InputStream fis = null;
 
         try {
-            fis = new FileInputStream(f);
+            fis = FileUtil.newInputStream(f);
 
             while (remain > 0) {
                 int trans;

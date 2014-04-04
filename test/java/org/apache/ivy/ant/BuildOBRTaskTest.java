@@ -74,7 +74,7 @@ public class BuildOBRTaskTest extends TestCase {
     private BundleRepoDescriptor readObr(File obrFile) throws FileNotFoundException,
             ParseException, IOException, SAXException {
         BundleRepoDescriptor obr;
-        FileInputStream in = new FileInputStream(obrFile);
+        FileInputStream in = FileUtil.newInputStream(obrFile);
         try {
             obr = OBRXMLParser.parse(obrFile.toURI(), in);
         } finally {
