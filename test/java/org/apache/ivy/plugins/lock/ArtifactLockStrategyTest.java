@@ -42,11 +42,11 @@ import org.apache.ivy.util.Message;
 
 public class ArtifactLockStrategyTest extends TestCase {
     protected void setUp() throws Exception {
-        FileUtil.forceDelete(new File("build/test/cache"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/cache"));
     }
 
     protected void tearDown() throws Exception {
-        FileUtil.forceDelete(new File("build/test/cache"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/cache"));
     }
 
     public void testConcurrentResolve() throws Exception {
@@ -82,7 +82,7 @@ public class ArtifactLockStrategyTest extends TestCase {
 
     private RepositoryCacheManager newCacheManager(IvySettings settings) {
         DefaultRepositoryCacheManager cacheManager = new DefaultRepositoryCacheManager("cache",
-                settings, new File("build/test/cache"));
+                settings, FileUtil.newFile("build/test/cache"));
         cacheManager.setLockStrategy(new CreateFileLockStrategy(false));
         return cacheManager;
     }

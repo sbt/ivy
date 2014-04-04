@@ -47,7 +47,7 @@ public class MirroredURLResolverTest extends TestCase {
     protected void setUp() throws Exception {
         settings = new IvySettings();
         engine = new ResolveEngine(settings, new EventManager(), new SortEngine(settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);

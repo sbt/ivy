@@ -27,7 +27,7 @@ import org.apache.ivy.plugins.repository.file.FileRepository;
 public class ResolverHelperTest extends TestCase {
 
     public void testListTokenValuesForIvy1238() {
-        FileRepository rep = new FileRepository(new File(".").getAbsoluteFile());
+        FileRepository rep = new FileRepository(FileUtil.newFile(".").getAbsoluteFile());
         String[] revisions = ResolverHelper.listTokenValues(rep,
             "test/repositories/IVY-1238/ivy-org/modA/v[revision]/ivy.xml", "revision");
 

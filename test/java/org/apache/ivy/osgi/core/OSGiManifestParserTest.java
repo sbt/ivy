@@ -36,7 +36,7 @@ public class OSGiManifestParserTest extends AbstractModuleDescriptorParserTester
 
         settings = new IvySettings();
         // prevent test from polluting local cache
-        settings.setDefaultCache(new File("build/cache"));
+        settings.setDefaultCache(FileUtil.newFile("build/cache"));
     }
 
     public void testSimple() throws Exception {

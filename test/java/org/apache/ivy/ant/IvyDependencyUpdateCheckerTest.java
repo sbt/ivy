@@ -41,7 +41,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -59,7 +59,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testSimple() throws Exception {
         // depends on org="org1" name="mod1.1" rev="1.0"
         // has transitive dependency on org="org1" name="mod1.2" rev="2.0"
-        dependencyUpdateChecker.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple3.xml"));
+        dependencyUpdateChecker.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple3.xml"));
         dependencyUpdateChecker.execute();
 
         assertEquals("resolve-simple", getIvy().getVariable("ivy.module"));
@@ -73,7 +73,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testSimpleAndShowTransitiveDependencies() throws Exception {
         // depends on org="org1" name="mod1.1" rev="1.0"
         // has transitive dependency on org="org1" name="mod1.2" rev="2.0"
-        dependencyUpdateChecker.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple3.xml"));
+        dependencyUpdateChecker.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple3.xml"));
         dependencyUpdateChecker.setShowTransitive(true);
         dependencyUpdateChecker.execute();
 
@@ -88,7 +88,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testResolveWithoutIvyFile() throws Exception {
         // depends on org="org1" name="mod1.2" rev="2.0"
 
-        dependencyUpdateChecker.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        dependencyUpdateChecker.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         dependencyUpdateChecker.setConf("default");
         dependencyUpdateChecker.setHaltonfailure(false);
         dependencyUpdateChecker.execute();
@@ -127,7 +127,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testFailure() throws Exception {
         try {
             dependencyUpdateChecker
-                    .setFile(new File("test/java/org/apache/ivy/ant/ivy-failure.xml"));
+                    .setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-failure.xml"));
             dependencyUpdateChecker.execute();
             fail("failure didn't raised an exception with default haltonfailure setting");
         } catch (BuildException ex) {
@@ -138,7 +138,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testFailureWithMissingConfigurations() throws Exception {
         try {
             dependencyUpdateChecker
-                    .setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+                    .setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
             dependencyUpdateChecker.setConf("default,unknown");
             dependencyUpdateChecker.execute();
             fail("missing configurations didn't raised an exception");
@@ -149,7 +149,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
 
     public void testFailureOnBadDependencyIvyFile() throws Exception {
         try {
-            dependencyUpdateChecker.setFile(new File(
+            dependencyUpdateChecker.setFile(FileUtil.newFile(
                     "test/java/org/apache/ivy/ant/ivy-failure2.xml"));
             dependencyUpdateChecker.execute();
             fail("failure didn't raised an exception with default haltonfailure setting");
@@ -160,7 +160,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
 
     public void testFailureOnBadStatusInDependencyIvyFile() throws Exception {
         try {
-            dependencyUpdateChecker.setFile(new File(
+            dependencyUpdateChecker.setFile(FileUtil.newFile(
                     "test/java/org/apache/ivy/ant/ivy-failure3.xml"));
             dependencyUpdateChecker.execute();
             fail("failure didn't raised an exception with default haltonfailure setting");
@@ -172,7 +172,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     public void testHaltOnFailure() throws Exception {
         try {
             dependencyUpdateChecker
-                    .setFile(new File("test/java/org/apache/ivy/ant/ivy-failure.xml"));
+                    .setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-failure.xml"));
             dependencyUpdateChecker.setHaltonfailure(false);
             dependencyUpdateChecker.execute();
         } catch (BuildException ex) {
@@ -182,7 +182,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     }
 
     public void testExcludedConf() throws Exception {
-        dependencyUpdateChecker.setFile(new File("test/java/org/apache/ivy/ant/ivy-multiconf.xml"));
+        dependencyUpdateChecker.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-multiconf.xml"));
         dependencyUpdateChecker.setConf("*,!default");
         dependencyUpdateChecker.execute();
 
@@ -200,7 +200,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
 
     public void testResolveWithAbsoluteFile() {
         // IVY-396
-        File ivyFile = new File("test/java/org/apache/ivy/ant/ivy-simple.xml");
+        File ivyFile = FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml");
         dependencyUpdateChecker.getProject().setProperty("ivy.dep.file", ivyFile.getAbsolutePath());
         dependencyUpdateChecker.execute();
 
@@ -226,7 +226,7 @@ public class IvyDependencyUpdateCheckerTest extends AntTaskTestCase {
     }
 
     public void testSimpleExtends() throws Exception {
-        dependencyUpdateChecker.setFile(new File(
+        dependencyUpdateChecker.setFile(FileUtil.newFile(
                 "test/java/org/apache/ivy/ant/ivy-extends-multiconf.xml"));
         dependencyUpdateChecker.execute();
         assertEquals("1", dependencyUpdateChecker.getProject().getProperty("ivy.parents.count"));

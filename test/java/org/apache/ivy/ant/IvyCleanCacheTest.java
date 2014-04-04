@@ -38,7 +38,7 @@ public class IvyCleanCacheTest extends TestCase {
 
     protected void setUp() throws Exception {
         Project p = new Project();
-        cacheDir = new File("build/cache");
+        cacheDir = FileUtil.newFile("build/cache");
         p.setProperty("cache", cacheDir.getAbsolutePath());
         cleanCache = new IvyCleanCache();
         cleanCache.setProject(p);

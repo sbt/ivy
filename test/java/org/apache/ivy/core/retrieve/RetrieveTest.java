@@ -54,13 +54,13 @@ public class RetrieveTest extends TestCase {
 
     protected void setUp() throws Exception {
         ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
         createCache();
         Message.setDefaultLogger(new DefaultMessageLogger(Message.MSG_DEBUG));
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -68,7 +68,7 @@ public class RetrieveTest extends TestCase {
         cleanCache();
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("build/test/retrieve"));
+        del.setDir(FileUtil.newFile("build/test/retrieve"));
         del.execute();
     }
 
@@ -81,7 +81,7 @@ public class RetrieveTest extends TestCase {
 
     public void testRetrieveSimple() throws Exception {
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -101,7 +101,7 @@ public class RetrieveTest extends TestCase {
 
     public void testRetrieveSameFileConflict() throws Exception {
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.4/ivys/ivy-1.0.1.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -118,7 +118,7 @@ public class RetrieveTest extends TestCase {
     }
 
     public void testRetrieveDifferentArtifactsOfSameModuleToSameFile() throws Exception {
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org2/mod2.2/ivys/ivy-0.5.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -138,7 +138,7 @@ public class RetrieveTest extends TestCase {
     }
 
     public void testEvent() throws Exception {
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
 
@@ -172,7 +172,7 @@ public class RetrieveTest extends TestCase {
 
     public void testRetrieveOverwrite() throws Exception {
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -189,13 +189,13 @@ public class RetrieveTest extends TestCase {
         ivy.retrieve(md.getModuleRevisionId(), pattern,
             getRetrieveOptions().setOverwriteMode("always"));
         assertEquals(
-            new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").lastModified(),
+            FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").lastModified(),
             file.lastModified());
     }
 
     public void testRetrieveWithSymlinks() throws Exception {
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -221,7 +221,7 @@ public class RetrieveTest extends TestCase {
         }
 
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURI().toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -263,7 +263,7 @@ public class RetrieveTest extends TestCase {
     public void testRetrieveWithVariable() throws Exception {
         // mod1.1 depends on mod1.2
         ivy.setVariable("retrieve.dir", "retrieve");
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -285,7 +285,7 @@ public class RetrieveTest extends TestCase {
 
     public void testRetrieveReport() throws Exception {
         // mod1.1 depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org20/mod20.1/ivys/ivy-1.2.xml").toURL(),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -313,7 +313,7 @@ public class RetrieveTest extends TestCase {
     public void testUnpack() throws Exception {
         ResolveOptions roptions = getResolveOptions(new String[] {"*"});
 
-        URL url = new File("test/repositories/1/packaging/module1/ivys/ivy-1.0.xml").toURI()
+        URL url = FileUtil.newFile("test/repositories/1/packaging/module1/ivys/ivy-1.0.xml").toURI()
                 .toURL();
 
         // normal resolve, the file goes in the cache
@@ -327,7 +327,7 @@ public class RetrieveTest extends TestCase {
         RetrieveOptions options = getRetrieveOptions();
         ivy.retrieve(md.getModuleRevisionId(), pattern, options);
 
-        File dest = new File("build/test/retrieve/packaging/module2/default/jars/module2-1.0");
+        File dest = FileUtil.newFile("build/test/retrieve/packaging/module2/default/jars/module2-1.0");
         assertTrue(dest.exists());
         assertTrue(dest.isDirectory());
         File[] jarContents = dest.listFiles();
@@ -340,7 +340,7 @@ public class RetrieveTest extends TestCase {
     public void testUnpackSync() throws Exception {
         ResolveOptions roptions = getResolveOptions(new String[] {"*"});
 
-        URL url = new File("test/repositories/1/packaging/module1/ivys/ivy-1.0.xml").toURI()
+        URL url = FileUtil.newFile("test/repositories/1/packaging/module1/ivys/ivy-1.0.xml").toURI()
                 .toURL();
 
         // normal resolve, the file goes in the cache
@@ -355,7 +355,7 @@ public class RetrieveTest extends TestCase {
         options.setSync(true);
         ivy.retrieve(md.getModuleRevisionId(), pattern, options);
 
-        File dest = new File("build/test/retrieve/packaging/module2/default/jars/module2-1.0");
+        File dest = FileUtil.newFile("build/test/retrieve/packaging/module2/default/jars/module2-1.0");
         assertTrue(dest.exists());
         assertTrue(dest.isDirectory());
         File[] jarContents = dest.listFiles();

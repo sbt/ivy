@@ -43,9 +43,9 @@ import org.xml.sax.SAXException;
 
 public class BundleRepoTest extends TestCase {
 
-    private File bundlerepo = new File("test/test-repo/bundlerepo");
+    private File bundlerepo = FileUtil.newFile("test/test-repo/bundlerepo");
 
-    private File ivyrepo = new File("test/test-repo/ivyrepo");
+    private File ivyrepo = FileUtil.newFile("test/test-repo/ivyrepo");
 
     public void testFS() throws Exception {
         FSManifestIterable it = new FSManifestIterable(bundlerepo);

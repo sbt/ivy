@@ -45,7 +45,7 @@ public class IvyReportTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -69,7 +69,7 @@ public class IvyReportTest extends TestCase {
 
             IvyResolve res = new IvyResolve();
             res.setProject(project);
-            res.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+            res.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
             res.execute();
 
             report.setTodir(FileUtil.newFile(cache, "report"));
@@ -92,7 +92,7 @@ public class IvyReportTest extends TestCase {
 
             IvyResolve res = new IvyResolve();
             res.setProject(project);
-            res.setFile(new File("test/repositories/1/org6/mod6.2/ivys/ivy-0.7.xml"));
+            res.setFile(FileUtil.newFile("test/repositories/1/org6/mod6.2/ivys/ivy-0.7.xml"));
             res.execute();
 
             report.setTodir(FileUtil.newFile(cache, "report"));
@@ -121,18 +121,18 @@ public class IvyReportTest extends TestCase {
 
             IvyResolve res = new IvyResolve();
             res.setProject(project);
-            res.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+            res.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
             res.execute();
 
             report.setGraph(false);
             report.execute();
 
-            assertTrue(new File("apache-resolve-simple-default.html").exists());
-            assertTrue(new File("ivy-report.css").exists()); // IVY-826
+            assertTrue(FileUtil.newFile("apache-resolve-simple-default.html").exists());
+            assertTrue(FileUtil.newFile("ivy-report.css").exists()); // IVY-826
         } finally {
             Locale.setDefault(oldLocale);
-            new File("apache-resolve-simple-default.html").delete();
-            new File("ivy-report.css").delete();
+            FileUtil.newFile("apache-resolve-simple-default.html").delete();
+            FileUtil.newFile("ivy-report.css").delete();
         }
     }
 
@@ -145,7 +145,7 @@ public class IvyReportTest extends TestCase {
 
             IvyResolve res = new IvyResolve();
             res.setProject(project);
-            res.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+            res.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
             res.execute();
 
             report.setTodir(FileUtil.newFile(cache, "report"));
@@ -169,7 +169,7 @@ public class IvyReportTest extends TestCase {
 
             IvyResolve res = new IvyResolve();
             res.setProject(project);
-            res.setFile(new File("test/java/org/apache/ivy/ant/ivy-multiconf.xml"));
+            res.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-multiconf.xml"));
             res.execute();
 
             report.setTodir(FileUtil.newFile(cache, "report"));

@@ -62,7 +62,7 @@ public class TestPerformance {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -80,7 +80,7 @@ public class TestPerformance {
     private void cleanRepo() {
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("build/test/perf"));
+        del.setDir(FileUtil.newFile("build/test/perf"));
         del.execute();
     }
 
@@ -122,10 +122,10 @@ public class TestPerformance {
                     dd.addDependencyConfiguration("default", "default");
                     md.addDependency(dd);
                 }
-                XmlModuleDescriptorWriter.write(md, new File("build/test/perf/mod" + nb + "/ivy-1."
+                XmlModuleDescriptorWriter.write(md, FileUtil.newFile("build/test/perf/mod" + nb + "/ivy-1."
                         + ver + ".xml"));
-                FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"),
-                    new File("build/test/perf/mod" + nb + "/mod" + nb + "-1." + ver + ".jar"), null);
+                FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"),
+                    FileUtil.newFile("build/test/perf/mod" + nb + "/mod" + nb + "-1." + ver + ".jar"), null);
             }
             nb++;
         }
@@ -135,7 +135,7 @@ public class TestPerformance {
         generateModules(70, 2, 5, 2, 15);
 
         long start = System.currentTimeMillis();
-        ResolveReport report = ivy.resolve(new File("build/test/perf/mod0/ivy-1.0.xml"),
+        ResolveReport report = ivy.resolve(FileUtil.newFile("build/test/perf/mod0/ivy-1.0.xml"),
             getResolveOptions(new String[] {"*"}).setRevision("1.0"));
         long end = System.currentTimeMillis();
         System.out.println("resolve " + report.getConfigurationReport("default").getNodesNumber()

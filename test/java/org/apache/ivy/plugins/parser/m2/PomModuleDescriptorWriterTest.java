@@ -40,7 +40,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         }
     }
 
-    private File _dest = new File("build/test/test-write.xml");
+    private File _dest = FileUtil.newFile("build/test/test-write.xml");
 
     public void testSimple() throws Exception {
         ModuleDescriptor md = PomModuleDescriptorParser.getInstance().parseDescriptor(

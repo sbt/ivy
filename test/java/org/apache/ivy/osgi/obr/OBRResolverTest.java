@@ -104,14 +104,14 @@ public class OBRResolverTest extends TestCase {
         settings = new IvySettings();
 
         bundleResolver = new OBRResolver();
-        bundleResolver.setRepoXmlFile(new File("test/test-repo/bundlerepo/repo.xml")
+        bundleResolver.setRepoXmlFile(FileUtil.newFile("test/test-repo/bundlerepo/repo.xml")
                 .getAbsolutePath());
         bundleResolver.setName("bundle");
         bundleResolver.setSettings(settings);
         settings.addResolver(bundleResolver);
 
         bundleUrlResolver = new OBRResolver();
-        bundleUrlResolver.setRepoXmlURL(new File("test/test-repo/bundlerepo/repo.xml").toURI()
+        bundleUrlResolver.setRepoXmlURL(FileUtil.newFile("test/test-repo/bundlerepo/repo.xml").toURI()
                 .toURL().toExternalForm());
         bundleUrlResolver.setName("bundleurl");
         bundleUrlResolver.setSettings(settings);
@@ -119,12 +119,12 @@ public class OBRResolverTest extends TestCase {
 
         dualResolver = new DualResolver();
         OBRResolver resolver = new OBRResolver();
-        resolver.setRepoXmlFile(new File("test/test-repo/ivyrepo/repo.xml").getAbsolutePath());
+        resolver.setRepoXmlFile(FileUtil.newFile("test/test-repo/ivyrepo/repo.xml").getAbsolutePath());
         resolver.setName("dual-bundle");
         resolver.setSettings(settings);
         dualResolver.add(resolver);
         dualResolver.setName("dual");
-        File ivyrepo = new File("test/test-repo/ivyrepo");
+        File ivyrepo = FileUtil.newFile("test/test-repo/ivyrepo");
         FileSystemResolver fileSystemResolver = new FileSystemResolver();
         fileSystemResolver.addIvyPattern(ivyrepo.getAbsolutePath()
                 + "/[organisation]/[module]/[revision]/ivy.xml");
@@ -137,7 +137,7 @@ public class OBRResolverTest extends TestCase {
 
         settings.setDefaultResolver("bundle");
 
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         settings.setDefaultCache(cache);
 
@@ -297,7 +297,7 @@ public class OBRResolverTest extends TestCase {
         JarInputStream in = new JarInputStream(new FileInputStream("test/test-repo/bundlerepo/"
                 + jarName));
         BundleInfo bundleInfo = ManifestParser.parseManifest(in.getManifest());
-        bundleInfo.addArtifact(new BundleArtifact(false, new File("test/test-repo/bundlerepo/"
+        bundleInfo.addArtifact(new BundleArtifact(false, FileUtil.newFile("test/test-repo/bundlerepo/"
                 + jarName).toURI(), null));
         DefaultModuleDescriptor md = BundleInfoAdapter.toModuleDescriptor(
             OSGiManifestParser.getInstance(), null, bundleInfo, profileProvider);
@@ -329,7 +329,7 @@ public class OBRResolverTest extends TestCase {
         JarInputStream in = new JarInputStream(new FileInputStream("test/test-repo/bundlerepo/"
                 + jarName));
         BundleInfo bundleInfo = ManifestParser.parseManifest(in.getManifest());
-        bundleInfo.addArtifact(new BundleArtifact(false, new File("test/test-repo/bundlerepo/"
+        bundleInfo.addArtifact(new BundleArtifact(false, FileUtil.newFile("test/test-repo/bundlerepo/"
                 + jarName).toURI(), null));
         DefaultModuleDescriptor md = BundleInfoAdapter.toModuleDescriptor(
             OSGiManifestParser.getInstance(), null, bundleInfo, profileProvider);

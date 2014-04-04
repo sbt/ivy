@@ -57,27 +57,27 @@ public class AggregatedOSGiResolverTest extends TestCase {
         settings = new IvySettings();
 
         OBRResolver bundleResolver = new OBRResolver();
-        bundleResolver.setRepoXmlFile(new File("test/test-repo/bundlerepo/repo.xml")
+        bundleResolver.setRepoXmlFile(FileUtil.newFile("test/test-repo/bundlerepo/repo.xml")
                 .getAbsolutePath());
         bundleResolver.setName("bundle");
         bundleResolver.setSettings(settings);
         settings.addResolver(bundleResolver);
 
         UpdateSiteResolver updatesite = new UpdateSiteResolver();
-        updatesite.setUrl(new File("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
+        updatesite.setUrl(FileUtil.newFile("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
         updatesite.setName("updatesite");
         updatesite.setSettings(settings);
         settings.addResolver(updatesite);
 
         OBRResolver repo1 = new OBRResolver();
-        repo1.setRepoXmlFile(new File("test/test-repo/multi-osgi/repo1/obr.xml").getAbsolutePath());
+        repo1.setRepoXmlFile(FileUtil.newFile("test/test-repo/multi-osgi/repo1/obr.xml").getAbsolutePath());
         repo1.setName("repo1");
         repo1.setSettings(settings);
         repo1.setRequirementStrategy(RequirementStrategy.noambiguity);
         settings.addResolver(repo1);
 
         OBRResolver repo2 = new OBRResolver();
-        repo2.setRepoXmlFile(new File("test/test-repo/multi-osgi/repo2/obr.xml").getAbsolutePath());
+        repo2.setRepoXmlFile(FileUtil.newFile("test/test-repo/multi-osgi/repo2/obr.xml").getAbsolutePath());
         repo2.setName("repo2");
         repo2.setSettings(settings);
         repo2.setRequirementStrategy(RequirementStrategy.noambiguity);
@@ -94,7 +94,7 @@ public class AggregatedOSGiResolverTest extends TestCase {
 
         settings.setDefaultResolver("multiosgi");
 
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         settings.setDefaultCache(cache);
 

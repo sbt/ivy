@@ -38,11 +38,11 @@ public class DeliverTest extends TestCase {
     private IvyDeliver ivyDeliver;
 
     protected void setUp() throws Exception {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         System.setProperty("ivy.cache.dir", cache.getAbsolutePath());
         createCache();
 
-        deliverDir = new File("build/test/deliver");
+        deliverDir = FileUtil.newFile("build/test/deliver");
         deliverDir.mkdirs();
 
         Project project = new Project();

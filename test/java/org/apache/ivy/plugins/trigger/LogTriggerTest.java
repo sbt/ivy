@@ -43,7 +43,7 @@ public class LogTriggerTest extends TestCase {
             ModuleRevisionId.parse("o#A;1"), new Date()), new String[] {"c"});
         trigger = new LogTrigger();
         trigger.setEvent(ev.getName());
-        testDir = new File("build/test/trigger");
+        testDir = FileUtil.newFile("build/test/trigger");
         testDir.mkdirs();
     }
 

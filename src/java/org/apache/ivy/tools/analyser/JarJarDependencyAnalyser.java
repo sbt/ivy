@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor;
 import org.apache.ivy.core.module.descriptor.DefaultModuleDescriptor;
 import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class JarJarDependencyAnalyser implements DependencyAnalyser {
@@ -86,7 +87,7 @@ public class JarJarDependencyAnalyser implements DependencyAnalyser {
     }
 
     public static void main(String[] args) {
-        JarJarDependencyAnalyser a = new JarJarDependencyAnalyser(new File(
+        JarJarDependencyAnalyser a = new JarJarDependencyAnalyser(FileUtil.newFile(
                 "D:/temp/test2/jarjar-0.7.jar"));
         a.analyze(new JarModuleFinder(
                 "D:/temp/test2/ivyrep/[organisation]/[module]/[revision]/[artifact].[ext]")

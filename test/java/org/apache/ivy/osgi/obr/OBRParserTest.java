@@ -32,7 +32,7 @@ import org.apache.ivy.util.FileUtil;
 
 public class OBRParserTest extends TestCase {
 
-    private File testObr = new File("test/test-obr");
+    private File testObr = FileUtil.newFile("test/test-obr");
 
     public void testParse() throws Exception {
         BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), new FileInputStream(

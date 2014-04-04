@@ -56,8 +56,8 @@ public class OBRXMLWriterTest extends TestCase {
         bundle.addArtifact(new BundleArtifact(false, new URI("file:///test2.jar"), null));
         bundles.add(bundle);
 
-        new File("build/test-files").mkdirs();
-        File obrFile = new File("build/test-files/obr-sources.xml");
+        FileUtil.newFile("build/test-files").mkdirs();
+        File obrFile = FileUtil.newFile("build/test-files/obr-sources.xml");
         OutputStream out = FileUtil.newOutputStream(obrFile);
         try {
             ContentHandler hanlder = OBRXMLWriter.newHandler(out, "UTF-8", true);

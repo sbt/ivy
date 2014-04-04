@@ -34,7 +34,7 @@ public class IvyInfoTest extends TestCase {
     }
 
     public void testSimple() throws Exception {
-        info.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        info.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         info.execute();
 
         assertEquals("apache", info.getProject().getProperty("ivy.organisation"));
@@ -45,7 +45,7 @@ public class IvyInfoTest extends TestCase {
     }
 
     public void testAll() throws Exception {
-        info.setFile(new File("test/java/org/apache/ivy/ant/ivy-info-all.xml"));
+        info.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-info-all.xml"));
         info.execute();
 
         assertEquals("apache", info.getProject().getProperty("ivy.organisation"));
@@ -66,14 +66,14 @@ public class IvyInfoTest extends TestCase {
     }
 
     public void testIVY726() throws Exception {
-        info.setFile(new File("test/java/org/apache/ivy/ant/ivy-info-all.xml"));
+        info.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-info-all.xml"));
         info.execute();
 
         assertTrue(info.getProject().getProperty("ivy.extra.branch") == null);
     }
 
     public void testIVY395() throws Exception {
-        info.setFile(new File("test/java/org/apache/ivy/ant/ivy-artifact-info.xml"));
+        info.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-artifact-info.xml"));
         info.execute();
 
         assertEquals("test", info.getProject().getProperty("ivy.artifact.1.name"));

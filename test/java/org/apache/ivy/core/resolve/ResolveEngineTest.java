@@ -40,12 +40,12 @@ public class ResolveEngineTest extends TestCase {
     private File cache;
 
     protected void setUp() throws Exception {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         System.setProperty("ivy.cache.dir", cache.getAbsolutePath());
         createCache();
 
         ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
     }
 
     protected void tearDown() throws Exception {
@@ -72,10 +72,10 @@ public class ResolveEngineTest extends TestCase {
 
         testLocateThenDownload(engine,
             DefaultArtifact.newIvyArtifact(ModuleRevisionId.parse("org1#mod1.1;1.0"), new Date()),
-            new File("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"));
+            FileUtil.newFile("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"));
         testLocateThenDownload(engine,
             new DefaultArtifact(ModuleRevisionId.parse("org1#mod1.1;1.0"), new Date(), "mod1.1",
-                    "jar", "jar"), new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"));
+                    "jar", "jar"), FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"));
     }
 
     private void testLocateThenDownload(ResolveEngine engine, Artifact artifact, File artifactFile) {

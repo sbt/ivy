@@ -33,7 +33,7 @@ public class StrictConflictManagerTest extends TestCase {
     protected void setUp() throws Exception {
         ivy = new Ivy();
         ivy.configure(StrictConflictManagerTest.class.getResource("ivysettings-strict-test.xml"));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 

@@ -445,9 +445,9 @@ public final class FileUtil {
 
     /**
      * Returns a list of Files composed of all directories being parent of file and child of root +
-     * file and root themselves. Example: getPathFiles(new File("test"), new
-     * File("test/dir1/dir2/file.txt")) => {new File("test/dir1"), new File("test/dir1/dir2"), new
-     * File("test/dir1/dir2/file.txt") } Note that if root is not an ancester of file, or if root is
+     * file and root themselves. Example: getPathFiles(FileUtil.newFile("test"), FileUtil.newFile
+     * ("test/dir1/dir2/file.txt")) => {FileUtil.newFile("test/dir1"), FileUtil.newFile("test/dir1/dir2"),
+     * FileUtil.newFile("test/dir1/dir2/file.txt") } Note that if root is not an ancester of file, or if root is
      * null, all directories from the file system root will be returned.
      */
     public static List getPathFiles(File root, File file) {

@@ -49,7 +49,7 @@ public class FixDepsTaskTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -67,7 +67,7 @@ public class FixDepsTaskTest extends TestCase {
     public void testSimple() throws Exception {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-simple.xml");
 
-        File dest = new File("build/testFixDeps/testSimple.xml");
+        File dest = FileUtil.newFile("build/testFixDeps/testSimple.xml");
         fixDeps.setToFile(dest);
         fixDeps.execute();
 
@@ -95,7 +95,7 @@ public class FixDepsTaskTest extends TestCase {
     public void testMulticonf() throws Exception {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-multiconf.xml");
 
-        File dest = new File("build/testFixDeps/testMultiConf.xml");
+        File dest = FileUtil.newFile("build/testFixDeps/testMultiConf.xml");
         fixDeps.setToFile(dest);
         fixDeps.execute();
 
@@ -141,7 +141,7 @@ public class FixDepsTaskTest extends TestCase {
     public void testTransitivity() throws Exception {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-transitive.xml");
 
-        File dest = new File("build/testFixDeps/testTransitivity.xml");
+        File dest = FileUtil.newFile("build/testFixDeps/testTransitivity.xml");
         fixDeps.setToFile(dest);
         fixDeps.execute();
 
@@ -198,12 +198,12 @@ public class FixDepsTaskTest extends TestCase {
     public void testFixedResolve() throws Exception {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-transitive.xml");
 
-        File dest = new File("build/testFixDeps/testTransitivity.xml");
+        File dest = FileUtil.newFile("build/testFixDeps/testTransitivity.xml");
         fixDeps.setToFile(dest);
         fixDeps.execute();
 
         project.setProperty("ivy.dep.file", dest.getAbsolutePath());
-        File dest2 = new File("build/testFixDeps/testTransitivity2.xml");
+        File dest2 = FileUtil.newFile("build/testFixDeps/testTransitivity2.xml");
         fixDeps.setToFile(dest2);
         fixDeps.execute();
 

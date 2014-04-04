@@ -38,15 +38,15 @@ import org.apache.tools.ant.input.InputHandler;
 
 public class AntCallTriggerTest extends TestCase {
     public void test() throws Exception {
-        assertFalse(new File("test/triggers/ant-call/A/out/foo.txt").exists());
-        runAnt(new File("test/triggers/ant-call/A/build.xml"), "resolve");
+        assertFalse(FileUtil.newFile("test/triggers/ant-call/A/out/foo.txt").exists());
+        runAnt(FileUtil.newFile("test/triggers/ant-call/A/build.xml"), "resolve");
         // should have unzipped foo.zip
-        assertTrue(new File("test/triggers/ant-call/A/out/foo.txt").exists());
+        assertTrue(FileUtil.newFile("test/triggers/ant-call/A/out/foo.txt").exists());
     }
 
     protected void tearDown() throws Exception {
-        FileUtil.forceDelete(new File("test/triggers/ant-call/A/out"));
-        FileUtil.forceDelete(new File("test/triggers/ant-call/cache"));
+        FileUtil.forceDelete(FileUtil.newFile("test/triggers/ant-call/A/out"));
+        FileUtil.forceDelete(FileUtil.newFile("test/triggers/ant-call/cache"));
     }
 
     private void runAnt(File buildFile, String target) throws BuildException {

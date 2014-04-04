@@ -347,7 +347,7 @@ public class IvyAntSettings extends DataType {
         File[] settingsLocations = new File[] {
                 FileUtil.newFile(getProject().getBaseDir(), settingsFileName),
                 FileUtil.newFile(getProject().getBaseDir(), "ivyconf.xml"), FileUtil.newFile(settingsFileName),
-                new File("ivyconf.xml")};
+                FileUtil.newFile("ivyconf.xml")};
         for (int i = 0; i < settingsLocations.length; i++) {
             file = settingsLocations[i];
             task.log("searching settings file: trying " + file, Project.MSG_VERBOSE);

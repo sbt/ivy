@@ -44,7 +44,7 @@ public class IvyInstallTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -58,8 +58,8 @@ public class IvyInstallTest extends TestCase {
     }
 
     private void cleanInstall() {
-        FileUtil.forceDelete(new File("build/test/install"));
-        FileUtil.forceDelete(new File("build/test/install2"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/install"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/install2"));
     }
 
     public void testInstallDummyDefault() {
@@ -74,13 +74,13 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/org1/mod1.4/ivy-1.0.1.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1.4/ivy-1.0.1.xml").exists());
 
-        assertTrue(new File("build/test/install/org1/mod1.1/ivy-2.0.xml").exists());
-        assertTrue(new File("build/test/install/org1/mod1.1/mod1.1-2.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1.1/ivy-2.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1.1/mod1.1-2.0.jar").exists());
 
-        assertTrue(new File("build/test/install/org1/mod1.2/ivy-2.2.xml").exists());
-        assertTrue(new File("build/test/install/org1/mod1.2/mod1.2-2.2.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1.2/ivy-2.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1.2/mod1.2-2.2.jar").exists());
     }
 
     public void testInstallWithAnyType() {
@@ -95,7 +95,7 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/org8/mod8.1/a-1.1.txt").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org8/mod8.1/a-1.1.txt").exists());
     }
 
     public void testInstallWithMultipleType() {
@@ -110,7 +110,7 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/org8/mod8.1/a-1.1.txt").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org8/mod8.1/a-1.1.txt").exists());
     }
 
     /**
@@ -127,9 +127,9 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/org1/mod1/jars/mod1-1.0.jar").exists());
-        assertTrue(new File("build/test/install/org1/mod2/jars/mod2-1.0.jar").exists());
-        assertTrue(new File("build/test/install/org1/mod3/jars/mod3-1.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1/jars/mod1-1.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod2/jars/mod2-1.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod3/jars/mod3-1.0.jar").exists());
     }
 
     /**
@@ -147,14 +147,14 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/org1/mod1/jars/mod1-1.0.jar").exists());
-        assertTrue(new File("build/test/install/org1/mod2/jars/mod2-1.0.jar").exists());
-        assertFalse(new File("build/test/install/org1/mod3/jars/mod3-1.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod1/jars/mod1-1.0.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org1/mod2/jars/mod2-1.0.jar").exists());
+        assertFalse(FileUtil.newFile("build/test/install/org1/mod3/jars/mod3-1.0.jar").exists());
     }
 
     public void testInstallWithClassifiers() throws Exception {
         // IVY-1324
-        project.setProperty("ivy.settings.url", new File("test/repositories/m2/ivysettings.xml")
+        project.setProperty("ivy.settings.url", FileUtil.newFile("test/repositories/m2/ivysettings.xml")
                 .toURI().toURL().toExternalForm());
         install.setOrganisation("org.apache");
         install.setModule("test-sources");
@@ -165,13 +165,13 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File(
+        assertTrue(FileUtil.newFile(
                 "build/test/install/org.apache/test-sources/test-sources-1.0-javadoc.jar").exists());
-        assertTrue(new File(
+        assertTrue(FileUtil.newFile(
                 "build/test/install/org.apache/test-sources/test-sources-1.0-sources.jar").exists());
-        assertTrue(new File("build/test/install/org.apache/test-sources/test-sources-1.0.jar")
+        assertTrue(FileUtil.newFile("build/test/install/org.apache/test-sources/test-sources-1.0.jar")
                 .exists());
-        assertTrue(new File("build/test/install/org.apache/test-sources/ivy-1.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org.apache/test-sources/ivy-1.0.xml").exists());
     }
 
     public void testInstallWithUnusedType() {
@@ -186,7 +186,7 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertFalse(new File("build/test/install/org8/mod8.1/a-1.1.txt").exists());
+        assertFalse(FileUtil.newFile("build/test/install/org8/mod8.1/a-1.1.txt").exists());
     }
 
     public void testInstallWithOriginalMetadata() {
@@ -204,7 +204,7 @@ public class IvyInstallTest extends TestCase {
             fail("unknown dependency, failure unexpected (haltonfailure=false). Failure: " + be);
         }
 
-        assertFalse(new File("build/test/install/org.apache/test/test-1.0.pom").exists());
+        assertFalse(FileUtil.newFile("build/test/install/org.apache/test/test-1.0.pom").exists());
 
         install.setInstallOriginalMetadata(true);
 
@@ -215,7 +215,7 @@ public class IvyInstallTest extends TestCase {
             fail("unknown dependency, failure unexpected (haltonfailure=false). Failure: " + be);
         }
 
-        assertTrue(new File("build/test/install/org.apache/test/test-1.0.pom").exists());
+        assertTrue(FileUtil.newFile("build/test/install/org.apache/test/test-1.0.pom").exists());
     }
 
     public void testIVY843() {
@@ -234,7 +234,7 @@ public class IvyInstallTest extends TestCase {
         install.setTo("install2");
         install.execute();
 
-        assertTrue(new File("build/test/install2/org1/mod1.4/ivy-1.0.1.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install2/org1/mod1.4/ivy-1.0.1.xml").exists());
     }
 
     public void testInstallWithBranch() {
@@ -248,7 +248,7 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/foo/foo1/branch1/ivy-2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/foo/foo1/branch1/ivy-2.xml").exists());
     }
 
     public void testInstallWithNamespace() {
@@ -262,8 +262,8 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/systemorg/systemmod2/ivy-1.0.xml").exists());
-        assertTrue(new File("build/test/install/systemorg/systemmod/ivy-1.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/systemorg/systemmod2/ivy-1.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/systemorg/systemmod/ivy-1.0.xml").exists());
     }
 
     public void testInstallWithNamespace2() {
@@ -294,8 +294,8 @@ public class IvyInstallTest extends TestCase {
 
         install.execute();
 
-        assertTrue(new File("build/test/install/systemorg/systemmod2/ivy-1.0.xml").exists());
-        assertTrue(new File("build/test/install/systemorg/systemmod/ivy-1.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/systemorg/systemmod2/ivy-1.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/install/systemorg/systemmod/ivy-1.0.xml").exists());
     }
 
     public void testDependencyNotFoundFailure() {

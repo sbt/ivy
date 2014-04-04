@@ -190,7 +190,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
 
     private File defaultUserDir;
 
-    private File baseDir = new File(".").getAbsoluteFile();
+    private File baseDir = FileUtil.newFile(".").getAbsoluteFile();
 
     private List classpathURLs = new ArrayList();
 

@@ -64,13 +64,13 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
         settings = new IvySettings();
         ResolveEngine engine = new ResolveEngine(settings, new EventManager(), new SortEngine(
                 settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);
 
         // Create work space with build and resource cache directories
-        workdir = new File("build/test/PackagerResolverTest");
+        workdir = FileUtil.newFile("build/test/PackagerResolverTest");
         builddir = FileUtil.newFile(workdir, "build");
         cachedir = FileUtil.newFile(workdir, "resources");
         cleanupTempDirs();
@@ -98,7 +98,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/packager/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/packager/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -108,7 +108,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/packager/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");
@@ -180,7 +180,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/IVY-1179/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/IVY-1179/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -190,7 +190,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/IVY-1179/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");
@@ -227,7 +227,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/IVY-1179/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/IVY-1179/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -237,7 +237,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/IVY-1179/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");

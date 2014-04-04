@@ -30,7 +30,7 @@ public class MainTest extends TestCase {
     private File cache;
 
     protected void setUp() throws Exception {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         System.setProperty("ivy.cache.dir", cache.getAbsolutePath());
     }
 
@@ -63,19 +63,19 @@ public class MainTest extends TestCase {
     public void testResolveSimple() throws Exception {
         run(new String[] {"-settings", "test/repositories/ivysettings.xml", "-ivy",
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"});
-        assertTrue(new File("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
     }
 
     public void testResolveSimpleWithConfs() throws Exception {
         run(new String[] {"-settings", "test/repositories/ivysettings.xml", "-ivy",
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml", "-confs", "default"});
-        assertTrue(new File("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
     }
 
     public void testResolveSimpleWithConfs2() throws Exception {
         run(new String[] {"-settings", "test/repositories/ivysettings.xml", "-confs", "default",
                 "-ivy", "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"});
-        assertTrue(new File("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
+        assertTrue(FileUtil.newFile("build/cache/org1/mod1.2/ivy-2.0.xml").exists());
     }
 
     public void testExtraParams1() throws Exception {

@@ -27,7 +27,7 @@ public class IvyConvertPomTest extends TestCase {
     public void testSimple() throws Exception {
         IvyConvertPom task = new IvyConvertPom();
         task.setProject(new Project());
-        task.setPomFile(new File("test/java/org/apache/ivy/ant/test.pom"));
+        task.setPomFile(FileUtil.newFile("test/java/org/apache/ivy/ant/test.pom"));
         File destFile = File.createTempFile("ivy", ".xml");
         destFile.deleteOnExit();
         task.setIvyFile(destFile);

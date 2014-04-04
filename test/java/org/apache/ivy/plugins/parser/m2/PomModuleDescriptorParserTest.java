@@ -59,7 +59,7 @@ public class PomModuleDescriptorParserTest extends AbstractModuleDescriptorParse
         }
     }
 
-    private File dest = new File("build/test/test-write.xml");
+    private File dest = FileUtil.newFile("build/test/test-write.xml");
 
     private MockResolver mockedResolver = new MockedDependencyResolver();
 

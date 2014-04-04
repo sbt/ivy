@@ -42,7 +42,7 @@ public class IvyRetrieveTest extends TestCase {
 
     protected void setUp() throws Exception {
         createCache();
-        CacheCleaner.deleteDir(new File("build/test/lib"));
+        CacheCleaner.deleteDir(FileUtil.newFile("build/test/lib"));
         project = new Project();
         project.setProperty("ivy.settings.file", "test/repositories/ivysettings.xml");
 
@@ -53,13 +53,13 @@ public class IvyRetrieveTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
     protected void tearDown() throws Exception {
         CacheCleaner.deleteDir(cache);
-        CacheCleaner.deleteDir(new File("build/test/lib"));
+        CacheCleaner.deleteDir(FileUtil.newFile("build/test/lib"));
     }
 
     public void testSimple() throws Exception {
@@ -93,7 +93,7 @@ public class IvyRetrieveTest extends TestCase {
         // we first resolve another ivy file
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"));
         resolve.execute();
 
         assertTrue(getArchiveFileInCache("org1", "mod1.2", "2.2", "mod1.2", "jar", "jar").exists());
@@ -148,7 +148,7 @@ public class IvyRetrieveTest extends TestCase {
         for (int i = 0; i < old.length; i++) {
             assertFalse(old[i] + " should have been deleted by sync", old[i].exists());
         }
-        assertFalse(new File("build/test/lib/unknown").exists()); // even conf directory should
+        assertFalse(FileUtil.newFile("build/test/lib/unknown").exists()); // even conf directory should
         // have been deleted
     }
 
@@ -156,13 +156,13 @@ public class IvyRetrieveTest extends TestCase {
         project.setProperty("ivy.dep.file", "test/repositories/1/org6/mod6.2/ivys/ivy-0.4.xml");
         retrieve.setSync(true);
 
-        new File("build/test/lib/.svn").mkdirs();
-        new File("build/test/lib/.svn/test.txt").createNewFile();
-        assertTrue(new File("build/test/lib/.svn/test.txt").exists());
+        FileUtil.newFile("build/test/lib/.svn").mkdirs();
+        FileUtil.newFile("build/test/lib/.svn/test.txt").createNewFile();
+        assertTrue(FileUtil.newFile("build/test/lib/.svn/test.txt").exists());
 
         retrieve.execute();
 
-        assertTrue(new File("build/test/lib/.svn/test.txt").exists());
+        assertTrue(FileUtil.newFile("build/test/lib/.svn/test.txt").exists());
     }
 
     public void testWithAPreviousResolve() throws Exception {
@@ -250,13 +250,13 @@ public class IvyRetrieveTest extends TestCase {
     }
 
     public void testRetrieveWithOriginalNamePattern() throws Exception {
-        retrieve.setFile(new File("test/java/org/apache/ivy/ant/ivy-631.xml"));
+        retrieve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-631.xml"));
         retrieve.setConf("default");
         retrieve.setPattern("build/test/lib/[conf]/[originalname].[ext]");
         retrieve.setSync(true);
         retrieve.execute();
 
-        assertTrue(new File("build/test/lib/default/mod1.2-2.2.jar").exists());
+        assertTrue(FileUtil.newFile("build/test/lib/default/mod1.2-2.2.jar").exists());
     }
 
     public void testFailureWithoutAPreviousResolve() throws Exception {
@@ -363,9 +363,9 @@ public class IvyRetrieveTest extends TestCase {
         for (int i = 0; i < old.length; i++) {
             assertFalse(old[i] + " should have been deleted by sync", old[i].exists());
         }
-        assertFalse(new File("build/test/lib/unknown").exists());
-        assertFalse(new File("build/test/lib/unk").exists());
-        assertFalse(new File("build/test/lib/default/unknown").exists());
+        assertFalse(FileUtil.newFile("build/test/lib/unknown").exists());
+        assertFalse(FileUtil.newFile("build/test/lib/unk").exists());
+        assertFalse(FileUtil.newFile("build/test/lib/default/unknown").exists());
     }
 
     public void testDoubleRetrieveWithDifferentConfigurations() {

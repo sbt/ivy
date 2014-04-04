@@ -62,7 +62,7 @@ public class XmlModuleDescriptorParserTest extends AbstractModuleDescriptorParse
 
         this.settings = new IvySettings();
         // prevent test from polluting local cache
-        settings.setDefaultCache(new File("build/cache"));
+        settings.setDefaultCache(FileUtil.newFile("build/cache"));
     }
 
     public void testSimple() throws Exception {
@@ -903,7 +903,7 @@ public class XmlModuleDescriptorParserTest extends AbstractModuleDescriptorParse
 
     public void testImportConfigurations5() throws Exception {
         // import configurations
-        settings.setVariable("base.dir", new File(".").getAbsolutePath());
+        settings.setVariable("base.dir", FileUtil.newFile(".").getAbsolutePath());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(settings,
             getClass().getResource("test-configurations-import5.xml"), true);
         assertNotNull(md);
@@ -1346,7 +1346,7 @@ public class XmlModuleDescriptorParserTest extends AbstractModuleDescriptorParse
 
     public void testExtendsCached() throws Exception {
         // configure a resolver to serve the parent descriptor, so that parse succeeds.
-        File resolveRoot = new File("build/tmp/xmlModuleDescriptorTest");
+        File resolveRoot = FileUtil.newFile("build/tmp/xmlModuleDescriptorTest");
         assertTrue(resolveRoot.exists() || resolveRoot.mkdirs());
 
         FileUtil.copy(getClass().getResource("test-extends-parent.xml"), FileUtil.newFile(resolveRoot,

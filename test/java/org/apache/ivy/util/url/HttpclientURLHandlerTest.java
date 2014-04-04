@@ -35,7 +35,7 @@ public class HttpclientURLHandlerTest extends TestCase {
     private HttpClientHandler handler;
 
     protected void setUp() throws Exception {
-        testDir = new File("build/HttpclientURLHandlerTest");
+        testDir = FileUtil.newFile("build/HttpclientURLHandlerTest");
         testDir.mkdirs();
 
         handler = new HttpClientHandler();
@@ -61,16 +61,16 @@ public class HttpclientURLHandlerTest extends TestCase {
     }
 
     public void testContentEncoding() throws Exception {
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html"), new File(
+        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html"), FileUtil.newFile(
                 testDir, "gzip.txt"));
         assertDownloadOK(new URL(
-                "http://carsten.codimi.de/gzip.yaws/daniels.html?deflate=on&zlib=on"), new File(
+                "http://carsten.codimi.de/gzip.yaws/daniels.html?deflate=on&zlib=on"), FileUtil.newFile(
                 testDir, "deflate-zlib.txt"));
         assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html?deflate=on"),
             FileUtil.newFile(testDir, "deflate.txt"));
         assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/a5.ps"), FileUtil.newFile(testDir,
                 "a5-gzip.ps"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/a5.ps?deflate=on"), new File(
+        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/a5.ps?deflate=on"), FileUtil.newFile(
                 testDir, "a5-deflate.ps"));
         assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/nh80.pdf"), FileUtil.newFile(testDir,
                 "nh80-gzip.pdf"));

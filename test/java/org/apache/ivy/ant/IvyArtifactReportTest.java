@@ -42,7 +42,7 @@ public class IvyArtifactReportTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -58,10 +58,10 @@ public class IvyArtifactReportTest extends TestCase {
     }
 
     public void testSimple() throws Exception {
-        prop.setTofile(new File("build/test-artifact-report.xml"));
-        prop.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        prop.setTofile(FileUtil.newFile("build/test-artifact-report.xml"));
+        prop.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         prop.execute();
 
-        assertTrue(new File("build/test-artifact-report.xml").exists());
+        assertTrue(FileUtil.newFile("build/test-artifact-report.xml").exists());
     }
 }

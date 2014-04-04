@@ -60,7 +60,7 @@ public class XmlModuleUpdaterTest extends TestCase {
          * separator used in updater being platform dependent
          */
         XmlModuleDescriptorUpdater.LINE_SEPARATOR = "\n";
-        File dest = new File("build/updated-test.xml");
+        File dest = FileUtil.newFile("build/updated-test.xml");
         dest.deleteOnExit();
         Map resolvedRevisions = new HashMap();
         resolvedRevisions.put(
@@ -95,7 +95,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithComments() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-with-comments.xml").toURI().toURL();
         XmlModuleDescriptorUpdater.update(settingsUrl, new BufferedOutputStream(buffer, 1024),
             getUpdateOptions("release", "mynewrev"));
@@ -117,7 +117,7 @@ public class XmlModuleUpdaterTest extends TestCase {
          * separator used in updater being platform dependent
          */
         XmlModuleDescriptorUpdater.LINE_SEPARATOR = "\n";
-        File dest = new File("build/updated-test2.xml");
+        File dest = FileUtil.newFile("build/updated-test2.xml");
         dest.deleteOnExit();
         Map resolvedRevisions = new HashMap();
         resolvedRevisions.put(
@@ -193,7 +193,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithImportedMappingOverride() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-configurations-import4.xml").toURI().toURL();
         XmlModuleDescriptorUpdater.update(settingsUrl, buffer,
             getUpdateOptions("release", "mynewrev"));
@@ -207,7 +207,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithExcludeConfigurations1() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-update-excludedconfs1.xml").toURI().toURL();
         XmlModuleDescriptorUpdater.update(settingsUrl, buffer,
             getUpdateOptions("release", "mynewrev").setConfsToExclude(new String[] {"myconf2"}));
@@ -233,7 +233,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithExcludeConfigurations2() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingFile = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingFile = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-update-excludedconfs2.xml").toURI().toURL();
         try {
             XmlModuleDescriptorUpdater
@@ -249,7 +249,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithExcludeConfigurations3() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-update-excludedconfs3.xml").toURI().toURL();
 
         XmlModuleDescriptorUpdater.update(
@@ -281,7 +281,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithExcludeConfigurations4() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-update-excludedconfs4.xml").toURI().toURL();
         XmlModuleDescriptorUpdater.update(settingsUrl, buffer,
             getUpdateOptions("release", "mynewrev").setConfsToExclude(new String[] {"myconf2"}));
@@ -307,7 +307,7 @@ public class XmlModuleUpdaterTest extends TestCase {
 
     public void testUpdateWithExcludeConfigurations5() throws Exception {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        URL settingsUrl = new File("test/java/org/apache/ivy/plugins/parser/xml/"
+        URL settingsUrl = FileUtil.newFile("test/java/org/apache/ivy/plugins/parser/xml/"
                 + "test-update-excludedconfs5.xml").toURI().toURL();
         XmlModuleDescriptorUpdater.update(settingsUrl, buffer,
             getUpdateOptions("release", "mynewrev").setConfsToExclude(new String[] {"myconf2"}));

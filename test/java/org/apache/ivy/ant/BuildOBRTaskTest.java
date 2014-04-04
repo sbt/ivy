@@ -54,7 +54,7 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -82,8 +82,8 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     public void testDir() throws Exception {
-        buildObr.setBaseDir(new File("test/test-repo/bundlerepo"));
-        File obrFile = new File("build/cache/obr.xml");
+        buildObr.setBaseDir(FileUtil.newFile("test/test-repo/bundlerepo"));
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
         buildObr.setOut(obrFile);
         buildObr.execute();
 
@@ -93,8 +93,8 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     public void testEmptyDir() throws Exception {
-        buildObr.setBaseDir(new File("test/test-p2/composite"));
-        File obrFile = new File("build/cache/obr.xml");
+        buildObr.setBaseDir(FileUtil.newFile("test/test-p2/composite"));
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
         buildObr.setOut(obrFile);
         buildObr.execute();
 
@@ -115,11 +115,11 @@ public class BuildOBRTaskTest extends TestCase {
 
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(otherProject);
-        resolve.setFile(new File("test/test-repo/ivy-test-buildobr.xml"));
+        resolve.setFile(FileUtil.newFile("test/test-repo/ivy-test-buildobr.xml"));
         resolve.setResolveId("withResolveId");
         resolve.execute();
 
-        File obrFile = new File("build/cache/obr.xml");
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
 
         buildObr.setProject(otherProject);
         buildObr.setResolveId("withResolveId");

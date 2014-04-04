@@ -47,7 +47,7 @@ public class IvyCacheFilesetTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -140,7 +140,7 @@ public class IvyCacheFilesetTest extends TestCase {
     }
 
     public void testWithoutPreviousResolveAndNonDefaultCache() throws Exception {
-        File cache2 = new File("build/cache2");
+        File cache2 = FileUtil.newFile("build/cache2");
         cache2.mkdirs();
 
         try {
@@ -168,13 +168,13 @@ public class IvyCacheFilesetTest extends TestCase {
 
     public void testGetBaseDir() {
         File base = null;
-        base = fileset.getBaseDir(base, new File("x/aa/b/c"));
-        assertEquals(new File("x/aa/b").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/aa/b/c"));
+        assertEquals(FileUtil.newFile("x/aa/b").getAbsoluteFile(), base);
 
-        base = fileset.getBaseDir(base, new File("x/aa/b/d/e"));
-        assertEquals(new File("x/aa/b").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/aa/b/d/e"));
+        assertEquals(FileUtil.newFile("x/aa/b").getAbsoluteFile(), base);
 
-        base = fileset.getBaseDir(base, new File("x/ab/b/d"));
-        assertEquals(new File("x").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/ab/b/d"));
+        assertEquals(FileUtil.newFile("x").getAbsoluteFile(), base);
     }
 }

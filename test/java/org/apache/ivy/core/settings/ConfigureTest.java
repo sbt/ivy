@@ -56,7 +56,7 @@ public class ConfigureTest extends TestCase {
 
     public void testTypedefWithCustomClasspath() throws Exception {
         Ivy ivy = new Ivy();
-        ivy.setVariable("ivy.custom.test.dir", new File("test/java/org/apache/ivy/core/settings")
+        ivy.setVariable("ivy.custom.test.dir", FileUtil.newFile("test/java/org/apache/ivy/core/settings")
                 .toURI().toURL().toString());
         ivy.configure(ConfigureTest.class.getResource("ivysettings-custom-typedef.xml"));
 
@@ -68,7 +68,7 @@ public class ConfigureTest extends TestCase {
     public void testTypedefWithCustomClasspathWithFile() throws Exception {
         Ivy ivy = new Ivy();
         ivy.setVariable("ivy.custom.test.dir",
-            new File("test/java/org/apache/ivy/core/settings").getAbsolutePath());
+            FileUtil.newFile("test/java/org/apache/ivy/core/settings").getAbsolutePath());
         ivy.configure(ConfigureTest.class.getResource("ivysettings-custom-typedef2.xml"));
 
         DependencyResolver custom = ivy.getSettings().getResolver("custom");

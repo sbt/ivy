@@ -35,12 +35,12 @@ public class XmlReportParserTest extends TestCase {
 
     protected void setUp() throws Exception {
         _ivy = new Ivy();
-        _ivy.configure(new File("test/repositories/ivysettings.xml"));
+        _ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
         createCache();
     }
 
     private void createCache() {
-        _cache = new File("build/cache");
+        _cache = FileUtil.newFile("build/cache");
         _cache.mkdirs();
     }
 
@@ -57,7 +57,7 @@ public class XmlReportParserTest extends TestCase {
 
     public void testGetResolvedModule() throws Exception {
         ResolveReport report = _ivy.resolve(
-            new File("test/java/org/apache/ivy/plugins/report/ivy-with-info.xml"),
+            FileUtil.newFile("test/java/org/apache/ivy/plugins/report/ivy-with-info.xml"),
             getResolveOptions(new String[] {"default"}).setValidate(false).setResolveId(
                 "testGetResolvedModule"));
         assertNotNull(report);

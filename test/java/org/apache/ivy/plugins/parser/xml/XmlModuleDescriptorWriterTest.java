@@ -47,7 +47,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         }
     }
 
-    private File dest = new File("build/test/test-write.xml");
+    private File dest = FileUtil.newFile("build/test/test-write.xml");
 
     public void testSimple() throws Exception {
         DefaultModuleDescriptor md = (DefaultModuleDescriptor) XmlModuleDescriptorParser

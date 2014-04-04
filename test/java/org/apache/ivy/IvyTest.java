@@ -37,7 +37,7 @@ public class IvyTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -53,11 +53,11 @@ public class IvyTest extends TestCase {
         MockMessageLogger mockLogger = new MockMessageLogger();
         Ivy ivy = Ivy.newInstance();
         ivy.getLoggerEngine().setDefaultLogger(mockLogger);
-        ivy.configure(new File("test/repositories/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
         assertFalse("IvyContext should be cleared and return a default Ivy instance", IvyContext
                 .getContext().getIvy() == ivy);
 
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"),
             getResolveOptions(ivy, new String[] {"*"}));
         assertNotNull(report);
@@ -70,8 +70,8 @@ public class IvyTest extends TestCase {
         MockMessageLogger mockLogger2 = new MockMessageLogger();
         Ivy ivy2 = new Ivy();
         ivy2.getLoggerEngine().setDefaultLogger(mockLogger2);
-        ivy2.configure(new File("test/repositories/norev/ivysettings.xml").toURI().toURL());
-        report = ivy2.resolve(new File("test/repositories/norev/ivy.xml"),
+        ivy2.configure(FileUtil.newFile("test/repositories/norev/ivysettings.xml").toURI().toURL());
+        report = ivy2.resolve(FileUtil.newFile("test/repositories/norev/ivy.xml"),
             getResolveOptions(ivy2, new String[] {"*"}));
         assertNotNull(report);
         assertFalse(report.hasError());
@@ -80,7 +80,7 @@ public class IvyTest extends TestCase {
                 .getContext().getIvy() == ivy2);
 
         // finally we reuse the first instance to make another resolution
-        report = ivy.resolve(new File("test/repositories/1/org6/mod6.1/ivys/ivy-0.3.xml"),
+        report = ivy.resolve(FileUtil.newFile("test/repositories/1/org6/mod6.1/ivys/ivy-0.3.xml"),
             getResolveOptions(ivy, new String[] {"extension"}));
         assertNotNull(report);
         assertFalse(report.hasError());
