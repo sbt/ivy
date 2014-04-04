@@ -59,7 +59,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-simple.xml").replaceAll("\r\n", "\n").replace(
             '\r', '\n');
@@ -76,7 +76,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-info.xml").replaceAll("\r\n", "\n").replace(
             '\r', '\n');
@@ -90,7 +90,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies.xml").replaceAll("\r\n", "\n")
                 .replace('\r', '\n');
@@ -103,7 +103,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-full.xml").replaceAll("\r\n", "\n").replace(
             '\r', '\n');
@@ -117,7 +117,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-extrainfo.xml").replaceAll("\r\n", "\n")
                 .replace('\r', '\n');
@@ -131,7 +131,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-extrainfo-nested.xml").replaceAll("\r\n", "\n")
                 .replace('\r', '\n');
@@ -145,7 +145,7 @@ public class XmlModuleDescriptorWriterTest extends TestCase {
         XmlModuleDescriptorWriter.write(md, LICENSE, dest);
 
         assertTrue(dest.exists());
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(dest))).replaceAll(
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest))).replaceAll(
             "\r\n?", "\n");
         String expected = readEntirely("test-write-extends.xml").replaceAll("\r\n?", "\n");
         assertEquals(expected, wrote);

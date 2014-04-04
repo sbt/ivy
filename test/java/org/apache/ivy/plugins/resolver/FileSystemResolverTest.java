@@ -324,7 +324,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         File archiveFileInCache = cacheManager.getArchiveFileInCache(artifacts[0]);
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        BufferedReader r = new BufferedReader(new FileReader(archiveFileInCache));
+        BufferedReader r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
@@ -355,7 +355,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         artifacts = rmr.getDescriptor().getArtifacts("default");
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("after", r.readLine());
         r.close();
     }
@@ -394,7 +394,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         resolver.download(artifacts, getDownloadOptions());
         File archiveFileInCache = cacheManager.getArchiveFileInCache(artifacts[0]);
         assertTrue(archiveFileInCache.exists());
-        BufferedReader r = new BufferedReader(new FileReader(archiveFileInCache));
+        BufferedReader r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
@@ -418,7 +418,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             rmr.getPublicationDate());
 
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
@@ -434,7 +434,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         artifacts = rmr.getDescriptor().getArtifacts("default");
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("after", r.readLine());
         r.close();
     }

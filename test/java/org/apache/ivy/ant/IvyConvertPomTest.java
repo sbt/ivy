@@ -37,7 +37,7 @@ public class IvyConvertPomTest extends TestCase {
         // keep the code in comments in case someone manage to fix this and to highlight the fact
         // that this is not checked
 
-        // String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(destFile)));
+        // String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(destFile)));
         // String expected = readEntirely("test-convertpom.xml").replaceAll("\r\n", "\n").replace(
         // '\r', '\n');
         // assertEquals(expected, wrote);

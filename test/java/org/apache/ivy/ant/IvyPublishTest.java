@@ -125,7 +125,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -173,7 +173,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -227,7 +227,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -275,7 +275,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("extends/child1/ivy-child1-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -333,7 +333,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-minimal-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -397,7 +397,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-extra-attributes-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -462,7 +462,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-extra-attributes-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -714,7 +714,7 @@ public class IvyPublishTest extends TestCase {
         // should respect the ivy file, with descriptions, ...
         String expected = FileUtil.readEntirely(new BufferedReader(new InputStreamReader(
                 IvyPublishTest.class.getResourceAsStream("published-ivy-custom.xml"))));
-        String updated = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)));
+        String updated = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)));
         assertEquals(expected, updated);
 
     }
@@ -878,7 +878,7 @@ public class IvyPublishTest extends TestCase {
             fail("by default, publish should fail when a readonly artifact already exist");
         } catch (Exception ex) {
             assertTrue(dest.exists());
-            BufferedReader reader = new BufferedReader(new FileReader(dest));
+            BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
             assertEquals("old version", reader.readLine());
             reader.close();
         }
@@ -914,7 +914,7 @@ public class IvyPublishTest extends TestCase {
         publish.setOverwrite(true);
         publish.execute();
         assertTrue(dest.exists());
-        BufferedReader reader = new BufferedReader(new FileReader(dest));
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
         assertEquals("new version", reader.readLine());
         reader.close();
     }
@@ -951,7 +951,7 @@ public class IvyPublishTest extends TestCase {
         publish.setOverwrite(true);
         publish.execute();
         assertTrue(dest.exists());
-        BufferedReader reader = new BufferedReader(new FileReader(dest));
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
         assertEquals("new version", reader.readLine());
         reader.close();
     }

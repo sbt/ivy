@@ -54,7 +54,7 @@ public final class ChecksumHelper {
      */
     public static void check(File dest, File checksumFile, String algorithm) throws IOException {
         String csFileContent = FileUtil
-                .readEntirely(new BufferedReader(new FileReader(checksumFile))).trim()
+                .readEntirely(new BufferedReader(FileUtil.newReader(checksumFile))).trim()
                 .toLowerCase(Locale.US);
         String expected;
         if (csFileContent.indexOf(' ') > -1

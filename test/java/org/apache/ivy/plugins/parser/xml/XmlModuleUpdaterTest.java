@@ -89,7 +89,7 @@ public class XmlModuleUpdaterTest extends TestCase {
         assertTrue(dest.exists());
         String expected = FileUtil.readEntirely(new BufferedReader(new InputStreamReader(
                 XmlModuleUpdaterTest.class.getResourceAsStream("updated.xml"))));
-        String updated = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)));
+        String updated = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)));
         assertEquals(expected, updated);
     }
 
@@ -187,7 +187,7 @@ public class XmlModuleUpdaterTest extends TestCase {
         assertTrue(dest.exists());
         String expected = FileUtil.readEntirely(new BufferedReader(new InputStreamReader(
                 XmlModuleUpdaterTest.class.getResourceAsStream("updated.xml"))));
-        String updated = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)));
+        String updated = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)));
         assertEquals(expected, updated);
     }
 

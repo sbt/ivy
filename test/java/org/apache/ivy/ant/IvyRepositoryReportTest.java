@@ -66,7 +66,7 @@ public class IvyRepositoryReportTest extends TestCase {
 
         File reportFile = FileUtil.newFile(cache, "testsimple.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"org1\" name=\"mod1.1\"") != -1);
@@ -86,7 +86,7 @@ public class IvyRepositoryReportTest extends TestCase {
 
         File reportFile = FileUtil.newFile(cache, "testbranch.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"org1\" name=\"mod1.1\"") != -1);
@@ -105,7 +105,7 @@ public class IvyRepositoryReportTest extends TestCase {
 
         File reportFile = FileUtil.newFile(cache, "test-no-org.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"null\" name=\"a\"") != -1);

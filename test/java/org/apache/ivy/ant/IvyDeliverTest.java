@@ -136,7 +136,7 @@ public class IvyDeliverTest extends TestCase {
         // we could do a better job of this with xmlunit
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(delivered));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(delivered));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         try {

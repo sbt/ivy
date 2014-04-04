@@ -89,7 +89,7 @@ public class DeliverTest extends TestCase {
         StringBuffer retval = new StringBuffer();
 
         File ivyFile = FileUtil.newFile(fileName);
-        BufferedReader reader = new BufferedReader(new FileReader(ivyFile));
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(ivyFile));
 
         String line = null;
         while ((line = reader.readLine()) != null) {
