@@ -20,6 +20,7 @@ package org.apache.ivy.core.resolve;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ import org.apache.ivy.plugins.parser.ModuleDescriptorParserRegistry;
 import org.apache.ivy.plugins.repository.url.URLResource;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
 import org.apache.ivy.plugins.version.VersionMatcher;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.ivy.util.filter.Filter;
 
@@ -323,7 +325,7 @@ public class ResolveEngine {
                     }
                 }
             }
-            FileOutputStream out = new FileOutputStream(ivyPropertiesInCache);
+            OutputStream out = FileUtil.newOutputStream(ivyPropertiesInCache);
             props.store(out, md.getResolvedModuleRevisionId() + " resolved revisions");
             out.close();
             Message.verbose("\tresolved ivy file produced in cache");

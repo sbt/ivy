@@ -54,7 +54,7 @@ public class XmlReportOutputter implements ReportOutputter {
             report.getConfiguration());
         File reportParentDir = reportFile.getParentFile();
         reportParentDir.mkdirs();
-        OutputStream stream = new FileOutputStream(reportFile);
+        OutputStream stream = FileUtil.newOutputStream(reportFile);
         writer.output(report, confs, stream);
         stream.close();
 

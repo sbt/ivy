@@ -59,7 +59,7 @@ public class OBRXMLWriterTest extends TestCase {
 
         new File("build/test-files").mkdirs();
         File obrFile = new File("build/test-files/obr-sources.xml");
-        FileOutputStream out = new FileOutputStream(obrFile);
+        FileOutputStream out = FileUtil.newOutputStream(obrFile);
         try {
             ContentHandler hanlder = OBRXMLWriter.newHandler(out, "UTF-8", true);
             OBRXMLWriter.writeBundles(bundles, hanlder);

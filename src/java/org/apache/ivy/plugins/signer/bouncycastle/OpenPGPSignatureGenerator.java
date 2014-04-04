@@ -109,7 +109,7 @@ public class OpenPGPSignatureGenerator implements SignatureGenerator {
             sGen.initSign(PGPSignature.BINARY_DOCUMENT, pgpPrivKey);
 
             in = FileUtil.newInputStream(src);
-            out = new BCPGOutputStream(new ArmoredOutputStream(new FileOutputStream(dest)));
+            out = new BCPGOutputStream(new ArmoredOutputStream(FileUtil.newOutputStream(dest)));
 
             int ch = 0;
             while ((ch = in.read()) >= 0) {

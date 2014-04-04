@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.core.pack;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -66,7 +63,7 @@ public class ZipPacking extends ArchivePacking {
                 if (entry.isDirectory()) {
                     f.mkdirs();
                 } else {
-                    FileOutputStream out = new FileOutputStream(f);
+                    OutputStream out = FileUtil.newOutputStream(f);
                     try {
                         FileUtil.copy(zip, out, null, false);
                     } finally {

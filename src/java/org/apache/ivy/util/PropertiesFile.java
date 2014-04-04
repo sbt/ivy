@@ -50,12 +50,12 @@ public class PropertiesFile extends Properties {
     }
 
     public void save() {
-        FileOutputStream fos = null;
+        OutputStream fos = null;
         try {
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            fos = new FileOutputStream(file);
+            fos = FileUtil.newOutputStream(file);
             store(fos, header);
         } catch (Exception ex) {
             Message.warn("exception occurred while writing properties file " + file, ex);

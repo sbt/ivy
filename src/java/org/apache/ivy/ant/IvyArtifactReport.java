@@ -20,6 +20,7 @@ package org.apache.ivy.ant;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -127,7 +128,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
     private void generateXml(IvyNode[] dependencies, Map moduleRevToArtifactsMap,
             Map artifactsToCopy) {
         try {
-            FileOutputStream fileOuputStream = new FileOutputStream(tofile);
+            OutputStream fileOuputStream = FileUtil.newOutputStream(tofile);
             try {
                 TransformerHandler saxHandler = createTransformerHandler(fileOuputStream);
 
@@ -181,7 +182,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
         }
     }
 
-    private TransformerHandler createTransformerHandler(FileOutputStream fileOuputStream)
+    private TransformerHandler createTransformerHandler(OutputStream fileOuputStream)
             throws TransformerFactoryConfigurationError, TransformerConfigurationException,
             SAXException {
         SAXTransformerFactory transformerFact = (SAXTransformerFactory) SAXTransformerFactory

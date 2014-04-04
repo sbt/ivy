@@ -107,9 +107,9 @@ public final class CredentialsUtil {
                 Properties props = new EncrytedProperties();
                 props.setProperty("username", username);
                 props.setProperty("passwd", passwd);
-                FileOutputStream fos = null;
+                OutputStream fos = null;
                 try {
-                    fos = new FileOutputStream(passfile);
+                    fos = FileUtil.newOutputStream(passfile);
                     props.store(fos, "");
                 } catch (Exception e) {
                     Message.warn("error occurred while saving password file " + passfile, e);

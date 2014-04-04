@@ -533,7 +533,7 @@ public class Scp {
      */
     public void get(String remoteFile, String localTarget) throws IOException, RemoteScpException {
         File f = FileUtil.newFile(localTarget);
-        FileOutputStream fop = new FileOutputStream(f);
+        OutputStream fop = FileUtil.newOutputStream(f);
         get(remoteFile, fop);
     }
 

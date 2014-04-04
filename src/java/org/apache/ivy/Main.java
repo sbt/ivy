@@ -492,7 +492,7 @@ public final class Main {
                 }
             }
 
-            PrintWriter writer = new PrintWriter(new FileOutputStream(outFile));
+            PrintWriter writer = new PrintWriter(FileUtil.newOutputStream(outFile));
             if (buf.length() > 0) {
                 writer.println(buf.substring(0, buf.length() - pathSeparator.length()));
             }

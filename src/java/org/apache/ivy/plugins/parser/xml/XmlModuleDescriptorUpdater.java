@@ -55,10 +55,7 @@ import org.apache.ivy.plugins.parser.ParserSettings;
 import org.apache.ivy.plugins.repository.Resource;
 import org.apache.ivy.plugins.repository.file.FileResource;
 import org.apache.ivy.plugins.repository.url.URLResource;
-import org.apache.ivy.util.Checks;
-import org.apache.ivy.util.DateUtil;
-import org.apache.ivy.util.Message;
-import org.apache.ivy.util.XMLHelper;
+import org.apache.ivy.util.*;
 import org.apache.ivy.util.extendable.ExtendableItemHelper;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -95,7 +92,7 @@ public final class XmlModuleDescriptorUpdater {
         if (destFile.getParentFile() != null) {
             destFile.getParentFile().mkdirs();
         }
-        OutputStream destStream = new FileOutputStream(destFile);
+        OutputStream destStream = FileUtil.newOutputStream(destFile);
         try {
             update(srcURL, destStream, options);
         } finally {
@@ -132,7 +129,7 @@ public final class XmlModuleDescriptorUpdater {
         if (destFile.getParentFile() != null) {
             destFile.getParentFile().mkdirs();
         }
-        OutputStream fos = new FileOutputStream(destFile);
+        OutputStream fos = FileUtil.newOutputStream(destFile);
         try {
             // TODO: use resource as input stream context?
             URL inputStreamContext = null;

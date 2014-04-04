@@ -170,7 +170,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
         if (!paths.isEmpty()) {
             File parentsFile = getResolvedIvyPropertiesInCache(ModuleRevisionId.newInstance(mrevId,
                 mrevId.getRevision() + "-parents"));
-            FileOutputStream out = new FileOutputStream(parentsFile);
+            OutputStream out = FileUtil.newOutputStream(parentsFile);
             paths.store(out, null);
             out.close();
         }

@@ -348,7 +348,7 @@ public class IvyReport extends IvyTask {
                 OutputStream outStream = null;
                 try {
                     inStream = new BufferedInputStream(FileUtil.newInputStream(reportFile));
-                    outStream = new BufferedOutputStream(new FileOutputStream(outFile));
+                    outStream = new BufferedOutputStream(FileUtil.newOutputStream(outFile));
                     StreamResult res = new StreamResult(outStream);
                     Source src = new StreamSource(inStream, JAXPUtils.getSystemId(style));
                     transformer.transform(src, res);
