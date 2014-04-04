@@ -28,6 +28,7 @@ import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.repo.BundleRepoDescriptor;
 import org.apache.ivy.osgi.repo.ModuleDescriptorWrapper;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 
 public class OBRParserTest extends TestCase {
 

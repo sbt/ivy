@@ -22,6 +22,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.apache.ivy.TestHelper;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;

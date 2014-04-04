@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.ant;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 
 import junit.framework.TestCase;
@@ -28,6 +25,7 @@ import junit.framework.TestCase;
 import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.repo.BundleRepoDescriptor;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -74,7 +72,7 @@ public class BuildOBRTaskTest extends TestCase {
     private BundleRepoDescriptor readObr(File obrFile) throws FileNotFoundException,
             ParseException, IOException, SAXException {
         BundleRepoDescriptor obr;
-        FileInputStream in = FileUtil.newInputStream(obrFile);
+        InputStream in = FileUtil.newInputStream(obrFile);
         try {
             obr = OBRXMLParser.parse(obrFile.toURI(), in);
         } finally {

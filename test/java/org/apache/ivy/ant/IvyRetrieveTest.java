@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.apache.ivy.TestHelper;
 import org.apache.ivy.core.IvyPatternHelper;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -73,7 +74,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setConf("*");
         retrieve.execute();
         assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "1.1",
-            "mod1.2", "jar", "jar", "public")).exists());
+                "mod1.2", "jar", "jar", "public")).exists());
         assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org3", "mod3.2", "1.4",
             "mod3.2", "jar", "jar", "private")).exists());
     }

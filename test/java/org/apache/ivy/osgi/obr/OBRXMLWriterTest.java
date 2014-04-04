@@ -17,9 +17,7 @@
  */
 package org.apache.ivy.osgi.obr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,7 @@ import org.apache.ivy.osgi.repo.BundleRepoDescriptor;
 import org.apache.ivy.osgi.repo.ModuleDescriptorWrapper;
 import org.apache.ivy.osgi.util.Version;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 import org.xml.sax.ContentHandler;
 
 public class OBRXMLWriterTest extends TestCase {
@@ -59,7 +58,7 @@ public class OBRXMLWriterTest extends TestCase {
 
         new File("build/test-files").mkdirs();
         File obrFile = new File("build/test-files/obr-sources.xml");
-        FileOutputStream out = FileUtil.newOutputStream(obrFile);
+        OutputStream out = FileUtil.newOutputStream(obrFile);
         try {
             ContentHandler hanlder = OBRXMLWriter.newHandler(out, "UTF-8", true);
             OBRXMLWriter.writeBundles(bundles, hanlder);
@@ -67,7 +66,7 @@ public class OBRXMLWriterTest extends TestCase {
             out.close();
         }
 
-        FileInputStream in = FileUtil.newInputStream(obrFile);
+        InputStream in = FileUtil.newInputStream(obrFile);
         BundleRepoDescriptor repo;
         try {
             repo = OBRXMLParser.parse(new URI("file:///test"), in);

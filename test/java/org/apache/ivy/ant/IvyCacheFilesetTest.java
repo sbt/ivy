@@ -22,6 +22,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.apache.ivy.TestHelper;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -156,7 +157,7 @@ public class IvyCacheFilesetTest extends TestCase {
             assertEquals(
                 getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar", cache2)
                         .getAbsolutePath(), FileUtil.newFile(directoryScanner.getBasedir(),
-                        directoryScanner.getIncludedFiles()[0]).getAbsolutePath());
+                            directoryScanner.getIncludedFiles()[0]).getAbsolutePath());
         } finally {
             Delete del = new Delete();
             del.setProject(new Project());
