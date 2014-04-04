@@ -43,7 +43,7 @@ public class LogTriggerTest extends TestCase {
             ModuleRevisionId.parse("o#A;1"), new Date()), new String[] {"c"});
         trigger = new LogTrigger();
         trigger.setEvent(ev.getName());
-        testDir = new File("build/test/trigger");
+        testDir = FileUtil.newFile("build/test/trigger");
         testDir.mkdirs();
     }
 
@@ -63,7 +63,7 @@ public class LogTriggerTest extends TestCase {
 
     public void testFile() throws Exception {
         trigger.setMessage("msg: ${organisation} ${module} ${revision}");
-        File f = new File(testDir, "test.log");
+        File f = FileUtil.newFile(testDir, "test.log");
         trigger.setFile(f);
 
         trigger.progress(ev);
@@ -79,7 +79,7 @@ public class LogTriggerTest extends TestCase {
 
     public void testFileNoAppend() throws Exception {
         trigger.setMessage("msg: ${organisation} ${module} ${revision}");
-        File f = new File(testDir, "test.log");
+        File f = FileUtil.newFile(testDir, "test.log");
         trigger.setFile(f);
         trigger.setAppend(false);
 

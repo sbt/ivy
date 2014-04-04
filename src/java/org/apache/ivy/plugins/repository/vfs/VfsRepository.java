@@ -210,7 +210,7 @@ public class VfsRepository extends AbstractRepository {
                     + " to put data to: resource has no content");
         }
 
-        FileUtil.copy(new FileInputStream(source), dest.getContent().getOutputStream(), progress);
+        FileUtil.copy(FileUtil.newInputStream(source), dest.getContent().getOutputStream(), progress);
     }
 
 }

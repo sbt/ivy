@@ -62,7 +62,7 @@ public class IvyDeliverTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -83,21 +83,21 @@ public class IvyDeliverTest extends TestCase {
     private void cleanTestDir() {
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("build/test/deliver"));
+        del.setDir(FileUtil.newFile("build/test/deliver"));
         del.execute();
     }
 
     private void cleanRetrieveDir() {
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("build/test/retrieve"));
+        del.setDir(FileUtil.newFile("build/test/retrieve"));
         del.execute();
     }
 
     private void cleanRep() {
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("test/repositories/1/apache"));
+        del.setDir(FileUtil.newFile("test/repositories/1/apache"));
         del.execute();
     }
 
@@ -113,8 +113,8 @@ public class IvyDeliverTest extends TestCase {
         pubParent.setProject(project);
         pubParent.setResolver("1");
         pubParent.setPubrevision("1.0");
-        File art = new File("build/test/deliver/resolve-simple-1.0.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/deliver/resolve-simple-1.0.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         pubParent.execute();
 
         // resolve and deliver the child descriptor
@@ -129,14 +129,14 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have delivered the file to the specified destination
-        File delivered = new File("build/test/deliver/merge/ivy-1.2.xml");
+        File delivered = FileUtil.newFile("build/test/deliver/merge/ivy-1.2.xml");
         assertTrue(delivered.exists());
 
         // do a text compare, since we want to test comments as well as structure.
         // we could do a better job of this with xmlunit
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(delivered));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(delivered));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         try {
@@ -171,7 +171,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -197,7 +197,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -214,14 +214,14 @@ public class IvyDeliverTest extends TestCase {
     public void testWithResolveId() throws Exception {
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         resolve.setResolveId("withResolveId");
         resolve.execute();
 
         // resolve another ivy file
         resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"));
         resolve.execute();
 
         deliver.setResolveId("withResolveId");
@@ -230,7 +230,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -251,14 +251,14 @@ public class IvyDeliverTest extends TestCase {
         // do a resolve in the new build
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(other);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         resolve.setResolveId("withResolveId");
         resolve.execute();
 
         // resolve another ivy file
         resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"));
         resolve.execute();
 
         deliver.setResolveId("withResolveId");
@@ -267,7 +267,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -291,7 +291,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -311,7 +311,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -344,7 +344,7 @@ public class IvyDeliverTest extends TestCase {
 
         // should have done the ivy delivering, including setting the branch according to the
         // configured default
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -372,7 +372,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), false);
@@ -399,7 +399,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), false);
@@ -415,7 +415,7 @@ public class IvyDeliverTest extends TestCase {
         ret.setPattern("build/test/retrieve/[artifact]-[revision].[ext]");
         ret.execute();
 
-        File list = new File("build/test/retrieve");
+        File list = FileUtil.newFile("build/test/retrieve");
         String[] files = list.list();
         HashSet actualFileSet = new HashSet(Arrays.asList(files));
         HashSet expectedFileSet = new HashSet();
@@ -446,7 +446,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), false);
@@ -462,7 +462,7 @@ public class IvyDeliverTest extends TestCase {
         ret.setPattern("build/test/retrieve/[artifact]-[revision].[ext]");
         ret.execute();
 
-        File list = new File("build/test/retrieve");
+        File list = FileUtil.newFile("build/test/retrieve");
         String[] files = list.list();
         HashSet actualFileSet = new HashSet(Arrays.asList(files));
         HashSet expectedFileSet = new HashSet();
@@ -490,9 +490,9 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
-        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(new FileReader(
+        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(
                 deliveredIvyFile)));
         assertTrue("import not replaced: import can still be found in file",
             deliveredFileContent.indexOf("import") == -1);
@@ -513,9 +513,9 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
-        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(new FileReader(
+        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(
                 deliveredIvyFile)));
         assertTrue("variable not replaced: myvar can still be found in file",
             deliveredFileContent.indexOf("myvar") == -1);
@@ -535,7 +535,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);
@@ -559,7 +559,7 @@ public class IvyDeliverTest extends TestCase {
         deliver.execute();
 
         // should have done the ivy delivering
-        File deliveredIvyFile = new File("build/test/deliver/ivy-1.2.xml");
+        File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(), deliveredIvyFile.toURI().toURL(), true);

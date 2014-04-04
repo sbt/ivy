@@ -17,14 +17,10 @@
  */
 package org.apache.ivy.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -210,7 +206,7 @@ public final class FileUtil {
             return deepCopy(src, dest, l, overwrite);
         }
         // else it is a file copy
-        copy(new FileInputStream(src), dest, l);
+        copy(FileUtil.newInputStream(src), dest, l);
         long srcLen = src.length();
         long destLen = dest.length();
         if (srcLen != destLen) {
@@ -250,7 +246,7 @@ public final class FileUtil {
         if (toCopy != null) {
             for (int i = 0; i < toCopy.length; i++) {
                 // compute the destination file
-                File childDest = new File(dest, toCopy[i].getName());
+                File childDest = FileUtil.newFile(dest, toCopy[i].getName());
                 // if file existing, 'mark' it as taken care of
                 existingChild.remove(childDest);
                 if (toCopy[i].isDirectory()) {
@@ -279,7 +275,7 @@ public final class FileUtil {
         if (dest.getParentFile() != null) {
             dest.getParentFile().mkdirs();
         }
-        copy(src, new FileOutputStream(dest), l);
+        copy(src, FileUtil.newOutputStream(dest), l);
     }
 
     public static void copy(InputStream src, OutputStream dest, CopyProgressListener l)
@@ -388,7 +384,7 @@ public final class FileUtil {
      *             if an IO problems occurs during reading
      */
     public static String readEntirely(File f) throws IOException {
-        return readEntirely(new FileInputStream(f));
+        return readEntirely(FileUtil.newInputStream(f));
     }
 
     /**
@@ -449,9 +445,9 @@ public final class FileUtil {
 
     /**
      * Returns a list of Files composed of all directories being parent of file and child of root +
-     * file and root themselves. Example: getPathFiles(new File("test"), new
-     * File("test/dir1/dir2/file.txt")) => {new File("test/dir1"), new File("test/dir1/dir2"), new
-     * File("test/dir1/dir2/file.txt") } Note that if root is not an ancester of file, or if root is
+     * file and root themselves. Example: getPathFiles(FileUtil.newFile("test"), FileUtil.newFile
+     * ("test/dir1/dir2/file.txt")) => {FileUtil.newFile("test/dir1"), FileUtil.newFile("test/dir1/dir2"),
+     * FileUtil.newFile("test/dir1/dir2/file.txt") } Note that if root is not an ancester of file, or if root is
      * null, all directories from the file system root will be returned.
      */
     public static List getPathFiles(File root, File file) {
@@ -500,9 +496,9 @@ public final class FileUtil {
     }
 
     public static File resolveFile(File file, String filename) {
-        File result = new File(filename);
+        File result = FileUtil.newFile(filename);
         if (!result.isAbsolute()) {
-            result = new File(file, filename);
+            result = FileUtil.newFile(file, filename);
         }
 
         return normalize(result.getPath());
@@ -547,7 +543,7 @@ public final class FileUtil {
             if ("..".equals(thisToken)) {
                 if (s.size() < 2) {
                     // Cannot resolve it, so skip it.
-                    return new File(path);
+                    return FileUtil.newFile(path);
                 }
                 s.pop();
             } else { // plain component
@@ -563,7 +559,7 @@ public final class FileUtil {
             }
             sb.append(s.elementAt(i));
         }
-        return new File(sb.toString());
+        return FileUtil.newFile(sb.toString());
     }
 
     /**
@@ -637,4 +633,149 @@ public final class FileUtil {
         return l;
     }
 
+    public static File newFile(File parent, String child) {
+        try {
+            final Constructor<? extends File> cons = fileClass.getDeclaredConstructor(File.class, String.class);
+            return cons.newInstance(parent, child);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File newFile(String parent, String child) {
+        try {
+            Constructor<? extends File> cons = fileClass.getDeclaredConstructor(String.class, String.class);
+            return cons.newInstance(parent, child);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File newFile(String pathname) {
+        try {
+            Constructor<? extends File> cons = fileClass.getDeclaredConstructor(String.class);
+            return cons.newInstance(pathname);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File newFile(URI uri) {
+        try {
+            Constructor<? extends File> cons = fileClass.getDeclaredConstructor(URI.class);
+            return cons.newInstance(uri);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static InputStream newInputStream(File f) throws FileNotFoundException {
+        return fileOps.newInputStream(f);
+    }
+
+    public static InputStream newInputStream(String name) throws FileNotFoundException {
+        return fileOps.newInputStream(name);
+    }
+
+    public static OutputStream newOutputStream(File f) throws FileNotFoundException {
+        return fileOps.newOutputStream(f);
+    }
+
+    public static OutputStream newOutputStream(String name) throws FileNotFoundException {
+        return fileOps.newOutputStream(name);
+    }
+
+    public static OutputStream newOutputStream(File f, boolean append) throws FileNotFoundException {
+        return fileOps.newOutputStream(f, append);
+    }
+
+    public static OutputStream newOutputStream(String name, boolean append) throws FileNotFoundException {
+        return fileOps.newOutputStream(name, append);
+    }
+
+    public static Reader newReader(String name) throws FileNotFoundException {
+        return fileOps.newReader(name);
+    }
+
+    public static Reader newReader(File f) throws FileNotFoundException {
+        return fileOps.newReader(f);
+    }
+
+    private static Class<? extends File> fileClass = File.class;
+
+    /** Extension point to allow plugging in your own implementation of {@link File}.
+     *  Very useful if you want to use Java 7 Path behind the scenes, for instance.
+     *  The class provided must of course implement all of the operations that can be performed on a {@link File}.
+     */
+    public static void setFileImpl(Class<? extends File> newClass) {
+        fileClass = newClass;
+    }
+
+    /** A class that wraps operations that can be perfomed on a File. Replaces alternatives which require explicit
+     * instantiation, e.g. <tt>new FileInputStream(...)</tt> */
+    public static class FileOps {
+        public InputStream newInputStream(File f) throws FileNotFoundException {
+            return new FileInputStream(f);
+        }
+
+        public InputStream newInputStream(String name) throws FileNotFoundException {
+            return new FileInputStream(newFile(name));
+        }
+
+        public OutputStream newOutputStream(File f) throws FileNotFoundException {
+            return new FileOutputStream(f);
+        }
+
+        public OutputStream newOutputStream(String name) throws FileNotFoundException {
+            return new FileOutputStream(newFile(name));
+        }
+
+        public OutputStream newOutputStream(File f, boolean append) throws FileNotFoundException {
+            return new FileOutputStream(f, append);
+        }
+
+        public OutputStream newOutputStream(String name, boolean append) throws FileNotFoundException {
+            return new FileOutputStream(newFile(name), append);
+        }
+
+        public final Reader newReader(String name) throws FileNotFoundException {
+            return new InputStreamReader(newInputStream(name));
+        }
+
+        public final Reader newReader(File f) throws FileNotFoundException {
+            return new InputStreamReader(newInputStream(f));
+        }
+
+        // TODO Could do newWriter as well but it was only used in 1 place in the entire project.
+    }
+
+    private static FileOps fileOps = new FileOps();
+
+    public static void setFileOps(FileOps fops) {
+        fileOps = fops;
+    }
 }

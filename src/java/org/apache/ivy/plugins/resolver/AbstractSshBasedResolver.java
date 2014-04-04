@@ -21,6 +21,7 @@ import java.io.File;
 
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.repository.ssh.AbstractSshBasedRepository;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * Abstract base class for all resolvers using SSH All necessary connection parameters can be set
@@ -79,7 +80,7 @@ public abstract class AbstractSshBasedResolver extends RepositoryResolver {
         super.setSettings(settings);
         if (!passfileSet) {
             getSshBasedRepository().setPassFile(
-                new File(settings.getDefaultIvyUserDir(), getSshBasedRepository().getHost()
+                FileUtil.newFile(settings.getDefaultIvyUserDir(), getSshBasedRepository().getHost()
                         + ".ssh.passwd"));
         }
     }

@@ -29,6 +29,7 @@ import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.module.status.StatusManager;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.util.DateUtil;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.CallTarget;
@@ -350,7 +351,7 @@ public class IvyDeliver extends IvyTask {
         if (deliveryList == null) {
             String deliveryListPath = getProperty(settings, "ivy.delivery.list.file");
             if (deliveryListPath == null) {
-                deliveryList = new File(System.getProperty("java.io.tmpdir")
+                deliveryList = FileUtil.newFile(System.getProperty("java.io.tmpdir")
                         + "/delivery.properties");
             } else {
                 deliveryList = getProject().resolveFile(settings.substitute(deliveryListPath));

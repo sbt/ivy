@@ -31,6 +31,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.settings.XmlSettingsParser;
 import org.apache.ivy.core.sort.SortEngine;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
 
@@ -47,7 +48,7 @@ public class MirroredURLResolverTest extends TestCase {
     protected void setUp() throws Exception {
         settings = new IvySettings();
         engine = new ResolveEngine(settings, new EventManager(), new SortEngine(settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);

@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -35,9 +32,9 @@ public class PropertiesFile extends Properties {
         this.file = file;
         this.header = header;
         if (file.exists()) {
-            FileInputStream fis = null;
+            InputStream fis = null;
             try {
-                fis = new FileInputStream(file);
+                fis = FileUtil.newInputStream(file);
                 load(fis);
             } catch (Exception ex) {
                 Message.warn("exception occurred while reading properties file " + file, ex);
@@ -53,12 +50,12 @@ public class PropertiesFile extends Properties {
     }
 
     public void save() {
-        FileOutputStream fos = null;
+        OutputStream fos = null;
         try {
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            fos = new FileOutputStream(file);
+            fos = FileUtil.newOutputStream(file);
             store(fos, header);
         } catch (Exception ex) {
             Message.warn("exception occurred while writing properties file " + file, ex);

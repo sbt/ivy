@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.ivy.core.report.ArtifactDownloadReport;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.osgi.core.ManifestParser;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -92,7 +93,7 @@ public class IvyCachePath extends IvyCacheTask {
             path.createPathElement().setLocation(f);
             return;
         }
-        File manifest = new File(f, "META-INF/MANIFEST.MF");
+        File manifest = FileUtil.newFile(f, "META-INF/MANIFEST.MF");
         if (!manifest.exists()) {
             path.createPathElement().setLocation(f);
             return;
@@ -108,7 +109,7 @@ public class IvyCachePath extends IvyCacheTask {
             if (p.equals(".")) {
                 path.createPathElement().setLocation(f);
             } else {
-                path.createPathElement().setLocation(new File(f, p));
+                path.createPathElement().setLocation(FileUtil.newFile(f, p));
             }
         }
     }

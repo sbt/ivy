@@ -19,8 +19,6 @@ package org.apache.ivy.plugins.trigger;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -28,6 +26,7 @@ import java.io.Writer;
 import org.apache.ivy.core.IvyPatternHelper;
 import org.apache.ivy.core.event.IvyEvent;
 import org.apache.ivy.core.resolve.ResolveProcessException;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 /**
@@ -70,9 +69,9 @@ public class LogTrigger extends AbstractTrigger {
                 message += LINE_SEPARATOR;
                 String filename = file.getAbsolutePath();
                 if (encoding == null || encoding.length() == 0) {
-                    out = new FileWriter(filename, append);
+                    out = new OutputStreamWriter(FileUtil.newOutputStream(filename, append));
                 } else {
-                    out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename,
+                    out = new BufferedWriter(new OutputStreamWriter(FileUtil.newOutputStream(filename,
                             append), encoding));
                 }
                 out.write(message, 0, message.length());

@@ -40,6 +40,7 @@ import org.apache.ivy.osgi.repo.ManifestAndLocation;
 import org.apache.ivy.osgi.repo.ResolverManifestIterable;
 import org.apache.ivy.plugins.resolver.BasicResolver;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.tools.ant.BuildException;
 import org.xml.sax.ContentHandler;
@@ -169,7 +170,7 @@ public class BuildOBRTask extends IvyCacheTask {
 
         OutputStream out;
         try {
-            out = new FileOutputStream(file);
+            out = FileUtil.newOutputStream(file);
         } catch (FileNotFoundException e) {
             throw new BuildException(file + " was not found", e);
         }

@@ -30,6 +30,7 @@ import java.security.SignatureException;
 import java.util.Iterator;
 
 import org.apache.ivy.plugins.signer.SignatureGenerator;
+import org.apache.ivy.util.FileUtil;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -97,7 +98,7 @@ public class OpenPGPSignatureGenerator implements SignatureGenerator {
             }
 
             if (pgpSec == null) {
-                keyIn = new FileInputStream(secring);
+                keyIn = FileUtil.newInputStream(secring);
                 pgpSec = readSecretKey(keyIn);
             }
 
@@ -107,8 +108,8 @@ public class OpenPGPSignatureGenerator implements SignatureGenerator {
                     .getAlgorithm(), PGPUtil.SHA1, BouncyCastleProvider.PROVIDER_NAME);
             sGen.initSign(PGPSignature.BINARY_DOCUMENT, pgpPrivKey);
 
-            in = new FileInputStream(src);
-            out = new BCPGOutputStream(new ArmoredOutputStream(new FileOutputStream(dest)));
+            in = FileUtil.newInputStream(src);
+            out = new BCPGOutputStream(new ArmoredOutputStream(FileUtil.newOutputStream(dest)));
 
             int ch = 0;
             while ((ch = in.read()) >= 0) {

@@ -38,11 +38,11 @@ public class DeliverTest extends TestCase {
     private IvyDeliver ivyDeliver;
 
     protected void setUp() throws Exception {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         System.setProperty("ivy.cache.dir", cache.getAbsolutePath());
         createCache();
 
-        deliverDir = new File("build/test/deliver");
+        deliverDir = FileUtil.newFile("build/test/deliver");
         deliverDir.mkdirs();
 
         Project project = new Project();
@@ -66,7 +66,7 @@ public class DeliverTest extends TestCase {
     public void testIVY1111() throws Exception {
         Project project = ivyDeliver.getProject();
         project.setProperty("ivy.settings.file", "test/repositories/IVY-1111/ivysettings.xml");
-        File ivyFile = new File(new URI(DeliverTest.class.getResource("ivy-1111.xml").toString()));
+        File ivyFile = FileUtil.newFile(new URI(DeliverTest.class.getResource("ivy-1111.xml").toString()));
 
         resolve(ivyFile);
 
@@ -88,8 +88,8 @@ public class DeliverTest extends TestCase {
     private String readFile(String fileName) throws IOException {
         StringBuffer retval = new StringBuffer();
 
-        File ivyFile = new File(fileName);
-        BufferedReader reader = new BufferedReader(new FileReader(ivyFile));
+        File ivyFile = FileUtil.newFile(fileName);
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(ivyFile));
 
         String line = null;
         while ((line = reader.readLine()) != null) {

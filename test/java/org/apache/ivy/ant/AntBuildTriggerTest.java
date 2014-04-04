@@ -27,20 +27,20 @@ import org.apache.ivy.util.FileUtil;
 
 public class AntBuildTriggerTest extends TestCase {
     public void test() throws Exception {
-        assertFalse(new File("test/triggers/ant-build/A/A.jar").exists());
+        assertFalse(FileUtil.newFile("test/triggers/ant-build/A/A.jar").exists());
 
         Ivy ivy = new Ivy();
-        ivy.configure(new File("test/triggers/ant-build/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/triggers/ant-build/ivysettings.xml"));
 
-        ResolveReport r = ivy.resolve(new File("test/triggers/ant-build/B/ivy.xml"));
+        ResolveReport r = ivy.resolve(FileUtil.newFile("test/triggers/ant-build/B/ivy.xml"));
         assertFalse(r.hasError());
 
         // should have triggered an A publish
-        assertTrue(new File("test/triggers/ant-build/local/A/A.jar").exists());
+        assertTrue(FileUtil.newFile("test/triggers/ant-build/local/A/A.jar").exists());
     }
 
     protected void tearDown() throws Exception {
-        FileUtil.forceDelete(new File("test/triggers/ant-build/local/A"));
-        FileUtil.forceDelete(new File("test/triggers/ant-build/cache"));
+        FileUtil.forceDelete(FileUtil.newFile("test/triggers/ant-build/local/A"));
+        FileUtil.forceDelete(FileUtil.newFile("test/triggers/ant-build/cache"));
     }
 }

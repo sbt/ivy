@@ -26,6 +26,7 @@ import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.plugins.resolver.util.FileURLLister;
 import org.apache.ivy.plugins.resolver.util.ResolverHelper;
 import org.apache.ivy.plugins.resolver.util.URLLister;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class JarModuleFinder {
@@ -52,7 +53,7 @@ public class JarModuleFinder {
                         IvyPatternHelper.MODULE_KEY, modules[j]);
                     String[] revs = ResolverHelper.listTokenValues(lister, modPattern, "revision");
                     for (int k = 0; k < revs.length; k++) {
-                        File jar = new File(IvyPatternHelper.substitute(filePattern, orgs[i],
+                        File jar = FileUtil.newFile(IvyPatternHelper.substitute(filePattern, orgs[i],
                             modules[j], revs[k], modules[j], "jar", "jar"));
                         if (jar.exists()) {
                             ret.add(new JarModule(ModuleRevisionId.newInstance(orgs[i], modules[j],

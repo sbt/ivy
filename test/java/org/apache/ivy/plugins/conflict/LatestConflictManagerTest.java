@@ -40,7 +40,7 @@ public class LatestConflictManagerTest extends TestCase {
     protected void setUp() throws Exception {
         ivy = new Ivy();
         ivy.configure(LatestConflictManagerTest.class.getResource("ivysettings-latest.xml"));
-        _cache = new File("build/cache");
+        _cache = FileUtil.newFile("build/cache");
         _cache.mkdirs();
     }
 
@@ -97,8 +97,8 @@ public class LatestConflictManagerTest extends TestCase {
         // set timestamps, because svn is not preserving this information,
         // and the latest time strategy is relying on it
         long time = System.currentTimeMillis() - 10000;
-        new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").setLastModified(time);
-        new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.2.jar")
+        FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.2.jar")
                 .setLastModified(time + 2000);
 
         ResolveReport report = ivy.resolve(
@@ -124,8 +124,8 @@ public class LatestConflictManagerTest extends TestCase {
         // set timestamps, because svn is not preserving this information,
         // and the latest time strategy is relying on it
         long time = System.currentTimeMillis() - 10000;
-        new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").setLastModified(time);
-        new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.2.jar")
+        FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.2.jar")
                 .setLastModified(time + 2000);
 
         ResolveReport report = ivy.resolve(
@@ -159,10 +159,10 @@ public class LatestConflictManagerTest extends TestCase {
         // set timestamps, because svn is not preserving this information,
         // and the latest time strategy is relying on it
         long time = System.currentTimeMillis() - 10000;
-        new File("test/repositories/IVY-407/MyCompany/C/ivy-1.0.0.xml").setLastModified(time);
-        new File("test/repositories/IVY-407/MyCompany/C/ivy-1.0.1.xml")
+        FileUtil.newFile("test/repositories/IVY-407/MyCompany/C/ivy-1.0.0.xml").setLastModified(time);
+        FileUtil.newFile("test/repositories/IVY-407/MyCompany/C/ivy-1.0.1.xml")
                 .setLastModified(time + 2000);
-        new File("test/repositories/IVY-407/MyCompany/C/ivy-1.0.2.xml")
+        FileUtil.newFile("test/repositories/IVY-407/MyCompany/C/ivy-1.0.2.xml")
                 .setLastModified(time + 4000);
 
         ResolveReport report = ivy.resolve(

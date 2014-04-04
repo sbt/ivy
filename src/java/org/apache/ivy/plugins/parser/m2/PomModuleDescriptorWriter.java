@@ -45,6 +45,7 @@ import org.apache.ivy.core.settings.IvyVariableContainer;
 import org.apache.ivy.plugins.parser.m2.PomWriterOptions.ConfigurationScopeMapping;
 import org.apache.ivy.plugins.parser.m2.PomWriterOptions.ExtraDependency;
 import org.apache.ivy.util.ConfigurationUtils;
+import org.apache.ivy.util.FileUtil;
 
 public final class PomModuleDescriptorWriter {
 
@@ -71,14 +72,14 @@ public final class PomModuleDescriptorWriter {
             in = new LineNumberReader(new InputStreamReader(
                     PomModuleDescriptorWriter.class.getResourceAsStream("pom.template")));
         } else {
-            in = new LineNumberReader(new InputStreamReader(new FileInputStream(
+            in = new LineNumberReader(new InputStreamReader(FileUtil.newInputStream(
                     options.getTemplate())));
         }
 
         if (output.getParentFile() != null) {
             output.getParentFile().mkdirs();
         }
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(output),
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(FileUtil.newOutputStream(output),
                 "UTF-8"));
         try {
             IvySettings settings = IvyContext.getContext().getSettings();

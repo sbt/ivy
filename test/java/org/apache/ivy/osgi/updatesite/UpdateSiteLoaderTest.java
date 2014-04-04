@@ -33,6 +33,7 @@ import org.apache.ivy.osgi.repo.ModuleDescriptorWrapper;
 import org.apache.ivy.osgi.repo.RepoDescriptor;
 import org.apache.ivy.util.CacheCleaner;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 import org.xml.sax.SAXException;
 
 public class UpdateSiteLoaderTest extends TestCase {
@@ -43,7 +44,7 @@ public class UpdateSiteLoaderTest extends TestCase {
 
     protected void setUp() throws Exception {
         IvySettings ivySettings = new IvySettings();
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         ivySettings.setDefaultCache(cache);
         CacheResourceOptions options = new CacheResourceOptions();
@@ -79,11 +80,11 @@ public class UpdateSiteLoaderTest extends TestCase {
     }
 
     public void testComposite() throws Exception {
-        RepoDescriptor site = loader.load(new File("test/test-p2/composite/").toURI());
+        RepoDescriptor site = loader.load(FileUtil.newFile("test/test-p2/composite/").toURI());
         assertEquals(8, CollectionUtils.toList(site.getModules()).size());
 
         // check that the url of the artifact is correctly resolved
-        String path = new File("test/test-p2/ivyde-repo/").toURI().toURL().toExternalForm();
+        String path = FileUtil.newFile("test/test-p2/ivyde-repo/").toURI().toURL().toExternalForm();
         ModuleDescriptor md = site.getModules().next().getModuleDescriptor();
         assertTrue(md.getAllArtifacts()[0].getUrl().toExternalForm().startsWith(path));
     }

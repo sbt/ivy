@@ -30,6 +30,7 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * This class is using the scp client to transfer data and information for the repository.
@@ -295,7 +296,7 @@ public class Scp {
 
         readResponse(is);
 
-        File f = new File(localFile);
+        File f = FileUtil.newFile(localFile);
         long remain = f.length();
 
         String cMode = mode;
@@ -309,10 +310,10 @@ public class Scp {
 
         readResponse(is);
 
-        FileInputStream fis = null;
+        InputStream fis = null;
 
         try {
-            fis = new FileInputStream(f);
+            fis = FileUtil.newInputStream(f);
 
             while (remain > 0) {
                 int trans;
@@ -531,8 +532,8 @@ public class Scp {
      *             in case of problems on the target system (connection ok)
      */
     public void get(String remoteFile, String localTarget) throws IOException, RemoteScpException {
-        File f = new File(localTarget);
-        FileOutputStream fop = new FileOutputStream(f);
+        File f = FileUtil.newFile(localTarget);
+        OutputStream fop = FileUtil.newOutputStream(f);
         get(remoteFile, fop);
     }
 

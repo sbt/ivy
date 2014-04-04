@@ -60,7 +60,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
     private static final String REL_IVY_PATTERN = "test" + FS + "repositories" + FS + "1" + FS
             + "[organisation]" + FS + "[module]" + FS + "ivys" + FS + "ivy-[revision].xml";
 
-    private static final String IVY_PATTERN = new File(".").getAbsolutePath() + FS
+    private static final String IVY_PATTERN = FileUtil.newFile(".").getAbsolutePath() + FS
             + REL_IVY_PATTERN;
 
     private IvySettings settings;
@@ -80,7 +80,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
     protected void setUp() throws Exception {
         settings = new IvySettings();
         engine = new ResolveEngine(settings, new EventManager(), new SortEngine(settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);
@@ -91,13 +91,13 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         // change important last modified dates cause svn doesn't keep them
         long minute = 60 * 1000;
         long time = new GregorianCalendar().getTimeInMillis() - (4 * minute);
-        new File("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").setLastModified(time);
         time += minute;
-        new File("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.1.xml").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.1/ivys/ivy-1.0.1.xml").setLastModified(time);
         time += minute;
-        new File("test/repositories/1/org1/mod1.1/ivys/ivy-1.1.xml").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.1/ivys/ivy-1.1.xml").setLastModified(time);
         time += minute;
-        new File("test/repositories/1/org1/mod1.1/ivys/ivy-2.0.xml").setLastModified(time);
+        FileUtil.newFile("test/repositories/1/org1/mod1.1/ivys/ivy-2.0.xml").setLastModified(time);
     }
 
     protected void tearDown() throws Exception {
@@ -165,8 +165,8 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
 
         // check that the found ivy file is the one from the first pattern!
         assertEquals(
-            new File("test/repositories/multi-ivypattern/ivy1/ivy-1.0.xml").getCanonicalPath(),
-            new File(ivyRef.getResource().getName()).getCanonicalPath());
+            FileUtil.newFile("test/repositories/multi-ivypattern/ivy1/ivy-1.0.xml").getCanonicalPath(),
+            FileUtil.newFile(ivyRef.getResource().getName()).getCanonicalPath());
     }
 
     private DownloadOptions getDownloadOptions() {
@@ -251,8 +251,8 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
 
         resolver.addIvyPattern(settings.getBaseDir() + FS + "test" + FS + "repositories" + FS
                 + "checkmodified" + FS + "ivy-[revision].xml");
-        File modify = new File("test/repositories/checkmodified/ivy-1.0.xml");
-        FileUtil.copy(new File("test/repositories/checkmodified/ivy-1.0-before.xml"), modify, null,
+        File modify = FileUtil.newFile("test/repositories/checkmodified/ivy-1.0.xml");
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/ivy-1.0-before.xml"), modify, null,
             true);
         Date pubdate = new GregorianCalendar(2004, 10, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -266,7 +266,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         assertEquals(pubdate, rmr.getPublicationDate());
 
         // updates ivy file in repository
-        FileUtil.copy(new File("test/repositories/checkmodified/ivy-1.0-after.xml"), modify, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/ivy-1.0-after.xml"), modify, null,
             true);
         pubdate = new GregorianCalendar(2005, 4, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -300,13 +300,13 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
                 + "norevision" + FS + "ivy-[module].xml");
         resolver.addArtifactPattern(settings.getBaseDir() + FS + "test" + FS + "repositories" + FS
                 + "norevision" + FS + "[artifact].[ext]");
-        File modify = new File("test/repositories/norevision/ivy-mod1.1.xml");
-        File artifact = new File("test/repositories/norevision/mod1.1.jar");
+        File modify = FileUtil.newFile("test/repositories/norevision/ivy-mod1.1.xml");
+        File artifact = FileUtil.newFile("test/repositories/norevision/mod1.1.jar");
 
         // 'publish' 'before' version
-        FileUtil.copy(new File("test/repositories/norevision/ivy-mod1.1-before.xml"), modify, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/norevision/ivy-mod1.1-before.xml"), modify, null,
             true);
-        FileUtil.copy(new File("test/repositories/norevision/mod1.1-before.jar"), artifact, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/norevision/mod1.1-before.jar"), artifact, null,
             true);
         Date pubdate = new GregorianCalendar(2004, 10, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -324,14 +324,14 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         File archiveFileInCache = cacheManager.getArchiveFileInCache(artifacts[0]);
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        BufferedReader r = new BufferedReader(new FileReader(archiveFileInCache));
+        BufferedReader r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
         // updates ivy file and artifact in repository
-        FileUtil.copy(new File("test/repositories/norevision/ivy-mod1.1-after.xml"), modify, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/norevision/ivy-mod1.1-after.xml"), modify, null,
             true);
-        FileUtil.copy(new File("test/repositories/norevision/mod1.1-after.jar"), artifact, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/norevision/mod1.1-after.jar"), artifact, null,
             true);
         pubdate = new GregorianCalendar(2005, 4, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -355,7 +355,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         artifacts = rmr.getDescriptor().getArtifacts("default");
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("after", r.readLine());
         r.close();
     }
@@ -371,13 +371,13 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
                 + "checkmodified" + FS + "ivy-[revision].xml");
         resolver.addArtifactPattern(settings.getBaseDir() + FS + "test" + FS + "repositories" + FS
                 + "checkmodified" + FS + "[artifact]-[revision].[ext]");
-        File modify = new File("test/repositories/checkmodified/ivy-1.0.xml");
-        File artifact = new File("test/repositories/checkmodified/mod1.1-1.0.jar");
+        File modify = FileUtil.newFile("test/repositories/checkmodified/ivy-1.0.xml");
+        File artifact = FileUtil.newFile("test/repositories/checkmodified/mod1.1-1.0.jar");
 
         // 'publish' 'before' version
-        FileUtil.copy(new File("test/repositories/checkmodified/ivy-1.0-before.xml"), modify, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/ivy-1.0-before.xml"), modify, null,
             true);
-        FileUtil.copy(new File("test/repositories/checkmodified/mod1.1-1.0-before.jar"), artifact,
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/mod1.1-1.0-before.jar"), artifact,
             null, true);
         Date pubdate = new GregorianCalendar(2004, 10, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -394,14 +394,14 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         resolver.download(artifacts, getDownloadOptions());
         File archiveFileInCache = cacheManager.getArchiveFileInCache(artifacts[0]);
         assertTrue(archiveFileInCache.exists());
-        BufferedReader r = new BufferedReader(new FileReader(archiveFileInCache));
+        BufferedReader r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
         // updates ivy file and artifact in repository
-        FileUtil.copy(new File("test/repositories/checkmodified/ivy-1.0-after.xml"), modify, null,
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/ivy-1.0-after.xml"), modify, null,
             true);
-        FileUtil.copy(new File("test/repositories/checkmodified/mod1.1-1.0-after.jar"), artifact,
+        FileUtil.copy(FileUtil.newFile("test/repositories/checkmodified/mod1.1-1.0-after.jar"), artifact,
             null, true);
         pubdate = new GregorianCalendar(2005, 4, 1, 11, 0, 0).getTime();
         modify.setLastModified(pubdate.getTime());
@@ -418,7 +418,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             rmr.getPublicationDate());
 
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("before", r.readLine());
         r.close();
 
@@ -434,7 +434,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         artifacts = rmr.getDescriptor().getArtifacts("default");
         resolver.download(artifacts, getDownloadOptions());
         assertTrue(archiveFileInCache.exists());
-        r = new BufferedReader(new FileReader(archiveFileInCache));
+        r = new BufferedReader(FileUtil.newReader(archiveFileInCache));
         assertEquals("after", r.readLine());
         r.close();
     }
@@ -489,7 +489,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         resolver.setSettings(settings);
         assertEquals("test", resolver.getName());
 
-        resolver.addIvyPattern(new File("src/java").getAbsolutePath() + "/../../" + REL_IVY_PATTERN);
+        resolver.addIvyPattern(FileUtil.newFile("src/java").getAbsolutePath() + "/../../" + REL_IVY_PATTERN);
         resolver.addArtifactPattern(settings.getBaseDir() + "/src/../test/repositories/1/"
                 + "[organisation]/[module]/[type]s/[artifact]-[revision].[type]");
 
@@ -566,18 +566,18 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             resolver.beginPublishTransaction(mrid, false);
             resolver.publish(ivyArtifact, src, false);
             resolver.publish(artifact, src, false);
             resolver.commitPublishTransaction();
 
-            assertTrue(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/mytypes/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -593,8 +593,8 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             resolver.addArtifactPattern(settings.getBaseDir()
                     + "/test/repositories/1/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]");
 
-            File ivyFile = new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml");
-            File artifactFile = new File(
+            File ivyFile = FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml");
+            File artifactFile = FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext");
             touch(ivyFile);
             touch(artifactFile);
@@ -603,7 +603,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             resolver.beginPublishTransaction(mrid, true);
             resolver.publish(ivyArtifact, src, true);
             resolver.publish(artifact, src, true);
@@ -613,7 +613,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             assertEquals(length, ivyFile.length());
             assertEquals(length, artifactFile.length());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -637,27 +637,27 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
 
             resolver.beginPublishTransaction(mrid, false);
 
             // files should not be available until the transaction is committed
             resolver.publish(ivyArtifact, src, false);
-            assertFalse(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertFalse(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
 
             resolver.publish(artifact, src, false);
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
 
             resolver.commitPublishTransaction();
 
-            assertTrue(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -677,29 +677,29 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
 
             resolver.beginPublishTransaction(mrid, false);
 
             // files should not be available until the transaction is committed
             resolver.publish(ivyArtifact, src, false);
-            assertFalse(new File("test/repositories/1/myorg/mymodule/mybranch/myrevision/ivy.xml")
+            assertFalse(FileUtil.newFile("test/repositories/1/myorg/mymodule/mybranch/myrevision/ivy.xml")
                     .exists());
 
             resolver.publish(artifact, src, false);
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/mybranch/myrevision/myartifact-myrevision.myext")
                     .exists());
 
             resolver.commitPublishTransaction();
 
-            assertTrue(new File("test/repositories/1/myorg/mymodule/mybranch/myrevision/ivy.xml")
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/mybranch/myrevision/ivy.xml")
                     .exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/mybranch/myrevision/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -718,29 +718,29 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
 
             resolver.beginPublishTransaction(mrid, false);
 
             // files should not be available until the transaction is committed
             resolver.publish(ivyArtifact, src, false);
-            assertFalse(new File("test/repositories/1/myorg/mymodule/myrevision/ivy/ivy.xml")
+            assertFalse(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy/ivy.xml")
                     .exists());
 
             resolver.publish(artifact, src, false);
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/mytype/myartifact-myrevision.myext")
                     .exists());
 
             resolver.commitPublishTransaction();
 
-            assertTrue(new File("test/repositories/1/myorg/mymodule/myrevision/ivy/ivy.xml")
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy/ivy.xml")
                     .exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/mytype/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -761,29 +761,29 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
 
             resolver.beginPublishTransaction(mrid, false);
 
             // files should not be available until the transaction is committed
             resolver.publish(ivyArtifact, src, false);
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/m2/org/apache/mymodule/myrevision/ivy-myrevision.xml")
                     .exists());
             resolver.publish(artifact, src, false);
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/m2/org/apache/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
 
             resolver.commitPublishTransaction();
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile(
                     "test/repositories/m2/org/apache/mymodule/myrevision/ivy-myrevision.xml")
                     .exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile(
                     "test/repositories/m2/org/apache/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/m2/org/apache/mymodule"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/m2/org/apache/mymodule"));
         }
     }
 
@@ -802,18 +802,18 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             resolver.beginPublishTransaction(mrid, false);
             resolver.publish(ivyArtifact, src, false);
             resolver.publish(artifact, src, false);
             resolver.abortPublishTransaction();
 
-            assertFalse(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertFalse(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -832,7 +832,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             ModuleRevisionId mrid = ModuleRevisionId.newInstance("myorg", "mymodule", "myrevision");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             try {
                 resolver.beginPublishTransaction(mrid, false);
 
@@ -842,7 +842,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
                 assertTrue(ex.getMessage().indexOf("transactional") != -1);
             }
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -863,7 +863,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             try {
                 resolver.beginPublishTransaction(mrid, false);
                 resolver.publish(ivyArtifact, src, false);
@@ -873,7 +873,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
                 assertTrue(ex.getMessage().indexOf("transactional") != -1);
             }
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -890,7 +890,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             ModuleRevisionId mrid = ModuleRevisionId.newInstance("myorg", "mymodule", "myrevision");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             try {
                 // overwrite transaction not supported
                 resolver.beginPublishTransaction(mrid, true);
@@ -901,7 +901,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
                 assertTrue(ex.getMessage().indexOf("transactional") != -1);
             }
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 
@@ -921,26 +921,26 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
             Artifact ivyArtifact = new DefaultArtifact(mrid, new Date(), "ivy", "ivy", "xml");
             Artifact artifact = new DefaultArtifact(mrid, new Date(), "myartifact", "mytype",
                     "myext");
-            File src = new File("test/repositories/ivysettings.xml");
+            File src = FileUtil.newFile("test/repositories/ivysettings.xml");
             resolver.beginPublishTransaction(mrid, false);
 
             // with transactions disabled the file should be available as soon as they are published
             resolver.publish(ivyArtifact, src, false);
-            assertTrue(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
 
             resolver.publish(artifact, src, false);
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
 
             resolver.commitPublishTransaction();
 
-            assertTrue(new File("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
-            assertTrue(new File(
+            assertTrue(FileUtil.newFile("test/repositories/1/myorg/mymodule/myrevision/ivy.xml").exists());
+            assertTrue(FileUtil.newFile(
                     "test/repositories/1/myorg/mymodule/myrevision/myartifact-myrevision.myext")
                     .exists());
         } finally {
-            FileUtil.forceDelete(new File("test/repositories/1/myorg"));
+            FileUtil.forceDelete(FileUtil.newFile("test/repositories/1/myorg"));
         }
     }
 

@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.TestHelper;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
@@ -54,7 +55,7 @@ public class IvyResourcesTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 

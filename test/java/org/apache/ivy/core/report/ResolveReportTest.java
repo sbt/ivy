@@ -44,18 +44,18 @@ public class ResolveReportTest extends TestCase {
     private File workDir;
 
     protected void setUp() throws Exception {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         System.setProperty("ivy.cache.dir", cache.getAbsolutePath());
         createCache();
 
-        deliverDir = new File("build/test/deliver");
+        deliverDir = FileUtil.newFile("build/test/deliver");
         deliverDir.mkdirs();
 
-        workDir = new File("build/test/work");
+        workDir = FileUtil.newFile("build/test/work");
         workDir.mkdirs();
 
         ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
     }
 
     private void createCache() {
@@ -85,7 +85,7 @@ public class ResolveReportTest extends TestCase {
     }
 
     public void testFixedMdSimple() throws Exception {
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -105,7 +105,7 @@ public class ResolveReportTest extends TestCase {
 
     public void testFixedMdTransitiveDependencies() throws Exception {
         // mod2.1 depends on mod1.1 which depends on mod1.2
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org2/mod2.1/ivys/ivy-0.3.xml"),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -133,7 +133,7 @@ public class ResolveReportTest extends TestCase {
         // mod6.1 has two confs default and extension
         // mod6.1 depends on mod1.2 2.0 in conf (default->default)
         // conf extension extends default
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org6/mod6.2/ivys/ivy-0.3.xml"),
             getResolveOptions(new String[] {"default", "extension"}));
         assertNotNull(report);
@@ -159,7 +159,7 @@ public class ResolveReportTest extends TestCase {
     }
 
     public void testFixedMdRange() throws Exception {
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.4/ivys/ivy-1.0.2.xml"),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);
@@ -188,7 +188,7 @@ public class ResolveReportTest extends TestCase {
     }
 
     public void testFixedMdKeep() throws Exception {
-        ResolveReport report = ivy.resolve(new File(
+        ResolveReport report = ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/org1/mod1.4/ivys/ivy-1.0.2.xml"),
             getResolveOptions(new String[] {"*"}));
         assertNotNull(report);

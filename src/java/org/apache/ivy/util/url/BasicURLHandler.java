@@ -249,7 +249,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             conn.setRequestProperty("Content-length", Long.toString(source.length()));
             conn.setInstanceFollowRedirects(true);
 
-            InputStream in = new FileInputStream(source);
+            InputStream in = FileUtil.newInputStream(source);
             try {
                 OutputStream os = conn.getOutputStream();
                 FileUtil.copy(in, os, l);

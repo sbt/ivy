@@ -33,11 +33,12 @@ import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.matcher.PatternMatcher;
 import org.apache.ivy.plugins.resolver.IBiblioResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class SearchTest extends TestCase {
     public void testListInMavenRepo() throws Exception {
         Ivy ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/m2/ivysettings.xml").toURI().toURL());
+        ivy.configure(FileUtil.newFile("test/repositories/m2/ivysettings.xml").toURI().toURL());
 
         Map otherTokenValues = new HashMap();
         otherTokenValues.put(IvyPatternHelper.ORGANISATION_KEY, "org.apache");
@@ -50,7 +51,7 @@ public class SearchTest extends TestCase {
 
     public void testListInMavenRepo2() throws Exception {
         Ivy ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/m2/ivysettings.xml").toURI().toURL());
+        ivy.configure(FileUtil.newFile("test/repositories/m2/ivysettings.xml").toURI().toURL());
         ((IBiblioResolver) ivy.getSettings().getResolver("m2")).setUseMavenMetadata(false);
 
         Map otherTokenValues = new HashMap();
@@ -64,7 +65,7 @@ public class SearchTest extends TestCase {
 
     public void testListModulesWithExtraAttributes() throws ParseException, IOException {
         Ivy ivy = Ivy.newInstance();
-        ivy.configure(new File("test/repositories/IVY-1128/ivysettings.xml"));
+        ivy.configure(FileUtil.newFile("test/repositories/IVY-1128/ivysettings.xml"));
         IvySettings settings = ivy.getSettings();
 
         Map extendedAttributes = new HashMap();

@@ -21,6 +21,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
 
@@ -39,7 +40,7 @@ public class IvyBuildNumberTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 

@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.core.settings.IvySettings;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -92,7 +93,7 @@ public class IvyVar extends IvyTask {
             InputStream is = null;
             try {
                 if (getFile() != null) {
-                    is = new FileInputStream(getFile());
+                    is = FileUtil.newInputStream(getFile());
                 } else if (getUrl() != null) {
                     is = new URL(getUrl()).openStream();
                 } else {

@@ -43,10 +43,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.descriptor.OverrideDependencyDescriptorMediator;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.plugins.matcher.MapMatcher;
-import org.apache.ivy.util.DateUtil;
-import org.apache.ivy.util.Message;
-import org.apache.ivy.util.StringUtils;
-import org.apache.ivy.util.XMLHelper;
+import org.apache.ivy.util.*;
 import org.apache.ivy.util.extendable.ExtendableItem;
 
 /**
@@ -67,7 +64,7 @@ public final class XmlModuleDescriptorWriter {
         if (output.getParentFile() != null) {
             output.getParentFile().mkdirs();
         }
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(output),
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(FileUtil.newOutputStream(output),
                 "UTF-8"));
         try {
             out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

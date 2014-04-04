@@ -262,7 +262,7 @@ public class TestHelper {
     public static FileSystemResolver newTestRepository() {
         FileSystemResolver testRepository = new FileSystemResolver();
         testRepository.setName("test");
-        String testRepoDir = new File("build/test/test-repo").getAbsolutePath();
+        String testRepoDir = FileUtil.newFile("build/test/test-repo").getAbsolutePath();
         testRepository.addIvyPattern(testRepoDir
                 + "/[organisation]/[module]/[revision]/[artifact].[ext]");
         testRepository.addArtifactPattern(testRepoDir
@@ -276,7 +276,7 @@ public class TestHelper {
      * @see #newTestRepository()
      */
     public static void cleanTestRepository() {
-        FileUtil.forceDelete(new File("build/test/test-repo"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/test-repo"));
     }
 
     /**
@@ -286,7 +286,7 @@ public class TestHelper {
      */
     public static void cleanTest() {
         cleanTestRepository();
-        FileUtil.forceDelete(new File("build/test/cache"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/cache"));
     }
 
     /**
@@ -298,7 +298,7 @@ public class TestHelper {
      * @return test settings
      */
     public static IvySettings loadTestSettings(IvySettings settings) {
-        settings.setDefaultCache(new File("build/test/cache"));
+        settings.setDefaultCache(FileUtil.newFile("build/test/cache"));
         settings.addResolver(newTestRepository());
         settings.setDefaultResolver("test");
         return settings;

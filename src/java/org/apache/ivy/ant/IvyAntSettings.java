@@ -28,6 +28,7 @@ import java.util.Properties;
 import org.apache.ivy.Ivy;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.settings.IvyVariableContainer;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.ivy.util.url.CredentialsStore;
 import org.apache.ivy.util.url.URLHandler;
@@ -344,9 +345,9 @@ public class IvyAntSettings extends DataType {
             settingsFileName = variableContainer.getVariable("ivy.settings.file");
         }
         File[] settingsLocations = new File[] {
-                new File(getProject().getBaseDir(), settingsFileName),
-                new File(getProject().getBaseDir(), "ivyconf.xml"), new File(settingsFileName),
-                new File("ivyconf.xml")};
+                FileUtil.newFile(getProject().getBaseDir(), settingsFileName),
+                FileUtil.newFile(getProject().getBaseDir(), "ivyconf.xml"), FileUtil.newFile(settingsFileName),
+                FileUtil.newFile("ivyconf.xml")};
         for (int i = 0; i < settingsLocations.length; i++) {
             file = settingsLocations[i];
             task.log("searching settings file: trying " + file, Project.MSG_VERBOSE);

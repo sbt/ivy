@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ivy.Ivy;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -84,7 +85,7 @@ public class IvyCheck extends IvyTask {
 
                 String[] srcFiles = ds.getIncludedFiles();
                 for (int j = 0; j < srcFiles.length; j++) {
-                    File file = new File(fromDir, srcFiles[j]);
+                    File file = FileUtil.newFile(fromDir, srcFiles[j]);
                     if (ivy.check(file.toURI().toURL(), resolvername)) {
                         Message.verbose("checked " + file + ": OK");
                     }

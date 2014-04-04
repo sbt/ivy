@@ -21,6 +21,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -43,7 +44,7 @@ public class IvyArtifactPropertyTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -65,21 +66,21 @@ public class IvyArtifactPropertyTest extends TestCase {
         prop.execute();
         String val = project.getProperty("mod1.2.mod1.2-2.0");
         assertNotNull(val);
-        assertEquals(new File("build/cache/mod1.2/mod1.2-2.0.jar").getCanonicalPath(),
-            new File(val).getCanonicalPath());
+        assertEquals(FileUtil.newFile("build/cache/mod1.2/mod1.2-2.0.jar").getCanonicalPath(),
+            FileUtil.newFile(val).getCanonicalPath());
     }
 
     public void testWithResolveId() throws Exception {
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         resolve.setResolveId("abc");
         resolve.execute();
 
         // resolve another ivy file
         resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"));
         resolve.execute();
 
         prop.setName("[module].[artifact]-[revision]");
@@ -89,8 +90,8 @@ public class IvyArtifactPropertyTest extends TestCase {
 
         String val = project.getProperty("mod1.2.mod1.2-2.0");
         assertNotNull(val);
-        assertEquals(new File("build/cache/mod1.2/mod1.2-2.0.jar").getCanonicalPath(),
-            new File(val).getCanonicalPath());
+        assertEquals(FileUtil.newFile("build/cache/mod1.2/mod1.2-2.0.jar").getCanonicalPath(),
+            FileUtil.newFile(val).getCanonicalPath());
     }
 
     public void testWithResolveIdWithoutResolve() throws Exception {

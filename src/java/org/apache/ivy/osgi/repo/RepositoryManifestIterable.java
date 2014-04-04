@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.ivy.plugins.repository.Repository;
 import org.apache.ivy.plugins.repository.Resource;
 import org.apache.ivy.plugins.resolver.util.ResolverHelper;
+import org.apache.ivy.util.FileUtil;
 
 public class RepositoryManifestIterable extends AbstractFSManifestIterable<String> {
 
@@ -51,7 +52,7 @@ public class RepositoryManifestIterable extends AbstractFSManifestIterable<Strin
         try {
             return new URI(resource.getName());
         } catch (URISyntaxException e) {
-            return new File(resource.getName()).toURI();
+            return FileUtil.newFile(resource.getName()).toURI();
         }
     }
 

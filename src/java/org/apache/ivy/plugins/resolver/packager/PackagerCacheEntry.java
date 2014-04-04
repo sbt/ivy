@@ -126,8 +126,8 @@ public class PackagerCacheEntry {
         // Execute the Ant build file
         Project project = new Project();
         project.init();
-        project.setUserProperty("ant.file", new File(dir, "build.xml").getAbsolutePath());
-        ProjectHelper.configureProject(project, new File(dir, "build.xml"));
+        project.setUserProperty("ant.file", FileUtil.newFile(dir, "build.xml").getAbsolutePath());
+        ProjectHelper.configureProject(project, FileUtil.newFile(dir, "build.xml"));
         project.setBaseDir(dir);
 
         // Configure logging verbosity
@@ -202,7 +202,7 @@ public class PackagerCacheEntry {
     }
 
     protected void saveFile(String name, InputStream input) throws IOException {
-        FileUtil.copy(input, new File(this.dir, name), null);
+        FileUtil.copy(input, FileUtil.newFile(this.dir, name), null);
     }
 
     protected void saveFile(String name) throws IOException {
@@ -236,7 +236,7 @@ public class PackagerCacheEntry {
     }
 
     private static File getSubdir(File rootDir, ModuleRevisionId mr) {
-        return new File(rootDir, mr.getOrganisation() + File.separatorChar + mr.getName()
+        return FileUtil.newFile(rootDir, mr.getOrganisation() + File.separatorChar + mr.getName()
                 + File.separatorChar + mr.getRevision());
     }
 }

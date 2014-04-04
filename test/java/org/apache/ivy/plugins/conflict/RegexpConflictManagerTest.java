@@ -33,7 +33,7 @@ public class RegexpConflictManagerTest extends TestCase {
     protected void setUp() throws Exception {
         ivy = new Ivy();
         ivy.configure(RegexpConflictManagerTest.class.getResource("ivysettings-regexp-test.xml"));
-        _cache = new File("build/cache");
+        _cache = FileUtil.newFile("build/cache");
         _cache.mkdirs();
     }
 

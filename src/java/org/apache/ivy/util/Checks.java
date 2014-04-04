@@ -52,7 +52,7 @@ public final class Checks {
 
     public static File checkAbsolute(String path, String fileName) {
         checkNotNull(path, fileName);
-        File f = new File(path);
+        File f = FileUtil.newFile(path);
         if (!f.isAbsolute()) {
             throw new IllegalArgumentException(fileName + " must be absolute: " + path);
         }

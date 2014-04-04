@@ -21,13 +21,14 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.Project;
 
 public class IvyConvertPomTest extends TestCase {
     public void testSimple() throws Exception {
         IvyConvertPom task = new IvyConvertPom();
         task.setProject(new Project());
-        task.setPomFile(new File("test/java/org/apache/ivy/ant/test.pom"));
+        task.setPomFile(FileUtil.newFile("test/java/org/apache/ivy/ant/test.pom"));
         File destFile = File.createTempFile("ivy", ".xml");
         destFile.deleteOnExit();
         task.setIvyFile(destFile);
@@ -37,7 +38,7 @@ public class IvyConvertPomTest extends TestCase {
         // keep the code in comments in case someone manage to fix this and to highlight the fact
         // that this is not checked
 
-        // String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(destFile)));
+        // String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(destFile)));
         // String expected = readEntirely("test-convertpom.xml").replaceAll("\r\n", "\n").replace(
         // '\r', '\n');
         // assertEquals(expected, wrote);

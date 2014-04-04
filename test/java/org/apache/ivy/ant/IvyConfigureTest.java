@@ -26,6 +26,7 @@ import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
 import org.apache.ivy.plugins.resolver.IBiblioResolver;
 import org.apache.ivy.plugins.resolver.IvyRepResolver;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
@@ -63,18 +64,18 @@ public class IvyConfigureTest extends TestCase {
         configure.setSettingsId("test");
         configure.execute();
 
-        assertEquals(new File("mycache").getAbsolutePath(),
+        assertEquals(FileUtil.newFile("mycache").getAbsolutePath(),
             project.getProperty("ivy.cache.dir.test"));
 
         // test with a File
         project = new Project();
         configure = new IvyConfigure();
         configure.setProject(project);
-        configure.setFile(new File("test/java/org/apache/ivy/ant/ivysettings-defaultCacheDir.xml"));
+        configure.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivysettings-defaultCacheDir.xml"));
         configure.setSettingsId("test2");
         configure.execute();
 
-        assertEquals(new File("mycache").getAbsolutePath(),
+        assertEquals(FileUtil.newFile("mycache").getAbsolutePath(),
             project.getProperty("ivy.cache.dir.test2"));
 
         // test if no defaultCacheDir is specified
@@ -82,7 +83,7 @@ public class IvyConfigureTest extends TestCase {
         configure = new IvyConfigure();
         configure.setProject(project);
         configure
-                .setFile(new File("test/java/org/apache/ivy/ant/ivysettings-noDefaultCacheDir.xml"));
+                .setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivysettings-noDefaultCacheDir.xml"));
         configure.setSettingsId("test3");
         configure.execute();
 
@@ -120,7 +121,7 @@ public class IvyConfigureTest extends TestCase {
     }
 
     public void testFile() throws Exception {
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
 
         configure.execute();
 
@@ -129,21 +130,21 @@ public class IvyConfigureTest extends TestCase {
         IvySettings settings = ivy.getSettings();
         assertNotNull(settings);
 
-        assertEquals(new File("build/cache").getAbsoluteFile(), settings.getDefaultCache());
-        assertEquals(new File("test/repositories/ivysettings.xml").getAbsolutePath(), settings
+        assertEquals(FileUtil.newFile("build/cache").getAbsoluteFile(), settings.getDefaultCache());
+        assertEquals(FileUtil.newFile("test/repositories/ivysettings.xml").getAbsolutePath(), settings
                 .getVariables().getVariable("ivy.settings.file"));
         assertEquals(
-            new File("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm(),
+            FileUtil.newFile("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm(),
             settings.getVariables().getVariable("ivy.settings.url"));
-        assertEquals(new File("test/repositories").getAbsolutePath(), settings.getVariables()
+        assertEquals(FileUtil.newFile("test/repositories").getAbsolutePath(), settings.getVariables()
                 .getVariable("ivy.settings.dir"));
         assertEquals("myvalue", settings.getVariables().getVariable("myproperty"));
     }
 
     public void testURL() throws Exception {
-        String confUrl = new File("test/repositories/ivysettings-url.xml").toURI().toURL()
+        String confUrl = FileUtil.newFile("test/repositories/ivysettings-url.xml").toURI().toURL()
                 .toExternalForm();
-        String confDirUrl = new File("test/repositories").toURI().toURL().toExternalForm();
+        String confDirUrl = FileUtil.newFile("test/repositories").toURI().toURL().toExternalForm();
         if (confDirUrl.endsWith("/")) {
             confDirUrl = confDirUrl.substring(0, confDirUrl.length() - 1);
         }
@@ -153,7 +154,7 @@ public class IvyConfigureTest extends TestCase {
 
         IvySettings settings = getIvyInstance().getSettings();
 
-        assertEquals(new File("build/cache").getAbsoluteFile(), settings.getDefaultCache());
+        assertEquals(FileUtil.newFile("build/cache").getAbsoluteFile(), settings.getDefaultCache());
         assertEquals(confUrl, settings.getVariables().getVariable("ivy.settings.url"));
         assertEquals(confDirUrl, settings.getVariables().getVariable("ivy.settings.dir"));
         assertEquals("myvalue", settings.getVariables().getVariable("myproperty"));
@@ -203,7 +204,7 @@ public class IvyConfigureTest extends TestCase {
 
     public void testIncludeTwice() throws Exception {
         // IVY-601
-        configure.setFile(new File("test/java/org/apache/ivy/ant/ivysettings-include-twice.xml"));
+        configure.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivysettings-include-twice.xml"));
 
         configure.execute();
 
@@ -211,7 +212,7 @@ public class IvyConfigureTest extends TestCase {
     }
 
     public void testOverrideTrue() throws Exception {
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         configure.execute();
 
         Ivy ivy = getIvyInstance();
@@ -220,7 +221,7 @@ public class IvyConfigureTest extends TestCase {
         configure = new IvyConfigure();
         configure.setProject(project);
         configure.setOverride("true");
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         configure.execute();
         assertNotNull(getIvyInstance());
 
@@ -228,7 +229,7 @@ public class IvyConfigureTest extends TestCase {
     }
 
     public void testOverrideFalse() throws Exception {
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         configure.execute();
 
         Ivy ivy = getIvyInstance();
@@ -237,14 +238,14 @@ public class IvyConfigureTest extends TestCase {
         IvyConfigure newAntSettings = new IvyConfigure();
         newAntSettings.setProject(project);
         newAntSettings.setOverride("false");
-        newAntSettings.setFile(new File("test/repositories/ivysettings.xml"));
+        newAntSettings.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         newAntSettings.execute();
 
         assertTrue(ivy == getIvyInstance());
     }
 
     public void testOverrideNotAllowed() throws Exception {
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         configure.execute();
 
         Ivy ivy = getIvyInstance();
@@ -253,7 +254,7 @@ public class IvyConfigureTest extends TestCase {
         configure = new IvyConfigure();
         configure.setProject(project);
         configure.setOverride("notallowed");
-        configure.setFile(new File("test/repositories/ivysettings.xml"));
+        configure.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
 
         try {
             configure.execute();

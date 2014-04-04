@@ -17,11 +17,7 @@
  */
 package org.apache.ivy.core.cache;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -112,17 +108,17 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
     public File getResolvedIvyFileInCache(ModuleRevisionId mrid) {
         String file = IvyPatternHelper.substitute(getResolvedIvyPattern(), mrid.getOrganisation(),
             mrid.getName(), mrid.getRevision(), "ivy", "ivy", "xml");
-        return new File(getResolutionCacheRoot(), file);
+        return FileUtil.newFile(getResolutionCacheRoot(), file);
     }
 
     public File getResolvedIvyPropertiesInCache(ModuleRevisionId mrid) {
         String file = IvyPatternHelper.substitute(getResolvedIvyPropertiesPattern(),
             mrid.getOrganisation(), mrid.getName(), mrid.getRevision(), "ivy", "ivy", "xml");
-        return new File(getResolutionCacheRoot(), file);
+        return FileUtil.newFile(getResolutionCacheRoot(), file);
     }
 
     public File getConfigurationResolveReportInCache(String resolveId, String conf) {
-        return new File(getResolutionCacheRoot(), resolveId + "-" + conf + ".xml");
+        return FileUtil.newFile(getResolutionCacheRoot(), resolveId + "-" + conf + ".xml");
     }
 
     public File[] getConfigurationResolveReportsInCache(final String resolveId) {
@@ -147,7 +143,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
         File parentsFile = getResolvedIvyPropertiesInCache(ModuleRevisionId.newInstance(mrid,
             mrid.getRevision() + "-parents"));
         if (parentsFile.exists()) {
-            FileInputStream in = new FileInputStream(parentsFile);
+            InputStream in = FileUtil.newInputStream(parentsFile);
             paths.load(in);
             in.close();
         }
@@ -174,7 +170,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
         if (!paths.isEmpty()) {
             File parentsFile = getResolvedIvyPropertiesInCache(ModuleRevisionId.newInstance(mrevId,
                 mrevId.getRevision() + "-parents"));
-            FileOutputStream out = new FileOutputStream(parentsFile);
+            OutputStream out = FileUtil.newOutputStream(parentsFile);
             paths.store(out, null);
             out.close();
         }
@@ -286,7 +282,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
                 String file = path.substring(path.lastIndexOf('/') + 1);
 
                 if (paths.containsKey(file + "|" + url)) {
-                    File result = new File(paths.get(file + "|" + url).toString());
+                    File result = FileUtil.newFile(paths.get(file + "|" + url).toString());
                     return result.toURI().toURL();
                 }
             }

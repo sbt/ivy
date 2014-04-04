@@ -419,7 +419,7 @@ public class HttpClientHandler extends AbstractURLHandler {
         }
 
         public void writeRequest(OutputStream out) throws IOException {
-            InputStream instream = new FileInputStream(file);
+            InputStream instream = FileUtil.newInputStream(file);
             try {
                 FileUtil.copy(instream, out, null, false);
             } finally {

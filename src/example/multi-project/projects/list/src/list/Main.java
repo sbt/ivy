@@ -50,7 +50,7 @@ public final class Main {
         CommandLineParser parser = new GnuParser();
 
         CommandLine line = parser.parse(options, args);
-        File dir = new File(line.getOptionValue("dir", "."));
+        File dir = FileUtil.newFile(line.getOptionValue("dir", "."));
         Collection files = ListFile.list(dir);
         System.out.println("listing files in " + dir);
         for (Iterator it = files.iterator(); it.hasNext();) {

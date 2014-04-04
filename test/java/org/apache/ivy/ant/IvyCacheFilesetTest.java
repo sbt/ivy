@@ -22,6 +22,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.apache.ivy.TestHelper;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -46,7 +47,7 @@ public class IvyCacheFilesetTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -73,7 +74,7 @@ public class IvyCacheFilesetTest extends TestCase {
         assertEquals(1, directoryScanner.getIncludedFiles().length);
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
                 .getAbsolutePath(),
-            new File(directoryScanner.getBasedir(), directoryScanner.getIncludedFiles()[0])
+            FileUtil.newFile(directoryScanner.getBasedir(), directoryScanner.getIncludedFiles()[0])
                     .getAbsolutePath());
     }
 
@@ -139,7 +140,7 @@ public class IvyCacheFilesetTest extends TestCase {
     }
 
     public void testWithoutPreviousResolveAndNonDefaultCache() throws Exception {
-        File cache2 = new File("build/cache2");
+        File cache2 = FileUtil.newFile("build/cache2");
         cache2.mkdirs();
 
         try {
@@ -155,8 +156,8 @@ public class IvyCacheFilesetTest extends TestCase {
             assertEquals(1, directoryScanner.getIncludedFiles().length);
             assertEquals(
                 getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar", cache2)
-                        .getAbsolutePath(), new File(directoryScanner.getBasedir(),
-                        directoryScanner.getIncludedFiles()[0]).getAbsolutePath());
+                        .getAbsolutePath(), FileUtil.newFile(directoryScanner.getBasedir(),
+                            directoryScanner.getIncludedFiles()[0]).getAbsolutePath());
         } finally {
             Delete del = new Delete();
             del.setProject(new Project());
@@ -167,13 +168,13 @@ public class IvyCacheFilesetTest extends TestCase {
 
     public void testGetBaseDir() {
         File base = null;
-        base = fileset.getBaseDir(base, new File("x/aa/b/c"));
-        assertEquals(new File("x/aa/b").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/aa/b/c"));
+        assertEquals(FileUtil.newFile("x/aa/b").getAbsoluteFile(), base);
 
-        base = fileset.getBaseDir(base, new File("x/aa/b/d/e"));
-        assertEquals(new File("x/aa/b").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/aa/b/d/e"));
+        assertEquals(FileUtil.newFile("x/aa/b").getAbsoluteFile(), base);
 
-        base = fileset.getBaseDir(base, new File("x/ab/b/d"));
-        assertEquals(new File("x").getAbsoluteFile(), base);
+        base = fileset.getBaseDir(base, FileUtil.newFile("x/ab/b/d"));
+        assertEquals(FileUtil.newFile("x").getAbsoluteFile(), base);
     }
 }

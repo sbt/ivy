@@ -674,13 +674,13 @@ public class XmlModuleDescriptorParser extends AbstractModuleDescriptorParser {
                 return null;
             }
 
-            File file = new File(location);
+            File file = FileUtil.newFile(location);
             if (!file.isAbsolute()) {
                 URL url = settings.getRelativeUrlResolver().getURL(descriptorURL, location);
                 try {
-                    file = new File(new URI(url.toExternalForm()));
+                    file = FileUtil.newFile(new URI(url.toExternalForm()));
                 } catch (URISyntaxException e) {
-                    file = new File(url.getPath());
+                    file = FileUtil.newFile(url.getPath());
                 }
             }
 

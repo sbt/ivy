@@ -48,6 +48,7 @@ import org.apache.ivy.plugins.resolver.packager.PackagerResolver;
 import org.apache.ivy.plugins.version.ChainVersionMatcher;
 import org.apache.ivy.plugins.version.MockVersionMatcher;
 import org.apache.ivy.plugins.version.VersionMatcher;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * TODO write javadoc
@@ -193,9 +194,9 @@ public class XmlSettingsParserTest extends TestCase {
         XmlSettingsParser parser = new XmlSettingsParser(settings);
         parser.parse(XmlSettingsParserTest.class.getResource("ivysettings-cache.xml"));
 
-        assertEquals(new File("repository").getCanonicalFile(), settings
+        assertEquals(FileUtil.newFile("repository").getCanonicalFile(), settings
                 .getDefaultRepositoryCacheBasedir().getCanonicalFile());
-        assertEquals(new File("resolution").getCanonicalFile(), settings
+        assertEquals(FileUtil.newFile("resolution").getCanonicalFile(), settings
                 .getDefaultResolutionCacheBasedir().getCanonicalFile());
         assertEquals("artifact-lock", settings.getDefaultLockStrategy().getName());
 
@@ -217,7 +218,7 @@ public class XmlSettingsParserTest extends TestCase {
             c.getTTL(ModuleRevisionId.newInstance("org2", "A", "A")));
         assertEquals(60 * 3600 * 1000, // 2d 12h = 60h
             c.getTTL(ModuleRevisionId.newInstance("org3", "A", "A")));
-        assertEquals(new File("mycache").getCanonicalFile(), c.getBasedir().getCanonicalFile());
+        assertEquals(FileUtil.newFile("mycache").getCanonicalFile(), c.getBasedir().getCanonicalFile());
         assertEquals(false, c.isUseOrigin());
         assertEquals("no-lock", c.getLockStrategy().getName());
 
@@ -228,7 +229,7 @@ public class XmlSettingsParserTest extends TestCase {
                 .getRepositoryCacheManager("mycache2");
         assertNotNull(c2);
         assertEquals("mycache2", c2.getName());
-        assertEquals(new File("repository").getCanonicalFile(), c2.getBasedir().getCanonicalFile());
+        assertEquals(FileUtil.newFile("repository").getCanonicalFile(), c2.getBasedir().getCanonicalFile());
         assertEquals("artifact-lock", c2.getLockStrategy().getName());
 
         assertEquals("[module]/ivys/ivy-[revision].xml", c2.getIvyPattern());
@@ -583,7 +584,7 @@ public class XmlSettingsParserTest extends TestCase {
 
     public void testFileAttribute() throws Exception {
         IvySettings settings = new IvySettings();
-        File basedir = new File("test").getAbsoluteFile();
+        File basedir = FileUtil.newFile("test").getAbsoluteFile();
         settings.setBaseDir(basedir);
         XmlSettingsParser parser = new XmlSettingsParser(settings);
         parser.parse(XmlSettingsParserTest.class.getResource("ivysettings-packager.xml"));
@@ -592,22 +593,22 @@ public class XmlSettingsParserTest extends TestCase {
         assertNotNull(r);
         assertTrue(r instanceof PackagerResolver);
         PackagerResolver packager = (PackagerResolver) r;
-        assertEquals(new File(basedir, "packager/build"), packager.getBuildRoot());
-        assertEquals(new File(basedir, "packager/cache"), packager.getResourceCache());
+        assertEquals(FileUtil.newFile(basedir, "packager/build"), packager.getBuildRoot());
+        assertEquals(FileUtil.newFile(basedir, "packager/cache"), packager.getResourceCache());
     }
 
     public void testBaseDirVariables() throws Exception {
         IvySettings settings = new IvySettings();
-        settings.setBaseDir(new File("test/base/dir"));
-        assertEquals(new File("test/base/dir").getAbsolutePath(), settings.getVariable("basedir"));
-        assertEquals(new File("test/base/dir").getAbsolutePath(),
+        settings.setBaseDir(FileUtil.newFile("test/base/dir"));
+        assertEquals(FileUtil.newFile("test/base/dir").getAbsolutePath(), settings.getVariable("basedir"));
+        assertEquals(FileUtil.newFile("test/base/dir").getAbsolutePath(),
             settings.getVariable("ivy.basedir"));
 
         settings = new IvySettings();
-        settings.setVariable("basedir", new File("other/base/dir").getAbsolutePath());
-        settings.setBaseDir(new File("test/base/dir"));
-        assertEquals(new File("other/base/dir").getAbsolutePath(), settings.getVariable("basedir"));
-        assertEquals(new File("test/base/dir").getAbsolutePath(),
+        settings.setVariable("basedir", FileUtil.newFile("other/base/dir").getAbsolutePath());
+        settings.setBaseDir(FileUtil.newFile("test/base/dir"));
+        assertEquals(FileUtil.newFile("other/base/dir").getAbsolutePath(), settings.getVariable("basedir"));
+        assertEquals(FileUtil.newFile("test/base/dir").getAbsolutePath(),
             settings.getVariable("ivy.basedir"));
     }
 
@@ -633,7 +634,7 @@ public class XmlSettingsParserTest extends TestCase {
     }
 
     private void assertLocationEquals(String expected, Object pattern) throws IOException {
-        assertEquals(new File(expected).getCanonicalFile(),
-            new File((String) pattern).getCanonicalFile());
+        assertEquals(FileUtil.newFile(expected).getCanonicalFile(),
+            FileUtil.newFile((String) pattern).getCanonicalFile());
     }
 }

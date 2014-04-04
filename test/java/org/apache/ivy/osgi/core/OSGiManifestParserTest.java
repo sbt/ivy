@@ -25,6 +25,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.parser.AbstractModuleDescriptorParserTester;
 import org.apache.ivy.util.DefaultMessageLogger;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class OSGiManifestParserTest extends AbstractModuleDescriptorParserTester {
@@ -36,7 +37,7 @@ public class OSGiManifestParserTest extends AbstractModuleDescriptorParserTester
 
         settings = new IvySettings();
         // prevent test from polluting local cache
-        settings.setDefaultCache(new File("build/cache"));
+        settings.setDefaultCache(FileUtil.newFile("build/cache"));
     }
 
     public void testSimple() throws Exception {

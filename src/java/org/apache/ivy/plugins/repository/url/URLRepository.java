@@ -121,7 +121,7 @@ public class URLRepository extends AbstractRepository {
                 throw ioe;
             }
 
-            File file = new File(path);
+            File file = FileUtil.newFile(path);
             if (file.exists() && file.isDirectory()) {
                 String[] files = file.list();
                 List ret = new ArrayList(files.length);

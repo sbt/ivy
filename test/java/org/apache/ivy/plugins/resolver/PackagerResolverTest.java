@@ -64,15 +64,15 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
         settings = new IvySettings();
         ResolveEngine engine = new ResolveEngine(settings, new EventManager(), new SortEngine(
                 settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);
 
         // Create work space with build and resource cache directories
-        workdir = new File("build/test/PackagerResolverTest");
-        builddir = new File(workdir, "build");
-        cachedir = new File(workdir, "resources");
+        workdir = FileUtil.newFile("build/test/PackagerResolverTest");
+        builddir = FileUtil.newFile(workdir, "build");
+        cachedir = FileUtil.newFile(workdir, "resources");
         cleanupTempDirs();
         if (!builddir.mkdirs() || !cachedir.mkdirs()) {
             throw new Exception("can't create directories under " + workdir);
@@ -98,7 +98,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/packager/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/packager/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -108,7 +108,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/packager/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");
@@ -139,7 +139,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             assertEquals(DownloadStatus.SUCCESSFUL, ar.getDownloadStatus());
 
             // Verify resource cache now contains the distribution archive
-            assertTrue(new File(cachedir, "mod-1.0.tar.gz").exists());
+            assertTrue(FileUtil.newFile(cachedir, "mod-1.0.tar.gz").exists());
 
             // Download again, should use Ivy cache this time
             report = resolver.download(new Artifact[] {artifact}, downloadOptions());
@@ -180,7 +180,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/IVY-1179/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/IVY-1179/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -190,7 +190,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/IVY-1179/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");
@@ -206,11 +206,11 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.download(new Artifact[] {artifact}, downloadOptions());
 
             // assert that the file A.jar is extracted from the archive
-            File jar = new File(builddir, "org/A/1.0/artifacts/jars/A.jar");
+            File jar = FileUtil.newFile(builddir, "org/A/1.0/artifacts/jars/A.jar");
             assertTrue(jar.exists());
 
             // assert that the file README is not extracted from the archive
-            File readme = new File(builddir, "org/A/1.0/extract/A-1.0/README");
+            File readme = FileUtil.newFile(builddir, "org/A/1.0/extract/A-1.0/README");
             assertFalse(readme.exists());
         } finally {
             Locale.setDefault(oldLocale);
@@ -227,7 +227,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             // Create and configure resolver
             PackagerResolver resolver = new PackagerResolver();
             resolver.setSettings(settings);
-            String repoRoot = new File("test/repositories/IVY-1179/repo").toURI().toURL()
+            String repoRoot = FileUtil.newFile("test/repositories/IVY-1179/repo").toURI().toURL()
                     .toExternalForm();
             resolver.addIvyPattern(repoRoot + "[organisation]/[module]/[revision]/ivy.xml");
             resolver.setPackagerPattern(repoRoot
@@ -237,7 +237,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.setPreserveBuildDirectories(true);
             resolver.setVerbose(true);
 
-            resolver.setProperty("packager.website.url", new File(
+            resolver.setProperty("packager.website.url", FileUtil.newFile(
                     "test/repositories/IVY-1179/website").toURI().toURL().toExternalForm());
 
             resolver.setName("packager");
@@ -253,11 +253,11 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.download(new Artifact[] {artifact}, downloadOptions());
 
             // assert that the file B.jar is extracted from the archive
-            File jar = new File(builddir, "org/B/1.0/artifacts/jars/B.jar");
+            File jar = FileUtil.newFile(builddir, "org/B/1.0/artifacts/jars/B.jar");
             assertTrue(jar.exists());
 
             // assert that the file README is not extracted from the archive
-            File readme = new File(builddir, "org/B/1.0/extract/B-1.0/README");
+            File readme = FileUtil.newFile(builddir, "org/B/1.0/extract/B-1.0/README");
             assertFalse(readme.exists());
         } finally {
             Locale.setDefault(oldLocale);

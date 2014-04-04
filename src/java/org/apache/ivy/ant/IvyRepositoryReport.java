@@ -125,7 +125,7 @@ public class IvyRepositoryReport extends IvyTask {
             if (xml) {
 
                 FileUtil.copy(cacheMgr.getConfigurationResolveReportInCache(resolveId, "default"),
-                    new File(getTodir(), outputname + ".xml"), null);
+                    FileUtil.newFile(getTodir(), outputname + ".xml"), null);
             }
             if (xsl) {
                 genreport(cacheMgr, md.getModuleRevisionId().getOrganisation(), md
@@ -146,7 +146,7 @@ public class IvyRepositoryReport extends IvyTask {
 
         String resolveId = ResolveOptions.getDefaultResolveId(new ModuleId(organisation, module));
         xslt.setIn(cache.getConfigurationResolveReportInCache(resolveId, "default"));
-        xslt.setOut(new File(getTodir(), outputname + "." + xslext));
+        xslt.setOut(FileUtil.newFile(getTodir(), outputname + "." + xslext));
 
         xslt.setStyle(xslFile);
 
@@ -174,7 +174,7 @@ public class IvyRepositoryReport extends IvyTask {
     private String getGraphStylePath(File cache) throws IOException {
         // style should be a file (and not an url)
         // so we have to copy it from classpath to cache
-        File style = new File(cache, "ivy-report-graph-all.xsl");
+        File style = FileUtil.newFile(cache, "ivy-report-graph-all.xsl");
         FileUtil.copy(XmlReportOutputter.class.getResourceAsStream("ivy-report-graph-all.xsl"),
             style, null);
         return style.getAbsolutePath();
@@ -188,7 +188,7 @@ public class IvyRepositoryReport extends IvyTask {
     private String getDotStylePath(File cache) throws IOException {
         // style should be a file (and not an url)
         // so we have to copy it from classpath to cache
-        File style = new File(cache, "ivy-report-dot-all.xsl");
+        File style = FileUtil.newFile(cache, "ivy-report-dot-all.xsl");
         FileUtil.copy(XmlReportOutputter.class.getResourceAsStream("ivy-report-dot-all.xsl"),
             style, null);
         return style.getAbsolutePath();
@@ -203,7 +203,7 @@ public class IvyRepositoryReport extends IvyTask {
 
         String resolveId = ResolveOptions.getDefaultResolveId(new ModuleId(organisation, module));
         xslt.setIn(cache.getConfigurationResolveReportInCache(resolveId, "default"));
-        xslt.setOut(new File(getTodir(), outputname + "." + ext));
+        xslt.setOut(FileUtil.newFile(getTodir(), outputname + "." + ext));
         xslt.setBasedir(cache.getResolutionCacheRoot());
         xslt.setStyle(style);
         xslt.execute();

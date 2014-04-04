@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.core.pack;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -54,7 +51,7 @@ public class ZipPacking extends ArchivePacking {
             zip = new ZipInputStream(packed);
             ZipEntry entry = null;
             while (((entry = zip.getNextEntry()) != null)) {
-                File f = new File(dest, entry.getName());
+                File f = FileUtil.newFile(dest, entry.getName());
                 Message.verbose("\t\texpanding " + entry.getName() + " to " + f);
 
                 // create intermediary directories - sometimes zip don't add them
@@ -66,7 +63,7 @@ public class ZipPacking extends ArchivePacking {
                 if (entry.isDirectory()) {
                     f.mkdirs();
                 } else {
-                    FileOutputStream out = new FileOutputStream(f);
+                    OutputStream out = FileUtil.newOutputStream(f);
                     try {
                         FileUtil.copy(zip, out, null, false);
                     } finally {

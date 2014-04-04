@@ -41,12 +41,12 @@ import org.apache.ivy.util.FileUtil;
 
 public class PublishEngineTest extends TestCase {
     protected void setUp() throws Exception {
-        System.setProperty("ivy.cache.dir", new File("build/test/publish/cache").getAbsolutePath());
-        FileUtil.forceDelete(new File("build/test/publish"));
+        System.setProperty("ivy.cache.dir", FileUtil.newFile("build/test/publish/cache").getAbsolutePath());
+        FileUtil.forceDelete(FileUtil.newFile("build/test/publish"));
     }
 
     protected void tearDown() throws Exception {
-        FileUtil.forceDelete(new File("build/test/publish"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/publish"));
     }
 
     public void testAtomicity() throws Exception {
@@ -70,13 +70,13 @@ public class PublishEngineTest extends TestCase {
         };
         resolver.setName("test");
         resolver.setSettings(settings);
-        String publishRepoDir = new File("build/test/publish/repo").getAbsolutePath();
+        String publishRepoDir = FileUtil.newFile("build/test/publish/repo").getAbsolutePath();
         resolver.addIvyPattern(publishRepoDir + "/[module]/[revision]/[artifact].[ext]");
         resolver.addArtifactPattern(publishRepoDir + "/[module]/[revision]/[artifact].[ext]");
 
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), new File(
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), FileUtil.newFile(
                 "build/test/publish/module/A.jar"), null);
-        XmlModuleDescriptorWriter.write(md, new File("build/test/publish/module/ivy.xml"));
+        XmlModuleDescriptorWriter.write(md, FileUtil.newFile("build/test/publish/module/ivy.xml"));
 
         resolveAndAssertNotFound(settings, resolver, "#A;latest.integration", "before publishing");
 

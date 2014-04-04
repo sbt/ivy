@@ -32,6 +32,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.sort.SortEngine;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 
 public class Maven2LocalTest extends TestCase {
     private IvySettings settings;
@@ -45,7 +46,7 @@ public class Maven2LocalTest extends TestCase {
     protected void setUp() throws Exception {
         settings = new IvySettings();
         engine = new ResolveEngine(settings, new EventManager(), new SortEngine(settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);
@@ -85,7 +86,7 @@ public class Maven2LocalTest extends TestCase {
         resolver.setSettings(settings);
         resolver.setName("maven2");
         resolver.setM2compatible(true);
-        resolver.setRoot(new File("test/repositories/m2").toURI().toURL().toExternalForm());
+        resolver.setRoot(FileUtil.newFile("test/repositories/m2").toURI().toURL().toExternalForm());
         return resolver;
     }
 }

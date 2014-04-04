@@ -32,6 +32,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.sort.SortEngine;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 
 public class JarResolverTest extends TestCase {
 
@@ -48,7 +49,7 @@ public class JarResolverTest extends TestCase {
     protected void setUp() throws Exception {
         settings = new IvySettings();
         engine = new ResolveEngine(settings, new EventManager(), new SortEngine(settings));
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         data = new ResolveData(engine, new ResolveOptions());
         cache.mkdirs();
         settings.setDefaultCache(cache);
@@ -62,7 +63,7 @@ public class JarResolverTest extends TestCase {
     public void testSimpleFile() throws Exception {
         JarResolver resolver = new JarResolver();
         resolver.setName("jarresolver1");
-        resolver.setFile(new File("test/jar-repos/jarrepo1.jar").getAbsolutePath());
+        resolver.setFile(FileUtil.newFile("test/jar-repos/jarrepo1.jar").getAbsolutePath());
         resolver.addIvyPattern("[organisation]/[module]/ivys/ivy-[revision].xml");
         resolver.addArtifactPattern("[organisation]/[module]/[type]s/[artifact]-[revision].[type]");
         resolver.setSettings(settings);
@@ -76,7 +77,7 @@ public class JarResolverTest extends TestCase {
     public void testSubdirInFile() throws Exception {
         JarResolver resolver = new JarResolver();
         resolver.setName("jarresolver1_subdir");
-        resolver.setFile(new File("test/jar-repos/jarrepo1_subdir.jar").getAbsolutePath());
+        resolver.setFile(FileUtil.newFile("test/jar-repos/jarrepo1_subdir.jar").getAbsolutePath());
         resolver.addIvyPattern("1/[organisation]/[module]/ivys/ivy-[revision].xml");
         resolver.addArtifactPattern("1/[organisation]/[module]/[type]s/[artifact]-[revision].[type]");
         resolver.setSettings(settings);
@@ -90,7 +91,7 @@ public class JarResolverTest extends TestCase {
     public void testUrl() throws Exception {
         JarResolver resolver = new JarResolver();
         resolver.setName("jarresolver1");
-        resolver.setUrl(new File("test/jar-repos/jarrepo1.jar").toURI().toURL().toExternalForm());
+        resolver.setUrl(FileUtil.newFile("test/jar-repos/jarrepo1.jar").toURI().toURL().toExternalForm());
         resolver.addIvyPattern("[organisation]/[module]/ivys/ivy-[revision].xml");
         resolver.addArtifactPattern("[organisation]/[module]/[type]s/[artifact]-[revision].[type]");
         resolver.setSettings(settings);

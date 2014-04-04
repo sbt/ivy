@@ -31,6 +31,7 @@ import org.apache.ivy.osgi.core.ExecutionEnvironmentProfileProvider;
 import org.apache.ivy.osgi.core.ManifestParser;
 import org.apache.ivy.osgi.core.OSGiManifestParser;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriter;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 
 public class ConvertManifestTask extends IvyTask {
@@ -70,7 +71,7 @@ public class ConvertManifestTask extends IvyTask {
 
         Manifest m;
         try {
-            m = new Manifest(new FileInputStream(manifest));
+            m = new Manifest(FileUtil.newInputStream(manifest));
         } catch (FileNotFoundException e) {
             throw new BuildException("the manifest file '" + manifest + "' was not found", e);
         } catch (IOException e) {

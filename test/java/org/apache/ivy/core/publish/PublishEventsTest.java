@@ -39,6 +39,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParser;
 import org.apache.ivy.plugins.resolver.MockResolver;
 import org.apache.ivy.plugins.trigger.AbstractTrigger;
+import org.apache.ivy.util.FileUtil;
 
 public class PublishEventsTest extends TestCase {
 
@@ -101,7 +102,7 @@ public class PublishEventsTest extends TestCase {
         // we don't really care whether the file actually gets published. we just want to make sure
         // that the engine calls the correct methods in the correct order, and fires required
         // events.
-        ivyFile = new File("test/java/org/apache/ivy/core/publish/ivy-1.0-dev.xml");
+        ivyFile = FileUtil.newFile("test/java/org/apache/ivy/core/publish/ivy-1.0-dev.xml");
         assertTrue("path to ivy file not found in test environment", ivyFile.exists());
         // the contents of the data file don't matter.
         dataFile = File.createTempFile("ivydata", ".jar");
@@ -353,7 +354,7 @@ public class PublishEventsTest extends TestCase {
                 // filesystem
                 String filePath = event.getAttributes().get("file").toString();
                 assertEquals("event declares correct value for file",
-                    expectedData.getCanonicalPath(), new File(filePath).getCanonicalPath());
+                    expectedData.getCanonicalPath(), FileUtil.newFile(filePath).getCanonicalPath());
             } catch (IOException ioe) {
                 throw new RuntimeException(ioe);
             }

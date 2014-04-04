@@ -34,6 +34,7 @@ import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.plugins.resolver.ChainResolver;
 import org.apache.ivy.plugins.resolver.IBiblioResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class UpdateSiteAndIbiblioResolverTest extends TestCase {
 
@@ -60,7 +61,7 @@ public class UpdateSiteAndIbiblioResolverTest extends TestCase {
 
         resolver = new UpdateSiteResolver();
         resolver.setName("ivyde-repo");
-        resolver.setUrl(new File("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
+        resolver.setUrl(FileUtil.newFile("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
         resolver.setSettings(settings);
 
         resolver2 = new IBiblioResolver();
@@ -77,7 +78,7 @@ public class UpdateSiteAndIbiblioResolverTest extends TestCase {
 
         settings.setDefaultResolver("chain");
 
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         settings.setDefaultCache(cache);
 

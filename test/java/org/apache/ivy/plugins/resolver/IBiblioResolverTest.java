@@ -46,6 +46,7 @@ import org.apache.ivy.core.search.RevisionEntry;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.sort.SortEngine;
 import org.apache.ivy.plugins.matcher.ExactPatternMatcher;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.MockMessageLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -67,7 +68,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
     protected void setUp() throws Exception {
         _settings = new IvySettings();
         _engine = new ResolveEngine(_settings, new EventManager(), new SortEngine(_settings));
-        _cache = new File("build/cache");
+        _cache = FileUtil.newFile("build/cache");
         _data = new ResolveData(_engine, new ResolveOptions());
         _cache.mkdirs();
         _settings.setDefaultCache(_cache);

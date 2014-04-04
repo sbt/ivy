@@ -34,6 +34,7 @@ import org.apache.ivy.osgi.repo.RelativeURLRepository;
 import org.apache.ivy.plugins.repository.url.ChainedRepository;
 import org.apache.ivy.plugins.repository.url.URLRepository;
 import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class MirroredURLResolver extends RepositoryResolver {
@@ -89,7 +90,7 @@ public class MirroredURLResolver extends RepositoryResolver {
     }
 
     private List/* <String> */readMirrorList(File mirrorListFile) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+        BufferedReader in = new BufferedReader(new InputStreamReader(FileUtil.newInputStream(
                 mirrorListFile)));
         List/* <String> */list = new ArrayList();
         try {

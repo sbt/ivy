@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.ivy.core.module.id.ModuleRevisionId;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
@@ -142,7 +143,7 @@ public class IvyExtractFromSources extends Task {
             }
         }
         try {
-            PrintWriter writer = new PrintWriter(new FileOutputStream(to));
+            PrintWriter writer = new PrintWriter(FileUtil.newOutputStream(to));
             writer.println("<ivy-module version=\"1.0\">");
             writer.println("\t<info organisation=\"" + organisation + "\"");
             writer.println("\t       module=\"" + module + "\"");

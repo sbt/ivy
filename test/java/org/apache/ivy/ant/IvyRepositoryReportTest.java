@@ -43,7 +43,7 @@ public class IvyRepositoryReportTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -64,9 +64,9 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "testsimple.xml");
+        File reportFile = FileUtil.newFile(cache, "testsimple.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"org1\" name=\"mod1.1\"") != -1);
@@ -84,9 +84,9 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "testbranch.xml");
+        File reportFile = FileUtil.newFile(cache, "testbranch.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"org1\" name=\"mod1.1\"") != -1);
@@ -103,9 +103,9 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "test-no-org.xml");
+        File reportFile = FileUtil.newFile(cache, "test-no-org.xml");
         assertTrue(reportFile.exists());
-        String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
+        String g = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(reportFile)));
 
         // check presence of the modules
         assertTrue(g.indexOf("<module organisation=\"null\" name=\"a\"") != -1);

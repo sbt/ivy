@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 
 import org.apache.ivy.plugins.repository.file.FileResource;
 import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public final class ResourceHelper {
@@ -38,7 +39,7 @@ public final class ResourceHelper {
             return false;
         }
         if (res instanceof FileResource) {
-            return new File(res.getName()).equals(f);
+            return FileUtil.newFile(res.getName()).equals(f);
         } else if (res instanceof URLResource) {
             try {
                 return f.toURI().toURL().toExternalForm().equals(res.getName());

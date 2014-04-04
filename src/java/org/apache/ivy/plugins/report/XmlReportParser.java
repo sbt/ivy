@@ -38,6 +38,7 @@ import org.apache.ivy.core.report.ArtifactDownloadReport;
 import org.apache.ivy.core.report.DownloadStatus;
 import org.apache.ivy.core.report.MetadataArtifactDownloadReport;
 import org.apache.ivy.util.DateUtil;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.extendable.ExtendableItemHelper;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -129,10 +130,10 @@ public class XmlReportParser {
                         madr.setDownloadTimeMillis(Long.parseLong(attributes.getValue("time")));
                         madr.setSearched(parseBoolean(attributes.getValue("searched")));
                         if (attributes.getValue("location") != null) {
-                            madr.setLocalFile(new File(attributes.getValue("location")));
+                            madr.setLocalFile(FileUtil.newFile(attributes.getValue("location")));
                         }
                         if (attributes.getValue("original-local-location") != null) {
-                            madr.setOriginalLocalFile(new File(attributes
+                            madr.setOriginalLocalFile(FileUtil.newFile(attributes
                                     .getValue("original-local-location")));
                         }
                         if (attributes.getValue("origin-location") != null) {
@@ -161,10 +162,10 @@ public class XmlReportParser {
                     aReport.setSize(Long.parseLong(attributes.getValue("size")));
                     aReport.setDownloadTimeMillis(Long.parseLong(attributes.getValue("time")));
                     if (attributes.getValue("location") != null) {
-                        aReport.setLocalFile(new File(attributes.getValue("location")));
+                        aReport.setLocalFile(FileUtil.newFile(attributes.getValue("location")));
                     }
                     if (attributes.getValue("unpackedFile") != null) {
-                        aReport.setUnpackedLocalFile(new File(attributes.getValue("unpackedFile")));
+                        aReport.setUnpackedLocalFile(FileUtil.newFile(attributes.getValue("unpackedFile")));
                     }
                     revisionArtifacts.add(aReport);
                 } else if ("origin-location".equals(qName)) {

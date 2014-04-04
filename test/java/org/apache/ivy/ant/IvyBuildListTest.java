@@ -61,7 +61,7 @@ public class IvyBuildListTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -81,7 +81,7 @@ public class IvyBuildListTest extends TestCase {
 
     private void assertListOfFiles(String prefix, String[] expected, String[] actual) {
         for (int i = 0; i < expected.length; i++) {
-            assertEquals(new File(prefix + expected[i] + "/build.xml").getAbsolutePath(), new File(
+            assertEquals(FileUtil.newFile(prefix + expected[i] + "/build.xml").getAbsolutePath(), FileUtil.newFile(
                     actual[i]).getAbsolutePath());
         }
     }
@@ -93,7 +93,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testSimple() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/build.xml,F/build.xml,G/build.xml");
 
@@ -109,7 +109,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testReverse() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/build.xml,F/build.xml,G/build.xml");
 
@@ -126,7 +126,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithRoot() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -143,7 +143,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithRootCircular() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -157,7 +157,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithTwoRoots() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -174,7 +174,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithRootExclude() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -192,7 +192,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithRootAndOnlyDirectDep() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -210,7 +210,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithLeaf() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -227,7 +227,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithLeafCircular() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -241,7 +241,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithTwoLeafs() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -258,7 +258,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithLeafExclude() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -276,7 +276,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithLeafAndOnlyDirectDep() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/**");
 
@@ -294,7 +294,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testRestartFrom() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/build.xml,F/build.xml,G/build.xml");
 
@@ -311,7 +311,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testOnMissingDescriptor() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/build.xml,F/build.xml,G/build.xml");
 
@@ -327,7 +327,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testOnMissingDescriptor2() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("E2/build.xml,F/build.xml,G/build.xml");
 
@@ -343,7 +343,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testWithModuleWithSameNameAndDifferentOrg() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlist"));
+        fs.setDir(FileUtil.newFile("test/buildlist"));
         fs.setIncludes("**/build.xml");
         fs.setExcludes("F/build.xml,G/build.xml");
 
@@ -358,18 +358,18 @@ public class IvyBuildListTest extends TestCase {
 
         // the order of E and E2 is undefined
         List other = new ArrayList();
-        other.add(new File(files[4]).getAbsoluteFile().toURI());
-        other.add(new File(files[5]).getAbsoluteFile().toURI());
+        other.add(FileUtil.newFile(files[4]).getAbsoluteFile().toURI());
+        other.add(FileUtil.newFile(files[5]).getAbsoluteFile().toURI());
         Collections.sort(other);
 
-        assertEquals(new File("test/buildlist/E/build.xml").getAbsoluteFile().toURI(), other.get(0));
-        assertEquals(new File("test/buildlist/E2/build.xml").getAbsoluteFile().toURI(),
+        assertEquals(FileUtil.newFile("test/buildlist/E/build.xml").getAbsoluteFile().toURI(), other.get(0));
+        assertEquals(FileUtil.newFile("test/buildlist/E2/build.xml").getAbsoluteFile().toURI(),
             other.get(1));
     }
 
     public void testNoParents() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlists/testNoParents"));
+        fs.setDir(FileUtil.newFile("test/buildlists/testNoParents"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -386,7 +386,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testOneParent() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlists/testOneParent"));
+        fs.setDir(FileUtil.newFile("test/buildlists/testOneParent"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -403,7 +403,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testTwoParents() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlists/testTwoParents"));
+        fs.setDir(FileUtil.newFile("test/buildlists/testTwoParents"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -420,7 +420,7 @@ public class IvyBuildListTest extends TestCase {
 
     public void testRelativePathToParent() {
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlists/testRelativePathToParent"));
+        fs.setDir(FileUtil.newFile("test/buildlists/testRelativePathToParent"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);
@@ -436,11 +436,11 @@ public class IvyBuildListTest extends TestCase {
     }
 
     public void testAbsolutePathToParent() {
-        project.setProperty("master-parent.dir", new File(
+        project.setProperty("master-parent.dir", FileUtil.newFile(
                 "test/buildlists/testAbsolutePathToParent/master-parent").getAbsolutePath());
 
         FileSet fs = new FileSet();
-        fs.setDir(new File("test/buildlists/testAbsolutePathToParent"));
+        fs.setDir(FileUtil.newFile("test/buildlists/testAbsolutePathToParent"));
         fs.setIncludes("**/build.xml");
 
         buildlist.addFileset(fs);

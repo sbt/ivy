@@ -37,14 +37,15 @@ import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.obr.xml.OBRXMLWriter;
 import org.apache.ivy.plugins.repository.file.FileRepository;
 import org.apache.ivy.plugins.resolver.FileSystemResolver;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.xml.sax.SAXException;
 
 public class BundleRepoTest extends TestCase {
 
-    private File bundlerepo = new File("test/test-repo/bundlerepo");
+    private File bundlerepo = FileUtil.newFile("test/test-repo/bundlerepo");
 
-    private File ivyrepo = new File("test/test-repo/ivyrepo");
+    private File ivyrepo = FileUtil.newFile("test/test-repo/ivyrepo");
 
     public void testFS() throws Exception {
         FSManifestIterable it = new FSManifestIterable(bundlerepo);
@@ -52,8 +53,8 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), new FileInputStream(
-                new File(bundlerepo, "repo.xml")));
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), FileUtil.newInputStream(
+                FileUtil.newFile(bundlerepo, "repo.xml")));
 
         assertEquals(repo, repo2);
     }
@@ -65,8 +66,8 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), new FileInputStream(
-                new File(bundlerepo, "repo.xml")));
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), FileUtil.newInputStream(
+                FileUtil.newFile(bundlerepo, "repo.xml")));
 
         assertEquals(repo, repo2);
     }
@@ -84,8 +85,8 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(ivyrepo.toURI(), new FileInputStream(
-                new File(ivyrepo, "repo.xml")));
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(ivyrepo.toURI(), FileUtil.newInputStream(
+                FileUtil.newFile(ivyrepo, "repo.xml")));
 
         assertEquals(repo, repo2);
     }

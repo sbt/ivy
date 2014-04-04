@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import junit.framework.TestCase;
+import org.apache.ivy.util.FileUtil;
 
 public class NormalRelativeUrlResolverTest extends TestCase {
 
@@ -44,7 +45,7 @@ public class NormalRelativeUrlResolverTest extends TestCase {
 
     public void testFileAndUrlWithAbsoluteFile() throws MalformedURLException {
         URL base = new URL("file://xxx/file.txt");
-        File absFile = new File(".").getAbsoluteFile();
+        File absFile = FileUtil.newFile(".").getAbsoluteFile();
         assertEquals(absFile.toURI().toURL(), t.getURL(base, absFile.toString(), null));
         assertEquals(absFile.toURI().toURL(), t.getURL(base, absFile.toString(), ""));
         assertEquals(absFile.toURI().toURL(), t.getURL(base, absFile.toString(), "somthing.txt"));

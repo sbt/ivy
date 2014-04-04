@@ -39,6 +39,7 @@ import org.apache.ivy.core.search.OrganisationEntry;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class UpdateSiteResolverTest extends TestCase {
 
@@ -57,13 +58,13 @@ public class UpdateSiteResolverTest extends TestCase {
 
         resolver = new UpdateSiteResolver();
         resolver.setName("ivyde-repo");
-        resolver.setUrl(new File("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
+        resolver.setUrl(FileUtil.newFile("test/test-p2/ivyde-repo").toURI().toURL().toExternalForm());
         resolver.setSettings(settings);
         settings.addResolver(resolver);
 
         settings.setDefaultResolver("ivyde-repo");
 
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         settings.setDefaultCache(cache);
 

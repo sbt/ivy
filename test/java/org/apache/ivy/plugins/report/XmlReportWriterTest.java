@@ -27,6 +27,7 @@ import org.apache.ivy.Ivy;
 import org.apache.ivy.core.report.ResolveReport;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.XMLHelper;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -37,12 +38,12 @@ public class XmlReportWriterTest extends TestCase {
 
     protected void setUp() throws Exception {
         _ivy = new Ivy();
-        _ivy.configure(new File("test/repositories/ivysettings.xml"));
+        _ivy.configure(FileUtil.newFile("test/repositories/ivysettings.xml"));
         createCache();
     }
 
     private void createCache() {
-        _cache = new File("build/cache");
+        _cache = FileUtil.newFile("build/cache");
         _cache.mkdirs();
     }
 
@@ -55,7 +56,7 @@ public class XmlReportWriterTest extends TestCase {
     }
 
     public void testWriteOrigin() throws Exception {
-        ResolveReport report = _ivy.resolve(new File(
+        ResolveReport report = _ivy.resolve(FileUtil.newFile(
                 "test/repositories/1/special-encoding-root-ivy.xml"),
             getResolveOptions(new String[] {"default"}));
         assertNotNull(report);
@@ -67,7 +68,7 @@ public class XmlReportWriterTest extends TestCase {
         String xml = buffer.toString(XmlReportWriter.REPORT_ENCODING);
 
         String expectedLocation = "location=\""
-                + new File("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").getAbsolutePath()
+                + FileUtil.newFile("test/repositories/1/org1/mod1.2/jars/mod1.2-2.0.jar").getAbsolutePath()
                 + "\"";
         String expectedIsLocal = "is-local=\"true\"";
         String expectedOrg = "organisation=\"sp\u00E9cial\"";
@@ -84,8 +85,8 @@ public class XmlReportWriterTest extends TestCase {
     }
 
     public void testEscapeXml() throws Exception {
-        _ivy.configure(new File("test/repositories/IVY-635/ivysettings.xml"));
-        ResolveReport report = _ivy.resolve(new File(
+        _ivy.configure(FileUtil.newFile("test/repositories/IVY-635/ivysettings.xml"));
+        ResolveReport report = _ivy.resolve(FileUtil.newFile(
                 "test/java/org/apache/ivy/plugins/report/ivy-635.xml"),
             getResolveOptions(new String[] {"default"}));
         assertNotNull(report);
@@ -102,7 +103,7 @@ public class XmlReportWriterTest extends TestCase {
     }
 
     public void testWriteModuleInfo() throws Exception {
-        ResolveReport report = _ivy.resolve(new File(
+        ResolveReport report = _ivy.resolve(FileUtil.newFile(
                 "test/java/org/apache/ivy/plugins/report/ivy-with-info.xml"),
             getResolveOptions(new String[] {"default"}).setValidate(false));
         assertNotNull(report);

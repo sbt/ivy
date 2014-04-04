@@ -36,6 +36,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.osgi.updatesite.UpdateSiteResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class P2DescriptorTest extends TestCase {
 
@@ -58,24 +59,24 @@ public class P2DescriptorTest extends TestCase {
 
         p2SourceResolver = new UpdateSiteResolver();
         p2SourceResolver.setName("p2-sources");
-        p2SourceResolver.setUrl(new File("test/test-p2/sources").toURI().toURL().toExternalForm());
+        p2SourceResolver.setUrl(FileUtil.newFile("test/test-p2/sources").toURI().toURL().toExternalForm());
         p2SourceResolver.setSettings(settings);
         settings.addResolver(p2SourceResolver);
 
         p2ZippedResolver = new UpdateSiteResolver();
         p2ZippedResolver.setName("p2-zipped");
-        p2ZippedResolver.setUrl(new File("test/test-p2/zipped").toURI().toURL().toExternalForm());
+        p2ZippedResolver.setUrl(FileUtil.newFile("test/test-p2/zipped").toURI().toURL().toExternalForm());
         p2ZippedResolver.setSettings(settings);
         settings.addResolver(p2ZippedResolver);
 
         p2WithPackedResolver = new UpdateSiteResolver();
         p2WithPackedResolver.setName("p2-with-packed");
-        p2WithPackedResolver.setUrl(new File("test/test-p2/packed").toURI().toURL()
+        p2WithPackedResolver.setUrl(FileUtil.newFile("test/test-p2/packed").toURI().toURL()
                 .toExternalForm());
         p2WithPackedResolver.setSettings(settings);
         settings.addResolver(p2WithPackedResolver);
 
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
         settings.setDefaultCache(cache);
 

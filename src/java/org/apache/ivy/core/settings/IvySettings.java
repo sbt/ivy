@@ -190,7 +190,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
 
     private File defaultUserDir;
 
-    private File baseDir = new File(".").getAbsoluteFile();
+    private File baseDir = FileUtil.newFile(".").getAbsoluteFile();
 
     private List classpathURLs = new ArrayList();
 
@@ -234,7 +234,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
             for (int i = 0; i < files.length; i++) {
                 try {
                     typeDefs(
-                        new FileInputStream(Checks.checkAbsolute(files[i].trim(),
+                        FileUtil.newInputStream(Checks.checkAbsolute(files[i].trim(),
                             "ivy.typedef.files")), true);
                 } catch (FileNotFoundException e) {
                     Message.warn("typedefs file not found: " + files[i].trim());
@@ -477,13 +477,13 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
 
     public synchronized void setSettingsVariables(File settingsFile) {
         try {
-            setVariable("ivy.settings.dir", new File(settingsFile.getAbsolutePath()).getParent());
+            setVariable("ivy.settings.dir", FileUtil.newFile(settingsFile.getAbsolutePath()).getParent());
             setDeprecatedVariable("ivy.conf.dir", "ivy.settings.dir");
             setVariable("ivy.settings.file", settingsFile.getAbsolutePath());
             setDeprecatedVariable("ivy.conf.file", "ivy.settings.file");
             setVariable("ivy.settings.url", settingsFile.toURI().toURL().toExternalForm());
             setDeprecatedVariable("ivy.conf.url", "ivy.settings.url");
-            setVariable("ivy.settings.dir.url", new File(settingsFile.getAbsolutePath())
+            setVariable("ivy.settings.dir.url", FileUtil.newFile(settingsFile.getAbsolutePath())
                     .getParentFile().toURI().toURL().toExternalForm());
         } catch (MalformedURLException e) {
             IllegalArgumentException iae = new IllegalArgumentException(
@@ -558,7 +558,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
     }
 
     public synchronized void loadProperties(File file, boolean overwrite) throws IOException {
-        loadProperties(new FileInputStream(file), overwrite);
+        loadProperties(FileUtil.newInputStream(file), overwrite);
     }
 
     private void loadProperties(InputStream stream, boolean overwrite) throws IOException {
@@ -821,7 +821,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
                 Message.verbose("using ivy.default.ivy.user.dir variable for default ivy user dir: "
                         + defaultUserDir);
             } else {
-                setDefaultIvyUserDir(new File(System.getProperty("user.home"), ".ivy2"));
+                setDefaultIvyUserDir(FileUtil.newFile(System.getProperty("user.home"), ".ivy2"));
                 Message.verbose("no default ivy user dir defined: set to " + defaultUserDir);
             }
         }
@@ -840,7 +840,7 @@ public class IvySettings implements SortEngineSettings, PublishEngineSettings, P
             if (cache != null) {
                 defaultCache = Checks.checkAbsolute(cache, "ivy.cache.dir");
             } else {
-                setDefaultCache(new File(getDefaultIvyUserDir(), "cache"));
+                setDefaultCache(FileUtil.newFile(getDefaultIvyUserDir(), "cache"));
                 Message.verbose("no default cache defined: set to " + defaultCache);
             }
         }

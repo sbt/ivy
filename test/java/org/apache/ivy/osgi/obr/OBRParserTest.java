@@ -28,22 +28,23 @@ import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.repo.BundleRepoDescriptor;
 import org.apache.ivy.osgi.repo.ModuleDescriptorWrapper;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 
 public class OBRParserTest extends TestCase {
 
-    private File testObr = new File("test/test-obr");
+    private File testObr = FileUtil.newFile("test/test-obr");
 
     public void testParse() throws Exception {
-        BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), new FileInputStream(
-                new File(testObr, "obr.xml")));
+        BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), FileUtil.newInputStream(
+                FileUtil.newFile(testObr, "obr.xml")));
         assertNotNull(repo);
         assertEquals("OBR/Releases", repo.getName());
         assertEquals("1253581430652", repo.getLastModified());
     }
 
     public void testParseSource() throws Exception {
-        BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), new FileInputStream(
-                new File(testObr, "sources.xml")));
+        BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), FileUtil.newInputStream(
+                FileUtil.newFile(testObr, "sources.xml")));
         assertNotNull(repo);
         assertEquals(2, CollectionUtils.toList(repo.getModules()).size());
         Iterator<ModuleDescriptorWrapper> itModule = repo.getModules();

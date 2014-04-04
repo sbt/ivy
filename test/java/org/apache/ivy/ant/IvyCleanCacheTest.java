@@ -21,6 +21,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -37,7 +38,7 @@ public class IvyCleanCacheTest extends TestCase {
 
     protected void setUp() throws Exception {
         Project p = new Project();
-        cacheDir = new File("build/cache");
+        cacheDir = FileUtil.newFile("build/cache");
         p.setProperty("cache", cacheDir.getAbsolutePath());
         cleanCache = new IvyCleanCache();
         cleanCache.setProject(p);
@@ -47,9 +48,9 @@ public class IvyCleanCacheTest extends TestCase {
                 .toExternalForm());
         settings.perform();
 
-        resolutionCache = new File(cacheDir, "resolution");
-        repoCache = new File(cacheDir, "repository");
-        repoCache2 = new File(cacheDir, "repository2");
+        resolutionCache = FileUtil.newFile(cacheDir, "resolution");
+        repoCache = FileUtil.newFile(cacheDir, "repository");
+        repoCache2 = FileUtil.newFile(cacheDir, "repository2");
         resolutionCache.mkdirs();
         repoCache.mkdirs();
         repoCache2.mkdirs();

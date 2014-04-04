@@ -40,7 +40,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         }
     }
 
-    private File _dest = new File("build/test/test-write.xml");
+    private File _dest = FileUtil.newFile("build/test/test-write.xml");
 
     public void testSimple() throws Exception {
         ModuleDescriptor md = PomModuleDescriptorParser.getInstance().parseDescriptor(
@@ -48,7 +48,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-simple.xml").replaceAll("\r\n", "\n").replace(
             '\r', '\n');
@@ -61,7 +61,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-simple-dependencies.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -74,7 +74,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-with-scope.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -87,7 +87,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-with-type.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -101,7 +101,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-with-classifier.xml").replaceAll(
             "\r\n", "\n").replace('\r', '\n');
@@ -114,7 +114,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-optional.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -127,7 +127,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions());
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-packaging.xml").replaceAll("\r\n", "\n")
                 .replace('\r', '\n');
@@ -141,7 +141,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
             getWriterOptions().setConfs(new String[] {"compile"}));
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-compile-dependencies.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -155,7 +155,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
             getWriterOptions().setConfs(new String[] {"runtime"}));
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-with-scope.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -168,7 +168,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
         PomModuleDescriptorWriter.write(md, _dest, getWriterOptions().setConfs(new String[] {"*"}));
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-dependencies-with-scope.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');
@@ -182,7 +182,7 @@ public class PomModuleDescriptorWriterTest extends TestCase {
             getWriterOptions().setConfs(new String[] {"*", "!runtime"}));
         assertTrue(_dest.exists());
 
-        String wrote = FileUtil.readEntirely(new BufferedReader(new FileReader(_dest)))
+        String wrote = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(_dest)))
                 .replaceAll("\r\n", "\n").replace('\r', '\n');
         String expected = readEntirely("test-write-compile-dependencies.xml").replaceAll("\r\n",
             "\n").replace('\r', '\n');

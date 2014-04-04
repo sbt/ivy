@@ -20,6 +20,7 @@ package org.apache.ivy.ant;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +45,7 @@ import org.apache.ivy.core.resolve.IvyNode;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.retrieve.RetrieveOptions;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.xml.sax.SAXException;
@@ -126,7 +128,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
     private void generateXml(IvyNode[] dependencies, Map moduleRevToArtifactsMap,
             Map artifactsToCopy) {
         try {
-            FileOutputStream fileOuputStream = new FileOutputStream(tofile);
+            OutputStream fileOuputStream = FileUtil.newOutputStream(tofile);
             try {
                 TransformerHandler saxHandler = createTransformerHandler(fileOuputStream);
 
@@ -180,7 +182,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
         }
     }
 
-    private TransformerHandler createTransformerHandler(FileOutputStream fileOuputStream)
+    private TransformerHandler createTransformerHandler(OutputStream fileOuputStream)
             throws TransformerFactoryConfigurationError, TransformerConfigurationException,
             SAXException {
         SAXTransformerFactory transformerFact = (SAXTransformerFactory) SAXTransformerFactory
@@ -253,7 +255,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
 
     private void writeRetrieveLocation(TransformerHandler saxHandler, String artifactDestPath)
             throws SAXException {
-        artifactDestPath = removeLeadingPath(getProject().getBaseDir(), new File(artifactDestPath));
+        artifactDestPath = removeLeadingPath(getProject().getBaseDir(), FileUtil.newFile(artifactDestPath));
 
         saxHandler.startElement(null, "retrieve-location", "retrieve-location",
             new AttributesImpl());

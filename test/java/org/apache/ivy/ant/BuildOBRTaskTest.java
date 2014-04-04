@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.ant;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 
 import junit.framework.TestCase;
@@ -28,6 +25,7 @@ import junit.framework.TestCase;
 import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.repo.BundleRepoDescriptor;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -56,7 +54,7 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -74,7 +72,7 @@ public class BuildOBRTaskTest extends TestCase {
     private BundleRepoDescriptor readObr(File obrFile) throws FileNotFoundException,
             ParseException, IOException, SAXException {
         BundleRepoDescriptor obr;
-        FileInputStream in = new FileInputStream(obrFile);
+        InputStream in = FileUtil.newInputStream(obrFile);
         try {
             obr = OBRXMLParser.parse(obrFile.toURI(), in);
         } finally {
@@ -84,8 +82,8 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     public void testDir() throws Exception {
-        buildObr.setBaseDir(new File("test/test-repo/bundlerepo"));
-        File obrFile = new File("build/cache/obr.xml");
+        buildObr.setBaseDir(FileUtil.newFile("test/test-repo/bundlerepo"));
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
         buildObr.setOut(obrFile);
         buildObr.execute();
 
@@ -95,8 +93,8 @@ public class BuildOBRTaskTest extends TestCase {
     }
 
     public void testEmptyDir() throws Exception {
-        buildObr.setBaseDir(new File("test/test-p2/composite"));
-        File obrFile = new File("build/cache/obr.xml");
+        buildObr.setBaseDir(FileUtil.newFile("test/test-p2/composite"));
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
         buildObr.setOut(obrFile);
         buildObr.execute();
 
@@ -117,11 +115,11 @@ public class BuildOBRTaskTest extends TestCase {
 
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(otherProject);
-        resolve.setFile(new File("test/test-repo/ivy-test-buildobr.xml"));
+        resolve.setFile(FileUtil.newFile("test/test-repo/ivy-test-buildobr.xml"));
         resolve.setResolveId("withResolveId");
         resolve.execute();
 
-        File obrFile = new File("build/cache/obr.xml");
+        File obrFile = FileUtil.newFile("build/cache/obr.xml");
 
         buildObr.setProject(otherProject);
         buildObr.setResolveId("withResolveId");

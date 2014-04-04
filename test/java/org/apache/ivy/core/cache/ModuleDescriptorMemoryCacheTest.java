@@ -29,6 +29,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.parser.ParserSettings;
+import org.apache.ivy.util.FileUtil;
 
 public class ModuleDescriptorMemoryCacheTest extends TestCase {
 
@@ -38,11 +39,11 @@ public class ModuleDescriptorMemoryCacheTest extends TestCase {
 
     IvySettings ivySettings2 = new IvySettings();
 
-    File url1 = new File("file://cached/file.txt");;
+    File url1 = FileUtil.newFile("file://cached/file.txt");;
 
-    File url2 = new File("file://cached/file2.txt");;
+    File url2 = FileUtil.newFile("file://cached/file2.txt");;
 
-    File url3 = new File("file://cached/file3.txt");;
+    File url3 = FileUtil.newFile("file://cached/file3.txt");;
 
     ModuleRevisionId mrid1 = ModuleRevisionId.newInstance("org", "name", "rev");
 

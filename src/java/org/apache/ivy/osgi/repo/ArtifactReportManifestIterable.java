@@ -17,10 +17,7 @@
  */
 package org.apache.ivy.osgi.repo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +30,7 @@ import java.util.jar.Manifest;
 
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.report.ArtifactDownloadReport;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class ArtifactReportManifestIterable implements Iterable<ManifestAndLocation> {
@@ -95,9 +93,9 @@ public class ArtifactReportManifestIterable implements Iterable<ManifestAndLocat
                     }
                 }
                 if (jar.getUnpackedLocalFile() != null && jar.getUnpackedLocalFile().isDirectory()) {
-                    FileInputStream in = null;
+                    InputStream in = null;
                     try {
-                        in = new FileInputStream(new File(jar.getUnpackedLocalFile(),
+                        in = FileUtil.newInputStream(FileUtil.newFile(jar.getUnpackedLocalFile(),
                                 "META-INF/MANIFEST.MF"));
                         next = new ManifestAndLocation(new Manifest(in), jar.getUnpackedLocalFile()
                                 .toURI(), sourceURI);
@@ -126,7 +124,7 @@ public class ArtifactReportManifestIterable implements Iterable<ManifestAndLocat
                     }
                     JarInputStream in = null;
                     try {
-                        in = new JarInputStream(new FileInputStream(artifact));
+                        in = new JarInputStream(FileUtil.newInputStream(artifact));
                         Manifest manifest = in.getManifest();
                         if (manifest != null) {
                             next = new ManifestAndLocation(manifest, artifact.toURI(), sourceURI);

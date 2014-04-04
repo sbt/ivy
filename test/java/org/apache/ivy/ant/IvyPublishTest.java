@@ -61,7 +61,7 @@ public class IvyPublishTest extends TestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -76,14 +76,14 @@ public class IvyPublishTest extends TestCase {
     }
 
     private void cleanTestDir() {
-        FileUtil.forceDelete(new File("build/test/publish"));
-        FileUtil.forceDelete(new File("build/test/transactional"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/publish"));
+        FileUtil.forceDelete(FileUtil.newFile("build/test/transactional"));
     }
 
     private void cleanRep() {
         Delete del = new Delete();
         del.setProject(new Project());
-        del.setDir(new File("test/repositories/1/apache"));
+        del.setDir(FileUtil.newFile("test/repositories/1/apache"));
         del.execute();
     }
 
@@ -99,8 +99,8 @@ public class IvyPublishTest extends TestCase {
         pubParent.setProject(project);
         pubParent.setResolver("1");
         pubParent.setPubrevision("1.0");
-        File art = new File("build/test/publish/resolve-simple-1.0.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.0.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         pubParent.execute();
 
         // update=true implies merge=true
@@ -117,7 +117,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -125,7 +125,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -165,7 +165,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -173,7 +173,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -202,7 +202,7 @@ public class IvyPublishTest extends TestCase {
 
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-extends-multiconf.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-extends-multiconf.xml"));
         resolve.execute();
 
         // update=true implies merge=true
@@ -219,7 +219,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-extends/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -227,7 +227,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -253,7 +253,7 @@ public class IvyPublishTest extends TestCase {
 
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/extends/child1/ivy-child1.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/extends/child1/ivy-child1.xml"));
         resolve.execute();
 
         // update=true implies merge=true
@@ -267,7 +267,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/child1/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/child1/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -275,7 +275,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("extends/child1/ivy-child1-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -308,8 +308,8 @@ public class IvyPublishTest extends TestCase {
         pubParent.setProject(project);
         pubParent.setResolver("1");
         pubParent.setPubrevision("1.0");
-        File art = new File("build/test/publish/resolve-simple-1.0.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.0.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         pubParent.execute();
 
         // update=true implies merge=true
@@ -325,7 +325,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -333,7 +333,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-minimal-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -366,8 +366,8 @@ public class IvyPublishTest extends TestCase {
         pubParent.setProject(project);
         pubParent.setResolver("1");
         pubParent.setPubrevision("1.0");
-        File art = new File("build/test/publish/resolve-simple-1.0.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.0.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         pubParent.execute();
 
         // update=true implies merge=true
@@ -389,7 +389,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -397,7 +397,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-extra-attributes-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -431,8 +431,8 @@ public class IvyPublishTest extends TestCase {
         pubParent.setProject(project);
         pubParent.setResolver("1");
         pubParent.setPubrevision("1.0");
-        File art = new File("build/test/publish/resolve-simple-1.0.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.0.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         pubParent.execute();
 
         // update=true implies merge=true
@@ -454,7 +454,7 @@ public class IvyPublishTest extends TestCase {
         publish.execute();
 
         // should have published the files with "1" resolver
-        File published = new File("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
+        File published = FileUtil.newFile("test/repositories/1/apache/resolve-minimal/ivys/ivy-1.2.xml");
         assertTrue(published.exists());
 
         // do a text compare, since we want to test comments as well as structure.
@@ -462,7 +462,7 @@ public class IvyPublishTest extends TestCase {
 
         int lineNo = 1;
 
-        BufferedReader merged = new BufferedReader(new FileReader(published));
+        BufferedReader merged = new BufferedReader(FileUtil.newReader(published));
         BufferedReader expected = new BufferedReader(new InputStreamReader(getClass()
                 .getResourceAsStream("ivy-extends-extra-attributes-merged.xml")));
         for (String mergeLine = merged.readLine(), expectedLine = expected.readLine(); mergeLine != null
@@ -491,22 +491,22 @@ public class IvyPublishTest extends TestCase {
 
         publish.setPubrevision("1.2");
         publish.setResolver("1");
-        File art = new File("build/test/publish/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have do the ivy delivering
-        assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar")
                 .exists());
 
         // should have updated published ivy version
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(),
-            new File("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").toURI().toURL(),
+            FileUtil.newFile("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").toURI().toURL(),
             false);
         assertEquals("1.2", md.getModuleRevisionId().getRevision());
     }
@@ -527,12 +527,12 @@ public class IvyPublishTest extends TestCase {
             assertTrue(ex.getMessage().indexOf("missing") != -1);
             assertTrue(ex.getMessage().indexOf("resolve-simple.jar") != -1);
             // should have do the ivy delivering
-            assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+            assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
             // should not have published the files with "1" resolver
-            assertFalse(new File("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml")
+            assertFalse(FileUtil.newFile("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml")
                     .exists());
-            assertFalse(new File(
+            assertFalse(FileUtil.newFile(
                     "test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar")
                     .exists());
         }
@@ -546,8 +546,8 @@ public class IvyPublishTest extends TestCase {
 
         // in this test case one artifact is available, and the other one is missing
         // since we use a transactional resolver, no file should be published at all
-        File art = new File("build/test/publish/multi1-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/multi1-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.setPubrevision("1.2");
         publish.setResolver("transactional");
         publish.setHaltonmissing(true);
@@ -559,10 +559,10 @@ public class IvyPublishTest extends TestCase {
             assertTrue(ex.getMessage().indexOf("multi2.jar") != -1);
 
             // should have do the ivy delivering
-            assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+            assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
             // should not have published the files with "transactional" resolver
-            assertFalse(new File("build/test/transactional/apache/multi/1.2").exists());
+            assertFalse(FileUtil.newFile("build/test/transactional/apache/multi/1.2").exists());
         }
     }
 
@@ -574,8 +574,8 @@ public class IvyPublishTest extends TestCase {
 
         // in this test case one artifact is available, and the other one is missing
         // this should be detected early and no file should be published at all
-        File art = new File("build/test/publish/multi1-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/multi1-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.setPubrevision("1.2");
         publish.setResolver("1");
         publish.setHaltonmissing(true);
@@ -587,10 +587,10 @@ public class IvyPublishTest extends TestCase {
             assertTrue(ex.getMessage().indexOf("multi2.jar") != -1);
 
             // should have do the ivy delivering
-            assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+            assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
             // should not have published the files with "transactional" resolver
-            assertFalse(new File("test/repositories/1/apache/multi").exists());
+            assertFalse(FileUtil.newFile("test/repositories/1/apache/multi").exists());
         }
     }
 
@@ -604,22 +604,22 @@ public class IvyPublishTest extends TestCase {
         publish.setResolver("1");
         publish.setConf("compile");
         publish.setUpdate(true);
-        File art = new File("build/test/publish/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have do the ivy delivering
-        assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar")
                 .exists());
 
         // should have updated published ivy version
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(),
-            new File("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").toURI().toURL(),
+            FileUtil.newFile("test/repositories/1/apache/resolve-simple/ivys/ivy-1.2.xml").toURI().toURL(),
             false);
         assertEquals("1.2", md.getModuleRevisionId().getRevision());
 
@@ -637,21 +637,21 @@ public class IvyPublishTest extends TestCase {
 
         publish.setPubrevision("1.2");
         publish.setResolver("1");
-        File art = new File("build/test/publish/1/multi1-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
-        art = new File("build/test/publish/2/multi2-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/1/multi1-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        art = FileUtil.newFile("build/test/publish/2/multi2-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.addArtifactspattern("build/test/publish/1/[artifact]-[revision].[ext]");
         publish.addArtifactspattern("build/test/publish/2/[artifact]-[revision].[ext]");
         publish.execute();
 
         // should have do the ivy delivering
-        assertTrue(new File("build/test/publish/1/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/publish/1/ivy-1.2.xml").exists());
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/multi/ivys/ivy-1.2.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/multi/jars/multi1-1.2.jar").exists());
-        assertTrue(new File("test/repositories/1/apache/multi/jars/multi2-1.2.jar").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/multi/ivys/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/multi/jars/multi1-1.2.jar").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/multi/jars/multi2-1.2.jar").exists());
     }
 
     public void testPublishPublicConfigsByWildcard() throws Exception {
@@ -663,17 +663,17 @@ public class IvyPublishTest extends TestCase {
         publish.setPubrevision("1.2");
         publish.setResolver("1");
         publish.setConf("*(public)");
-        File art = new File("build/test/publish/publish-public-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/publish-public-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.addArtifactspattern("build/test/publish/[artifact]-[revision].[ext]");
         publish.execute();
 
         // should have do the ivy delivering
-        assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/publish-public/ivys/ivy-1.2.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/publish-public/jars/publish-public-1.2.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/publish-public/ivys/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/publish-public/jars/publish-public-1.2.jar")
                 .exists());
     }
 
@@ -688,17 +688,17 @@ public class IvyPublishTest extends TestCase {
         publish.setPubdate("20060906141243");
         publish.setResolver("1");
         publish.setValidate(false);
-        File art = new File("build/test/publish/resolve-custom-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-custom-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have do the ivy delivering
-        assertTrue(new File("build/test/publish/ivy-1.2.xml").exists());
+        assertTrue(FileUtil.newFile("build/test/publish/ivy-1.2.xml").exists());
 
-        File dest = new File("test/repositories/1/apache/resolve-custom/ivys/ivy-1.2.xml");
+        File dest = FileUtil.newFile("test/repositories/1/apache/resolve-custom/ivys/ivy-1.2.xml");
         // should have published the files with "1" resolver
         assertTrue(dest.exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-custom/jars/resolve-custom-1.2.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-custom/jars/resolve-custom-1.2.jar")
                 .exists());
 
         // should have updated published ivy version
@@ -714,7 +714,7 @@ public class IvyPublishTest extends TestCase {
         // should respect the ivy file, with descriptions, ...
         String expected = FileUtil.readEntirely(new BufferedReader(new InputStreamReader(
                 IvyPublishTest.class.getResourceAsStream("published-ivy-custom.xml"))));
-        String updated = FileUtil.readEntirely(new BufferedReader(new FileReader(dest)));
+        String updated = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(dest)));
         assertEquals(expected, updated);
 
     }
@@ -729,22 +729,22 @@ public class IvyPublishTest extends TestCase {
         publish.setResolver("1");
         publish.setSrcivypattern("build/test/publish/ivy-1.3.xml");
 
-        FileUtil.copy(new File("test/java/org/apache/ivy/ant/ivy-publish.xml"), new File(
+        FileUtil.copy(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-publish.xml"), FileUtil.newFile(
                 "build/test/publish/ivy-1.3.xml"), null);
 
-        File art = new File("build/test/publish/resolve-latest-1.3.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-latest-1.3.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
                 .exists());
 
         // the published ivy version should be ok (ok in ivy-publish file)
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(),
-            new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
+            FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
             false);
         assertEquals("1.3", md.getModuleRevisionId().getRevision());
 
@@ -765,22 +765,22 @@ public class IvyPublishTest extends TestCase {
         publish.setResolver("1");
         publish.setSrcivypattern("build/test/publish/ivy-1.3.xml");
 
-        FileUtil.copy(new File("test/java/org/apache/ivy/ant/ivy-publish.xml"), new File(
+        FileUtil.copy(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-publish.xml"), FileUtil.newFile(
                 "build/test/publish/ivy-1.3.xml"), null);
 
-        File art = new File("build/test/publish/resolve-latest-1.3.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-latest-1.3.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
                 .exists());
 
         // the published ivy version should be ok (ok in ivy-publish file)
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(),
-            new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
+            FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
             false);
         assertEquals("BRANCH1", md.getModuleRevisionId().getBranch());
         assertEquals("1.3", md.getModuleRevisionId().getRevision());
@@ -801,22 +801,22 @@ public class IvyPublishTest extends TestCase {
         publish.setSrcivypattern("build/test/publish/ivy-1.3.xml");
         publish.setForcedeliver(true);
 
-        FileUtil.copy(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"), new File(
+        FileUtil.copy(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"), FileUtil.newFile(
                 "build/test/publish/ivy-1.3.xml"), null);
 
-        File art = new File("build/test/publish/resolve-latest-1.3.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-latest-1.3.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         publish.execute();
 
         // should have published the files with "1" resolver
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
-        assertTrue(new File("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").exists());
+        assertTrue(FileUtil.newFile("test/repositories/1/apache/resolve-latest/jars/resolve-latest-1.3.jar")
                 .exists());
 
         // should have updated published ivy version
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             new IvySettings(),
-            new File("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
+            FileUtil.newFile("test/repositories/1/apache/resolve-latest/ivys/ivy-1.3.xml").toURI().toURL(),
             false);
         assertEquals("1.3", md.getModuleRevisionId().getRevision());
     }
@@ -831,11 +831,11 @@ public class IvyPublishTest extends TestCase {
         publish.setResolver("1");
         publish.setSrcivypattern("build/test/publish/ivy-1.3.xml");
 
-        FileUtil.copy(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"), new File(
+        FileUtil.copy(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"), FileUtil.newFile(
                 "build/test/publish/ivy-1.3.xml"), null);
 
-        File art = new File("build/test/publish/resolve-latest-1.3.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-latest-1.3.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
         try {
             publish.execute();
             fail("shouldn't publish ivy file with bad revision");
@@ -852,8 +852,8 @@ public class IvyPublishTest extends TestCase {
 
         publish.setPubrevision("1.2");
         publish.setResolver("1");
-        File art = new File("build/test/publish/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
 
         Echo echo = new Echo();
         echo.setProject(project);
@@ -861,9 +861,9 @@ public class IvyPublishTest extends TestCase {
         echo.setFile(art);
         echo.execute();
 
-        File dest = new File(
+        File dest = FileUtil.newFile(
                 "test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
 
         echo = new Echo();
         echo.setProject(project);
@@ -878,7 +878,7 @@ public class IvyPublishTest extends TestCase {
             fail("by default, publish should fail when a readonly artifact already exist");
         } catch (Exception ex) {
             assertTrue(dest.exists());
-            BufferedReader reader = new BufferedReader(new FileReader(dest));
+            BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
             assertEquals("old version", reader.readLine());
             reader.close();
         }
@@ -892,8 +892,8 @@ public class IvyPublishTest extends TestCase {
 
         publish.setPubrevision("1.2");
         publish.setResolver("1");
-        File art = new File("build/test/publish/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
 
         Echo echo = new Echo();
         echo.setProject(project);
@@ -901,9 +901,9 @@ public class IvyPublishTest extends TestCase {
         echo.setFile(art);
         echo.execute();
 
-        File dest = new File(
+        File dest = FileUtil.newFile(
                 "test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
 
         echo = new Echo();
         echo.setProject(project);
@@ -914,7 +914,7 @@ public class IvyPublishTest extends TestCase {
         publish.setOverwrite(true);
         publish.execute();
         assertTrue(dest.exists());
-        BufferedReader reader = new BufferedReader(new FileReader(dest));
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
         assertEquals("new version", reader.readLine());
         reader.close();
     }
@@ -927,8 +927,8 @@ public class IvyPublishTest extends TestCase {
 
         publish.setPubrevision("1.2");
         publish.setResolver("1");
-        File art = new File("build/test/publish/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
+        File art = FileUtil.newFile("build/test/publish/resolve-simple-1.2.jar");
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), art, null);
 
         Echo echo = new Echo();
         echo.setProject(project);
@@ -936,9 +936,9 @@ public class IvyPublishTest extends TestCase {
         echo.setFile(art);
         echo.execute();
 
-        File dest = new File(
+        File dest = FileUtil.newFile(
                 "test/repositories/1/apache/resolve-simple/jars/resolve-simple-1.2.jar");
-        FileUtil.copy(new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
+        FileUtil.copy(FileUtil.newFile("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"), dest, null);
 
         echo = new Echo();
         echo.setProject(project);
@@ -951,7 +951,7 @@ public class IvyPublishTest extends TestCase {
         publish.setOverwrite(true);
         publish.execute();
         assertTrue(dest.exists());
-        BufferedReader reader = new BufferedReader(new FileReader(dest));
+        BufferedReader reader = new BufferedReader(FileUtil.newReader(dest));
         assertEquals("new version", reader.readLine());
         reader.close();
     }

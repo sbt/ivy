@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.core.settings.IvySettings;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
@@ -45,16 +46,16 @@ public class IvyTaskTest extends TestCase {
         IvySettings settings = ivy.getSettings();
         assertNotNull(settings);
 
-        assertEquals(new File("test/repositories/build/cache").getAbsoluteFile(),
+        assertEquals(FileUtil.newFile("test/repositories/build/cache").getAbsoluteFile(),
             settings.getDefaultCache());
         // The next test doesn't always works on windows (mix C: and c: drive)
-        assertEquals(new File("test/repositories/ivysettings.xml").getAbsolutePath().toUpperCase(),
-            new File(settings.getVariables().getVariable("ivy.settings.file")).getAbsolutePath()
+        assertEquals(FileUtil.newFile("test/repositories/ivysettings.xml").getAbsolutePath().toUpperCase(),
+            FileUtil.newFile(settings.getVariables().getVariable("ivy.settings.file")).getAbsolutePath()
                     .toUpperCase());
-        assertEquals(new File("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm()
+        assertEquals(FileUtil.newFile("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm()
                 .toUpperCase(), settings.getVariables().getVariable("ivy.settings.url")
                 .toUpperCase());
-        assertEquals(new File("test/repositories").getAbsolutePath().toUpperCase(), settings
+        assertEquals(FileUtil.newFile("test/repositories").getAbsolutePath().toUpperCase(), settings
                 .getVariables().getVariable("ivy.settings.dir").toUpperCase());
         assertEquals("myvalue", settings.getVariables().getVariable("myproperty"));
     }
@@ -66,7 +67,7 @@ public class IvyTaskTest extends TestCase {
         IvyAntSettings antSettings = new IvyAntSettings();
         antSettings.setProject(p);
         // antSettings.setId("mySettings");
-        antSettings.setFile(new File("test/repositories/ivysettings.xml"));
+        antSettings.setFile(FileUtil.newFile("test/repositories/ivysettings.xml"));
         p.addReference("mySettings", antSettings);
 
         IvyTask task = new IvyTask() {
@@ -80,13 +81,13 @@ public class IvyTaskTest extends TestCase {
         IvySettings settings = ivy.getSettings();
         assertNotNull(settings);
 
-        assertEquals(new File("build/cache").getAbsoluteFile(), settings.getDefaultCache());
-        assertEquals(new File("test/repositories/ivysettings.xml").getAbsolutePath(), settings
+        assertEquals(FileUtil.newFile("build/cache").getAbsoluteFile(), settings.getDefaultCache());
+        assertEquals(FileUtil.newFile("test/repositories/ivysettings.xml").getAbsolutePath(), settings
                 .getVariables().getVariable("ivy.settings.file"));
         assertEquals(
-            new File("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm(),
+            FileUtil.newFile("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm(),
             settings.getVariables().getVariable("ivy.settings.url"));
-        assertEquals(new File("test/repositories").getAbsolutePath(), settings.getVariables()
+        assertEquals(FileUtil.newFile("test/repositories").getAbsolutePath(), settings.getVariables()
                 .getVariable("ivy.settings.dir"));
         assertEquals("myvalue", settings.getVariables().getVariable("myproperty"));
     }

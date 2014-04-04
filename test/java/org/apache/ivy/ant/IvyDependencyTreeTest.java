@@ -20,6 +20,7 @@ package org.apache.ivy.ant;
 import java.io.File;
 
 import org.apache.ivy.ant.testutil.AntTaskTestCase;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
@@ -42,7 +43,7 @@ public class IvyDependencyTreeTest extends AntTaskTestCase {
     }
 
     private void createCache() {
-        cache = new File("build/cache");
+        cache = FileUtil.newFile("build/cache");
         cache.mkdirs();
     }
 
@@ -58,7 +59,7 @@ public class IvyDependencyTreeTest extends AntTaskTestCase {
     }
 
     public void testSimple() throws Exception {
-        dependencyTree.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        dependencyTree.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         dependencyTree.execute();
         assertLogContaining("Dependency tree for apache-resolve-simple");
         assertLogContaining("\\- org1#mod1.2;2.0");
@@ -67,14 +68,14 @@ public class IvyDependencyTreeTest extends AntTaskTestCase {
     public void testWithResolveId() throws Exception {
         IvyResolve resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-simple.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-simple.xml"));
         resolve.setResolveId("abc");
         resolve.execute();
 
         // resolve another ivy file
         resolve = new IvyResolve();
         resolve.setProject(project);
-        resolve.setFile(new File("test/java/org/apache/ivy/ant/ivy-latest.xml"));
+        resolve.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-latest.xml"));
         resolve.execute();
 
         dependencyTree.execute();
@@ -92,7 +93,7 @@ public class IvyDependencyTreeTest extends AntTaskTestCase {
     }
 
     public void testWithEvictedModule() throws Exception {
-        dependencyTree.setFile(new File("test/java/org/apache/ivy/ant/ivy-dyn-evicted.xml"));
+        dependencyTree.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-dyn-evicted.xml"));
         dependencyTree.execute();
         assertLogContaining("Dependency tree for apache-resolve-latest");
         assertLogNotContaining("+- org1#mod1.2;1+");
@@ -102,7 +103,7 @@ public class IvyDependencyTreeTest extends AntTaskTestCase {
     }
 
     public void testShowEvictedModule() throws Exception {
-        dependencyTree.setFile(new File("test/java/org/apache/ivy/ant/ivy-dyn-evicted.xml"));
+        dependencyTree.setFile(FileUtil.newFile("test/java/org/apache/ivy/ant/ivy-dyn-evicted.xml"));
         dependencyTree.setShowEvicted(true);
         dependencyTree.execute();
         assertLogContaining("Dependency tree for apache-resolve-latest");
