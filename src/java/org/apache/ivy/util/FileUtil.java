@@ -34,7 +34,6 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.ivy.util.url.URLHandlerRegistry;
 
 /**
@@ -634,7 +633,7 @@ public final class FileUtil {
         return l;
     }
 
-    public static File newFile(File parent, @NotNull String child) {
+    public static File newFile(File parent, String child) {
         try {
             final Constructor<? extends File> cons = fileClass.getDeclaredConstructor(File.class, String.class);
             return cons.newInstance(parent, child);
@@ -649,7 +648,7 @@ public final class FileUtil {
         }
     }
 
-    public static File newFile(String parent, @NotNull String child) {
+    public static File newFile(String parent, String child) {
         try {
             Constructor<? extends File> cons = fileClass.getDeclaredConstructor(String.class, String.class);
             return cons.newInstance(parent, child);
@@ -664,7 +663,7 @@ public final class FileUtil {
         }
     }
 
-    public static File newFile(@NotNull String pathname) {
+    public static File newFile(String pathname) {
         try {
             Constructor<? extends File> cons = fileClass.getDeclaredConstructor(String.class);
             return cons.newInstance(pathname);
@@ -679,7 +678,7 @@ public final class FileUtil {
         }
     }
 
-    public static File newFile(@NotNull URI uri) {
+    public static File newFile(URI uri) {
         try {
             Constructor<? extends File> cons = fileClass.getDeclaredConstructor(URI.class);
             return cons.newInstance(uri);
