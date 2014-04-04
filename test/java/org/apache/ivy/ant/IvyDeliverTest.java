@@ -492,7 +492,7 @@ public class IvyDeliverTest extends TestCase {
         // should have done the ivy delivering
         File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
-        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(new FileReader(
+        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(
                 deliveredIvyFile)));
         assertTrue("import not replaced: import can still be found in file",
             deliveredFileContent.indexOf("import") == -1);
@@ -515,7 +515,7 @@ public class IvyDeliverTest extends TestCase {
         // should have done the ivy delivering
         File deliveredIvyFile = FileUtil.newFile("build/test/deliver/ivy-1.2.xml");
         assertTrue(deliveredIvyFile.exists());
-        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(new FileReader(
+        String deliveredFileContent = FileUtil.readEntirely(new BufferedReader(FileUtil.newReader(
                 deliveredIvyFile)));
         assertTrue("variable not replaced: myvar can still be found in file",
             deliveredFileContent.indexOf("myvar") == -1);
