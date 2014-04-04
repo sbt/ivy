@@ -72,7 +72,7 @@ public final class PomModuleDescriptorWriter {
             in = new LineNumberReader(new InputStreamReader(
                     PomModuleDescriptorWriter.class.getResourceAsStream("pom.template")));
         } else {
-            in = new LineNumberReader(new InputStreamReader(new FileInputStream(
+            in = new LineNumberReader(new InputStreamReader(FileUtil.newInputStream(
                     options.getTemplate())));
         }
 

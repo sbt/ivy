@@ -53,7 +53,7 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), new FileInputStream(
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), FileUtil.newInputStream(
                 FileUtil.newFile(bundlerepo, "repo.xml")));
 
         assertEquals(repo, repo2);
@@ -66,7 +66,7 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), new FileInputStream(
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(bundlerepo.toURI(), FileUtil.newInputStream(
                 FileUtil.newFile(bundlerepo, "repo.xml")));
 
         assertEquals(repo, repo2);
@@ -85,7 +85,7 @@ public class BundleRepoTest extends TestCase {
                 ExecutionEnvironmentProfileProvider.getInstance());
         repo.populate(it.iterator());
 
-        BundleRepoDescriptor repo2 = OBRXMLParser.parse(ivyrepo.toURI(), new FileInputStream(
+        BundleRepoDescriptor repo2 = OBRXMLParser.parse(ivyrepo.toURI(), FileUtil.newInputStream(
                 FileUtil.newFile(ivyrepo, "repo.xml")));
 
         assertEquals(repo, repo2);

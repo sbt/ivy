@@ -294,7 +294,7 @@ public class OBRResolverTest extends TestCase {
 
     private void genericTestResolve(String jarName, String conf, ModuleRevisionId[] expectedMrids,
             ModuleRevisionId[] expected2Mrids) throws Exception {
-        JarInputStream in = new JarInputStream(new FileInputStream("test/test-repo/bundlerepo/"
+        JarInputStream in = new JarInputStream(FileUtil.newInputStream("test/test-repo/bundlerepo/"
                 + jarName));
         BundleInfo bundleInfo = ManifestParser.parseManifest(in.getManifest());
         bundleInfo.addArtifact(new BundleArtifact(false, FileUtil.newFile("test/test-repo/bundlerepo/"
@@ -326,7 +326,7 @@ public class OBRResolverTest extends TestCase {
     }
 
     private void genericTestFailingResolve(String jarName, String conf) throws Exception {
-        JarInputStream in = new JarInputStream(new FileInputStream("test/test-repo/bundlerepo/"
+        JarInputStream in = new JarInputStream(FileUtil.newInputStream("test/test-repo/bundlerepo/"
                 + jarName));
         BundleInfo bundleInfo = ManifestParser.parseManifest(in.getManifest());
         bundleInfo.addArtifact(new BundleArtifact(false, FileUtil.newFile("test/test-repo/bundlerepo/"
