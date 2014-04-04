@@ -207,7 +207,7 @@ public final class FileUtil {
             return deepCopy(src, dest, l, overwrite);
         }
         // else it is a file copy
-        copy(new FileInputStream(src), dest, l);
+        copy(FileUtil.newInputStream(src), dest, l);
         long srcLen = src.length();
         long destLen = dest.length();
         if (srcLen != destLen) {
@@ -276,7 +276,7 @@ public final class FileUtil {
         if (dest.getParentFile() != null) {
             dest.getParentFile().mkdirs();
         }
-        copy(src, new FileOutputStream(dest), l);
+        copy(src, FileUtil.newOutputStream(dest), l);
     }
 
     public static void copy(InputStream src, OutputStream dest, CopyProgressListener l)
@@ -385,7 +385,7 @@ public final class FileUtil {
      *             if an IO problems occurs during reading
      */
     public static String readEntirely(File f) throws IOException {
-        return readEntirely(new FileInputStream(f));
+        return readEntirely(FileUtil.newInputStream(f));
     }
 
     /**
@@ -694,6 +694,30 @@ public final class FileUtil {
         }
     }
 
+    public static InputStream newInputStream(File f) throws FileNotFoundException {
+        return fileOps.newInputStream(f);
+    }
+
+    public static InputStream newInputStream(String name) throws FileNotFoundException {
+        return fileOps.newInputStream(name);
+    }
+
+    public static OutputStream newOutputStream(File f) throws FileNotFoundException {
+        return fileOps.newOutputStream(f);
+    }
+
+    public static OutputStream newOutputStream(String name) throws FileNotFoundException {
+        return fileOps.newOutputStream(name);
+    }
+
+    public static OutputStream newOutputStream(File f, boolean append) throws FileNotFoundException {
+        return fileOps.newOutputStream(f, append);
+    }
+
+    public static OutputStream newOutputStream(String name, boolean append) throws FileNotFoundException {
+        return fileOps.newOutputStream(name, append);
+    }
+
     private static Class<? extends File> fileClass = File.class;
 
     /** Extension point to allow plugging in your own implementation of {@link File}.
@@ -722,5 +746,19 @@ public final class FileUtil {
         public OutputStream newOutputStream(String name) throws FileNotFoundException {
             return new FileOutputStream(newFile(name));
         }
+
+        public OutputStream newOutputStream(File f, boolean append) throws FileNotFoundException {
+            return new FileOutputStream(f, append);
+        }
+
+        public OutputStream newOutputStream(String name, boolean append) throws FileNotFoundException {
+            return new FileOutputStream(newFile(name), append);
+        }
+    }
+
+    private static FileOps fileOps = new FileOps();
+
+    public static void setFileOps(FileOps fops) {
+        fileOps = fops;
     }
 }
