@@ -25,6 +25,7 @@ import java.io.InputStream;
 import org.apache.ivy.core.IvyPatternHelper;
 import org.apache.ivy.core.module.descriptor.Artifact;
 import org.apache.ivy.plugins.repository.Resource;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * Represents an artifact built by a {@link PackagerResolver}.
@@ -44,7 +45,7 @@ public class BuiltFileResource implements Resource {
     }
 
     public BuiltFileResource(File dir, Artifact artifact) {
-        this(new File(dir, IvyPatternHelper.substitute(BUILT_ARTIFACT_PATTERN, artifact)));
+        this(FileUtil.newFile(dir, IvyPatternHelper.substitute(BUILT_ARTIFACT_PATTERN, artifact)));
     }
 
     public String getName() {
@@ -52,7 +53,7 @@ public class BuiltFileResource implements Resource {
     }
 
     public Resource clone(String name) {
-        return new BuiltFileResource(new File(name));
+        return new BuiltFileResource(FileUtil.newFile(name));
     }
 
     public long getLastModified() {

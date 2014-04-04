@@ -70,7 +70,7 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
-                .getAbsolutePath(), new File(p.list()[0]).getAbsolutePath());
+                .getAbsolutePath(), FileUtil.newFile(p.list()[0]).getAbsolutePath());
     }
 
     public void testInline1() throws Exception {
@@ -95,7 +95,7 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
-                .getAbsolutePath(), new File(p.list()[0]).getAbsolutePath());
+                .getAbsolutePath(), FileUtil.newFile(p.list()[0]).getAbsolutePath());
     }
 
     public void testInline2() throws Exception {
@@ -112,7 +112,7 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
-                .getAbsolutePath(), new File(p.list()[0]).getAbsolutePath());
+                .getAbsolutePath(), FileUtil.newFile(p.list()[0]).getAbsolutePath());
 
         // we then resolve another ivy file
         IvyResolve resolve = new IvyResolve();
@@ -180,7 +180,7 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
-                .getAbsolutePath(), new File(p.list()[0]).getAbsolutePath());
+                .getAbsolutePath(), FileUtil.newFile(p.list()[0]).getAbsolutePath());
     }
 
     public void testWithResolveIdWithoutResolve() throws Exception {
@@ -210,7 +210,7 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
-                .getAbsolutePath(), new File(p.list()[0]).getAbsolutePath());
+                .getAbsolutePath(), FileUtil.newFile(p.list()[0]).getAbsolutePath());
     }
 
     public void testWithResolveIdAndMissingConfs() throws Exception {
@@ -249,7 +249,7 @@ public class IvyCachePathTest extends TestCase {
         assertTrue(ref instanceof Path);
         Path p = (Path) ref;
         assertEquals(1, p.size());
-        assertTrue(new File(p.list()[0]).isDirectory());
+        assertTrue(FileUtil.newFile(p.list()[0]).isDirectory());
     }
 
     public void testOSGi() throws Exception {
@@ -264,11 +264,11 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(4, p.size());
         File cacheDir = path.getSettings().getDefaultRepositoryCacheBasedir();
-        File unpacked = new File(cacheDir, "packaging/module3/jar_unpackeds/module3-1.0");
-        assertEquals(new File(unpacked, "lib/ant-antlr.jar"), new File(p.list()[0]));
-        assertEquals(new File(unpacked, "lib/ant-apache-bcel.jar"), new File(p.list()[1]));
-        assertEquals(new File(unpacked, "lib/ant-apache-bsf.jar"), new File(p.list()[2]));
-        assertEquals(new File(unpacked, "lib/ant-apache-log4j.jar"), new File(p.list()[3]));
+        File unpacked = FileUtil.newFile(cacheDir, "packaging/module3/jar_unpackeds/module3-1.0");
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-antlr.jar"), FileUtil.newFile(p.list()[0]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-bcel.jar"), FileUtil.newFile(p.list()[1]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-bsf.jar"), FileUtil.newFile(p.list()[2]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-log4j.jar"), FileUtil.newFile(p.list()[3]));
     }
 
     public void testOSGi2() throws Exception {
@@ -283,8 +283,8 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(1, p.size());
         File cacheDir = path.getSettings().getDefaultRepositoryCacheBasedir();
-        File unpacked = new File(cacheDir, "packaging/module4/jar_unpackeds/module4-1.0");
-        assertEquals(unpacked, new File(p.list()[0]));
+        File unpacked = FileUtil.newFile(cacheDir, "packaging/module4/jar_unpackeds/module4-1.0");
+        assertEquals(unpacked, FileUtil.newFile(p.list()[0]));
     }
 
     public void testPackedOSGi() throws Exception {
@@ -299,11 +299,11 @@ public class IvyCachePathTest extends TestCase {
         Path p = (Path) ref;
         assertEquals(4, p.size());
         File cacheDir = path.getSettings().getDefaultRepositoryCacheBasedir();
-        File unpacked = new File(cacheDir, "packaging/module7/jar_unpackeds/module7-1.0");
-        assertEquals(new File(unpacked, "lib/ant-antlr.jar"), new File(p.list()[0]));
-        assertEquals(new File(unpacked, "lib/ant-apache-bcel.jar"), new File(p.list()[1]));
-        assertEquals(new File(unpacked, "lib/ant-apache-bsf.jar"), new File(p.list()[2]));
-        assertEquals(new File(unpacked, "lib/ant-apache-log4j.jar"), new File(p.list()[3]));
+        File unpacked = FileUtil.newFile(cacheDir, "packaging/module7/jar_unpackeds/module7-1.0");
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-antlr.jar"), FileUtil.newFile(p.list()[0]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-bcel.jar"), FileUtil.newFile(p.list()[1]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-bsf.jar"), FileUtil.newFile(p.list()[2]));
+        assertEquals(FileUtil.newFile(unpacked, "lib/ant-apache-log4j.jar"), FileUtil.newFile(p.list()[3]));
     }
 
     private File getArchiveFileInCache(String organisation, String module, String revision,

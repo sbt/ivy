@@ -73,7 +73,7 @@ public class IvyCacheFilesetTest extends TestCase {
         assertEquals(1, directoryScanner.getIncludedFiles().length);
         assertEquals(getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
                 .getAbsolutePath(),
-            new File(directoryScanner.getBasedir(), directoryScanner.getIncludedFiles()[0])
+            FileUtil.newFile(directoryScanner.getBasedir(), directoryScanner.getIncludedFiles()[0])
                     .getAbsolutePath());
     }
 
@@ -155,7 +155,7 @@ public class IvyCacheFilesetTest extends TestCase {
             assertEquals(1, directoryScanner.getIncludedFiles().length);
             assertEquals(
                 getArchiveFileInCache("org1", "mod1.2", "2.0", "mod1.2", "jar", "jar", cache2)
-                        .getAbsolutePath(), new File(directoryScanner.getBasedir(),
+                        .getAbsolutePath(), FileUtil.newFile(directoryScanner.getBasedir(),
                         directoryScanner.getIncludedFiles()[0]).getAbsolutePath());
         } finally {
             Delete del = new Delete();

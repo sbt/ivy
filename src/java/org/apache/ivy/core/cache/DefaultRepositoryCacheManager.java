@@ -143,7 +143,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
     public File getIvyFileInCache(ModuleRevisionId mrid) {
         String file = IvyPatternHelper.substitute(getIvyPattern(),
             DefaultArtifact.newIvyArtifact(mrid, null));
-        return new File(getRepositoryCacheRoot(), file);
+        return FileUtil.newFile(getRepositoryCacheRoot(), file);
     }
 
     public String getIvyPattern() {
@@ -364,7 +364,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
      * the resolve has been done with useOrigin = true
      */
     public File getArchiveFileInCache(Artifact artifact, ArtifactOrigin origin) {
-        File archive = new File(getRepositoryCacheRoot(), getArchivePathInCache(artifact, origin));
+        File archive = FileUtil.newFile(getRepositoryCacheRoot(), getArchivePathInCache(artifact, origin));
         if (!archive.exists() && !ArtifactOrigin.isUnknown(origin) && origin.isLocal()) {
             File original = Checks.checkAbsolute(origin.getLocation(), artifact
                     + " origin location");
@@ -385,7 +385,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
         if (useOrigin && !ArtifactOrigin.isUnknown(origin) && origin.isLocal()) {
             return Checks.checkAbsolute(origin.getLocation(), artifact + " origin location");
         } else {
-            return new File(getRepositoryCacheRoot(), getArchivePathInCache(artifact, origin));
+            return FileUtil.newFile(getRepositoryCacheRoot(), getArchivePathInCache(artifact, origin));
         }
     }
 
@@ -665,7 +665,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
     }
 
     private PropertiesFile getCachedDataFile(ModuleRevisionId mRevId) {
-        return new PropertiesFile(new File(getRepositoryCacheRoot(), IvyPatternHelper.substitute(
+        return new PropertiesFile(FileUtil.newFile(getRepositoryCacheRoot(), IvyPatternHelper.substitute(
             getDataFilePattern(), mRevId)), "ivy cached data file for " + mRevId);
     }
 
@@ -757,7 +757,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                             if (madr.getArtifactOrigin().isExists()) {
                                 if (madr.getArtifactOrigin().isLocal()
                                         && madr.getArtifactOrigin().getArtifact().getUrl() != null) {
-                                    madr.setOriginalLocalFile(new File(madr.getArtifactOrigin()
+                                    madr.setOriginalLocalFile(FileUtil.newFile(madr.getArtifactOrigin()
                                             .getArtifact().getUrl().toURI()));
                                 } else {
                                     // find locally cached file
@@ -1093,7 +1093,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                         if (archiveFile.exists()) {
                             archiveFile.delete();
                         }
-                        File part = new File(archiveFile.getAbsolutePath() + ".part");
+                        File part = FileUtil.newFile(archiveFile.getAbsolutePath() + ".part");
                         repository.get(resource.getName(), part);
                         if (!part.renameTo(archiveFile)) {
                             throw new IOException(
@@ -1511,7 +1511,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
             // keep a copy of the original file
             if (dest.exists()) {
                 originalPath = dest.getAbsolutePath();
-                backup = new File(dest.getAbsolutePath() + ".backup");
+                backup = FileUtil.newFile(dest.getAbsolutePath() + ".backup");
                 FileUtil.copy(dest, backup, null, true);
             }
             delegate.download(artifact, resource, dest);
@@ -1519,7 +1519,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
 
         public void restore() throws IOException {
             if ((backup != null) && backup.exists()) {
-                File original = new File(originalPath);
+                File original = FileUtil.newFile(originalPath);
                 FileUtil.copy(backup, original, null, true);
                 backup.delete();
             }

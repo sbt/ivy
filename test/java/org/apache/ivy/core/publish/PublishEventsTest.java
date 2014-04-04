@@ -353,7 +353,7 @@ public class PublishEventsTest extends TestCase {
                 // filesystem
                 String filePath = event.getAttributes().get("file").toString();
                 assertEquals("event declares correct value for file",
-                    expectedData.getCanonicalPath(), new File(filePath).getCanonicalPath());
+                    expectedData.getCanonicalPath(), FileUtil.newFile(filePath).getCanonicalPath());
             } catch (IOException ioe) {
                 throw new RuntimeException(ioe);
             }

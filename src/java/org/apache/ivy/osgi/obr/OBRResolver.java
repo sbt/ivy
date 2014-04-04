@@ -34,6 +34,7 @@ import org.apache.ivy.osgi.obr.xml.OBRXMLParser;
 import org.apache.ivy.osgi.repo.AbstractOSGiResolver;
 import org.apache.ivy.plugins.repository.Resource;
 import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.util.FileUtil;
 import org.xml.sax.SAXException;
 
 public class OBRResolver extends AbstractOSGiResolver {
@@ -68,7 +69,7 @@ public class OBRResolver extends AbstractOSGiResolver {
                     + " couldn't be configured: repoXmlFile and repoXmlUrl cannot be set both");
         }
         if (repoXmlFile != null) {
-            File f = new File(repoXmlFile);
+            File f = FileUtil.newFile(repoXmlFile);
             loadRepoFromFile(f.getParentFile().toURI(), f, repoXmlFile);
         } else if (repoXmlURL != null) {
             final URL url;

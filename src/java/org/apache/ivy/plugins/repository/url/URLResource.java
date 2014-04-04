@@ -26,6 +26,7 @@ import java.net.URL;
 
 import org.apache.ivy.plugins.repository.LocalizableResource;
 import org.apache.ivy.plugins.repository.Resource;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.url.URLHandler.URLInfo;
 import org.apache.ivy.util.url.URLHandlerRegistry;
 
@@ -108,9 +109,9 @@ public class URLResource implements LocalizableResource {
                     + url);
         }
         try {
-            return new File(url.toURI());
+            return FileUtil.newFile(url.toURI());
         } catch (URISyntaxException e) {
-            return new File(url.getPath());
+            return FileUtil.newFile(url.getPath());
         }
     }
 }

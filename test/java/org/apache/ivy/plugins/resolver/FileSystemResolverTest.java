@@ -166,7 +166,7 @@ public class FileSystemResolverTest extends AbstractDependencyResolverTest {
         // check that the found ivy file is the one from the first pattern!
         assertEquals(
             new File("test/repositories/multi-ivypattern/ivy1/ivy-1.0.xml").getCanonicalPath(),
-            new File(ivyRef.getResource().getName()).getCanonicalPath());
+            FileUtil.newFile(ivyRef.getResource().getName()).getCanonicalPath());
     }
 
     private DownloadOptions getDownloadOptions() {

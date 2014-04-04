@@ -49,7 +49,7 @@ public class IvyTaskTest extends TestCase {
             settings.getDefaultCache());
         // The next test doesn't always works on windows (mix C: and c: drive)
         assertEquals(new File("test/repositories/ivysettings.xml").getAbsolutePath().toUpperCase(),
-            new File(settings.getVariables().getVariable("ivy.settings.file")).getAbsolutePath()
+            FileUtil.newFile(settings.getVariables().getVariable("ivy.settings.file")).getAbsolutePath()
                     .toUpperCase());
         assertEquals(new File("test/repositories/ivysettings.xml").toURI().toURL().toExternalForm()
                 .toUpperCase(), settings.getVariables().getVariable("ivy.settings.url")

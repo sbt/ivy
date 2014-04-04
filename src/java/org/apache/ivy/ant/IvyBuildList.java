@@ -38,6 +38,7 @@ import org.apache.ivy.core.module.id.ModuleId;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.sort.SortOptions;
 import org.apache.ivy.plugins.parser.ModuleDescriptorParserRegistry;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -201,7 +202,7 @@ public class IvyBuildList extends IvyTask {
             DirectoryScanner ds = fs.getDirectoryScanner(getProject());
             String[] builds = ds.getIncludedFiles();
             for (int i = 0; i < builds.length; i++) {
-                File buildFile = new File(ds.getBasedir(), builds[i]);
+                File buildFile = FileUtil.newFile(ds.getBasedir(), builds[i]);
                 File ivyFile = getIvyFileFor(buildFile);
                 if (!ivyFile.exists()) {
                     onMissingDescriptor(buildFile, ivyFile, noDescriptor);
@@ -505,7 +506,7 @@ public class IvyBuildList extends IvyTask {
     }
 
     private File getIvyFileFor(File buildFile) {
-        return new File(buildFile.getParentFile(), ivyFilePath);
+        return FileUtil.newFile(buildFile.getParentFile(), ivyFilePath);
     }
 
     public boolean isHaltonerror() {

@@ -20,6 +20,7 @@ package org.apache.ivy.plugins.lock;
 import java.io.File;
 
 import org.apache.ivy.core.module.descriptor.Artifact;
+import org.apache.ivy.util.FileUtil;
 
 public abstract class ArtifactLockStrategy extends FileBasedLockStrategy {
 
@@ -29,10 +30,10 @@ public abstract class ArtifactLockStrategy extends FileBasedLockStrategy {
 
     public boolean lockArtifact(Artifact artifact, File artifactFileToDownload)
             throws InterruptedException {
-        return acquireLock(new File(artifactFileToDownload.getAbsolutePath() + ".lck"));
+        return acquireLock(FileUtil.newFile(artifactFileToDownload.getAbsolutePath() + ".lck"));
     }
 
     public void unlockArtifact(Artifact artifact, File artifactFileToDownload) {
-        releaseLock(new File(artifactFileToDownload.getAbsolutePath() + ".lck"));
+        releaseLock(FileUtil.newFile(artifactFileToDownload.getAbsolutePath() + ".lck"));
     }
 }

@@ -81,7 +81,7 @@ public class IvyBuildListTest extends TestCase {
 
     private void assertListOfFiles(String prefix, String[] expected, String[] actual) {
         for (int i = 0; i < expected.length; i++) {
-            assertEquals(new File(prefix + expected[i] + "/build.xml").getAbsolutePath(), new File(
+            assertEquals(FileUtil.newFile(prefix + expected[i] + "/build.xml").getAbsolutePath(), new File(
                     actual[i]).getAbsolutePath());
         }
     }
@@ -358,8 +358,8 @@ public class IvyBuildListTest extends TestCase {
 
         // the order of E and E2 is undefined
         List other = new ArrayList();
-        other.add(new File(files[4]).getAbsoluteFile().toURI());
-        other.add(new File(files[5]).getAbsoluteFile().toURI());
+        other.add(FileUtil.newFile(files[4]).getAbsoluteFile().toURI());
+        other.add(FileUtil.newFile(files[5]).getAbsoluteFile().toURI());
         Collections.sort(other);
 
         assertEquals(new File("test/buildlist/E/build.xml").getAbsoluteFile().toURI(), other.get(0));

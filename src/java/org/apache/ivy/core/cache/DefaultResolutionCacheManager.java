@@ -112,17 +112,17 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
     public File getResolvedIvyFileInCache(ModuleRevisionId mrid) {
         String file = IvyPatternHelper.substitute(getResolvedIvyPattern(), mrid.getOrganisation(),
             mrid.getName(), mrid.getRevision(), "ivy", "ivy", "xml");
-        return new File(getResolutionCacheRoot(), file);
+        return FileUtil.newFile(getResolutionCacheRoot(), file);
     }
 
     public File getResolvedIvyPropertiesInCache(ModuleRevisionId mrid) {
         String file = IvyPatternHelper.substitute(getResolvedIvyPropertiesPattern(),
             mrid.getOrganisation(), mrid.getName(), mrid.getRevision(), "ivy", "ivy", "xml");
-        return new File(getResolutionCacheRoot(), file);
+        return FileUtil.newFile(getResolutionCacheRoot(), file);
     }
 
     public File getConfigurationResolveReportInCache(String resolveId, String conf) {
-        return new File(getResolutionCacheRoot(), resolveId + "-" + conf + ".xml");
+        return FileUtil.newFile(getResolutionCacheRoot(), resolveId + "-" + conf + ".xml");
     }
 
     public File[] getConfigurationResolveReportsInCache(final String resolveId) {
@@ -286,7 +286,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
                 String file = path.substring(path.lastIndexOf('/') + 1);
 
                 if (paths.containsKey(file + "|" + url)) {
-                    File result = new File(paths.get(file + "|" + url).toString());
+                    File result = FileUtil.newFile(paths.get(file + "|" + url).toString());
                     return result.toURI().toURL();
                 }
             }

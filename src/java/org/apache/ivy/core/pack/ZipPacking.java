@@ -54,7 +54,7 @@ public class ZipPacking extends ArchivePacking {
             zip = new ZipInputStream(packed);
             ZipEntry entry = null;
             while (((entry = zip.getNextEntry()) != null)) {
-                File f = new File(dest, entry.getName());
+                File f = FileUtil.newFile(dest, entry.getName());
                 Message.verbose("\t\texpanding " + entry.getName() + " to " + f);
 
                 // create intermediary directories - sometimes zip don't add them

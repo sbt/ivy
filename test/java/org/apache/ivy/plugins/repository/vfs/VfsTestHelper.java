@@ -65,7 +65,7 @@ public class VfsTestHelper {
 
         // setup and initialize ivy
         ivy = new Ivy();
-        ivy.configure(new File(IVY_CONFIG_FILE));
+        ivy.configure(FileUtil.newFile(IVY_CONFIG_FILE));
     }
 
     /**

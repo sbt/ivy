@@ -35,7 +35,7 @@ public class OBRParserTest extends TestCase {
 
     public void testParse() throws Exception {
         BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), new FileInputStream(
-                new File(testObr, "obr.xml")));
+                FileUtil.newFile(testObr, "obr.xml")));
         assertNotNull(repo);
         assertEquals("OBR/Releases", repo.getName());
         assertEquals("1253581430652", repo.getLastModified());
@@ -43,7 +43,7 @@ public class OBRParserTest extends TestCase {
 
     public void testParseSource() throws Exception {
         BundleRepoDescriptor repo = OBRXMLParser.parse(testObr.toURI(), new FileInputStream(
-                new File(testObr, "sources.xml")));
+                FileUtil.newFile(testObr, "sources.xml")));
         assertNotNull(repo);
         assertEquals(2, CollectionUtils.toList(repo.getModules()).size());
         Iterator<ModuleDescriptorWrapper> itModule = repo.getModules();

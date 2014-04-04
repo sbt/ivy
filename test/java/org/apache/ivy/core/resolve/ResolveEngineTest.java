@@ -82,7 +82,7 @@ public class ResolveEngineTest extends TestCase {
         assertNotNull(origin);
         assertTrue(origin.isLocal());
         assertEquals(artifactFile.getAbsolutePath(),
-            new File(origin.getLocation()).getAbsolutePath());
+            FileUtil.newFile(origin.getLocation()).getAbsolutePath());
 
         ArtifactDownloadReport r = engine.download(origin, new DownloadOptions());
         assertNotNull(r);

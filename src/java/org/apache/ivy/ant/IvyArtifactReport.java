@@ -44,6 +44,7 @@ import org.apache.ivy.core.resolve.IvyNode;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.retrieve.RetrieveOptions;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.xml.sax.SAXException;
@@ -253,7 +254,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
 
     private void writeRetrieveLocation(TransformerHandler saxHandler, String artifactDestPath)
             throws SAXException {
-        artifactDestPath = removeLeadingPath(getProject().getBaseDir(), new File(artifactDestPath));
+        artifactDestPath = removeLeadingPath(getProject().getBaseDir(), FileUtil.newFile(artifactDestPath));
 
         saxHandler.startElement(null, "retrieve-location", "retrieve-location",
             new AttributesImpl());

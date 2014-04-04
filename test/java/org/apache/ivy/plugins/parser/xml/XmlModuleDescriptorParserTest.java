@@ -1349,7 +1349,7 @@ public class XmlModuleDescriptorParserTest extends AbstractModuleDescriptorParse
         File resolveRoot = new File("build/tmp/xmlModuleDescriptorTest");
         assertTrue(resolveRoot.exists() || resolveRoot.mkdirs());
 
-        FileUtil.copy(getClass().getResource("test-extends-parent.xml"), new File(resolveRoot,
+        FileUtil.copy(getClass().getResource("test-extends-parent.xml"), FileUtil.newFile(resolveRoot,
                 "myorg/myparent/ivy.xml"), null);
 
         FileSystemResolver resolver = new FileSystemResolver();

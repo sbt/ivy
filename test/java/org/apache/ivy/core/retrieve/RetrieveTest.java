@@ -89,12 +89,12 @@ public class RetrieveTest extends TestCase {
 
         String pattern = "build/test/retrieve/[module]/[conf]/[artifact]-[revision].[ext]";
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
-        assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
             "jar", "jar", "default")).exists());
 
         pattern = "build/test/retrieve/[module]/[conf]/[type]s/[artifact]-[revision].[ext]";
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
-        assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
             "jar", "jar", "default")).exists());
     }
 
@@ -111,7 +111,7 @@ public class RetrieveTest extends TestCase {
         MockMessageLogger mockLogger = new MockMessageLogger();
         Message.setDefaultLogger(mockLogger);
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
-        assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.2", "mod1.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.2", "mod1.2",
             "jar", "jar", "default")).exists());
         mockLogger.assertLogDoesntContain("conflict on");
     }
@@ -181,7 +181,7 @@ public class RetrieveTest extends TestCase {
         String pattern = "build/test/retrieve/[module]/[conf]/[artifact]-[revision].[ext]";
 
         // we create a fake old file to see if it is overwritten
-        File file = new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0",
+        File file = FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar", "default")).getCanonicalFile();
         file.getParentFile().mkdirs();
         file.createNewFile();
@@ -244,7 +244,7 @@ public class RetrieveTest extends TestCase {
         // if the OS is known to support symlink, check that the file is a symlink,
         // otherwise just check the file exist.
 
-        File file = new File(filename);
+        File file = FileUtil.newFile(filename);
         assertTrue("The file " + filename + " doesn't exist", file.exists());
 
         String os = System.getProperty("os.name");
@@ -272,13 +272,13 @@ public class RetrieveTest extends TestCase {
         String pattern = "build/test/${retrieve.dir}/[module]/[conf]/[artifact]-[revision].[ext]";
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
         pattern = IvyPatternHelper.substituteVariable(pattern, "retrieve.dir", "retrieve");
-        assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
             "jar", "jar", "default")).exists());
 
         pattern = "build/test/${retrieve.dir}/[module]/[conf]/[type]s/[artifact]-[revision].[ext]";
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
         pattern = IvyPatternHelper.substituteVariable(pattern, "retrieve.dir", "retrieve");
-        assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
             "jar", "jar", "default")).exists());
     }
 
@@ -331,9 +331,9 @@ public class RetrieveTest extends TestCase {
         assertTrue(dest.isDirectory());
         File[] jarContents = dest.listFiles();
         Arrays.sort(jarContents);
-        assertEquals(new File(dest, "META-INF"), jarContents[0]);
-        assertEquals(new File(dest, "test.txt"), jarContents[1]);
-        assertEquals(new File(dest, "META-INF/MANIFEST.MF"), jarContents[0].listFiles()[0]);
+        assertEquals(FileUtil.newFile(dest, "META-INF"), jarContents[0]);
+        assertEquals(FileUtil.newFile(dest, "test.txt"), jarContents[1]);
+        assertEquals(FileUtil.newFile(dest, "META-INF/MANIFEST.MF"), jarContents[0].listFiles()[0]);
     }
 
     public void testUnpackSync() throws Exception {
@@ -359,9 +359,9 @@ public class RetrieveTest extends TestCase {
         assertTrue(dest.isDirectory());
         File[] jarContents = dest.listFiles();
         Arrays.sort(jarContents);
-        assertEquals(new File(dest, "META-INF"), jarContents[0]);
-        assertEquals(new File(dest, "test.txt"), jarContents[1]);
-        assertEquals(new File(dest, "META-INF/MANIFEST.MF"), jarContents[0].listFiles()[0]);
+        assertEquals(FileUtil.newFile(dest, "META-INF"), jarContents[0]);
+        assertEquals(FileUtil.newFile(dest, "test.txt"), jarContents[1]);
+        assertEquals(FileUtil.newFile(dest, "META-INF/MANIFEST.MF"), jarContents[0].listFiles()[0]);
     }
 
     private RetrieveOptions getRetrieveOptions() {

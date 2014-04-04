@@ -43,10 +43,7 @@ import org.apache.ivy.plugins.conflict.ConflictManager;
 import org.apache.ivy.plugins.latest.LatestStrategy;
 import org.apache.ivy.plugins.lock.LockStrategy;
 import org.apache.ivy.plugins.matcher.PatternMatcher;
-import org.apache.ivy.util.Checks;
-import org.apache.ivy.util.Configurator;
-import org.apache.ivy.util.FileResolver;
-import org.apache.ivy.util.Message;
+import org.apache.ivy.util.*;
 import org.apache.ivy.util.url.CredentialsStore;
 import org.apache.ivy.util.url.URLHandler;
 import org.apache.ivy.util.url.URLHandlerRegistry;
@@ -416,7 +413,7 @@ public class XmlSettingsParser extends DefaultHandler {
                 Message.verbose("including file: " + settingsURL);
                 if ("file".equals(settingsURL.getProtocol())) {
                     try {
-                        File settingsFile = new File(new URI(settingsURL.toExternalForm()));
+                        File settingsFile = FileUtil.newFile(new URI(settingsURL.toExternalForm()));
                         String optional = (String) attributes.get("optional");
                         if ("true".equals(optional) && !settingsFile.exists()) {
                             return;
@@ -451,7 +448,7 @@ public class XmlSettingsParser extends DefaultHandler {
             // ignore, we'll try to create a correct URL below
         }
 
-        File incFile = new File(filePath);
+        File incFile = FileUtil.newFile(filePath);
         if (incFile.isAbsolute()) {
             if (!incFile.exists()) {
                 throw new FileNotFoundException(incFile.getAbsolutePath());
@@ -459,11 +456,11 @@ public class XmlSettingsParser extends DefaultHandler {
             return incFile.toURI().toURL();
         } else if ("file".equals(this.settings.getProtocol())) {
             try {
-                File settingsFile = new File(new URI(this.settings.toExternalForm()));
+                File settingsFile = FileUtil.newFile(new URI(this.settings.toExternalForm()));
                 if (!settingsFile.exists()) {
                     throw new FileNotFoundException(settingsFile.getAbsolutePath());
                 }
-                return new File(settingsFile.getParentFile(), filePath).toURI().toURL();
+                return FileUtil.newFile(settingsFile.getParentFile(), filePath).toURI().toURL();
             } catch (URISyntaxException e) {
                 return new URL(this.settings, filePath);
             }

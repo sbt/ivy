@@ -76,10 +76,7 @@ import org.apache.ivy.plugins.resolver.util.MDResolvedResource;
 import org.apache.ivy.plugins.resolver.util.ResolvedResource;
 import org.apache.ivy.plugins.resolver.util.ResourceMDParser;
 import org.apache.ivy.plugins.version.VersionMatcher;
-import org.apache.ivy.util.Checks;
-import org.apache.ivy.util.ChecksumHelper;
-import org.apache.ivy.util.HostUtil;
-import org.apache.ivy.util.Message;
+import org.apache.ivy.util.*;
 
 /**
  *
@@ -1040,10 +1037,10 @@ public abstract class BasicResolver extends AbstractResolver {
                 if ("file".equals(url.getProtocol())) {
                     File f;
                     try {
-                        f = new File(new URI(url.toExternalForm()));
+                        f = FileUtil.newFile(new URI(url.toExternalForm()));
                     } catch (URISyntaxException e) {
                         // unexpected, try to get the best of it
-                        f = new File(url.getPath());
+                        f = FileUtil.newFile(url.getPath());
                     }
                     resource = new FileResource(new FileRepository(), f);
                 } else {
@@ -1144,7 +1141,7 @@ public abstract class BasicResolver extends AbstractResolver {
             if (dest.exists()) {
                 dest.delete();
             }
-            File part = new File(dest.getAbsolutePath() + ".part");
+            File part = FileUtil.newFile(dest.getAbsolutePath() + ".part");
             if (resource.getName().equals(String.valueOf(artifact.getUrl()))) {
                 if (part.getParentFile() != null) {
                     part.getParentFile().mkdirs();

@@ -31,6 +31,7 @@ import org.apache.ivy.plugins.repository.Resource;
 import org.apache.ivy.plugins.repository.jar.JarRepository;
 import org.apache.ivy.plugins.repository.url.URLRepository;
 import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.util.FileUtil;
 
 public class JarResolver extends RepositoryResolver {
 
@@ -45,7 +46,7 @@ public class JarResolver extends RepositoryResolver {
     }
 
     public void setFile(String jarFile) {
-        setJarFile(new File(jarFile));
+        setJarFile(FileUtil.newFile(jarFile));
     }
 
     public void setUrl(String jarUrl) {

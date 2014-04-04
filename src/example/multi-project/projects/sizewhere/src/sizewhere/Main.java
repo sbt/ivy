@@ -53,7 +53,7 @@ public final class Main {
         CommandLineParser parser = new GnuParser();
 
         CommandLine line = parser.parse(options, args);
-        File dir = new File(line.getOptionValue("dir", "."));
+        File dir = FileUtil.newFile(line.getOptionValue("dir", "."));
         String name = line.getOptionValue("name", "jar");
         System.out.println("total size of files in " + dir 
             + " containing " + name + ": " + SizeWhere.totalSize(dir, name));

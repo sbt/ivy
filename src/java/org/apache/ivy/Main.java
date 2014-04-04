@@ -50,6 +50,7 @@ import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriter;
 import org.apache.ivy.plugins.report.XmlReportParser;
 import org.apache.ivy.util.DefaultMessageLogger;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.ivy.util.cli.CommandLine;
 import org.apache.ivy.util.cli.CommandLineParser;
@@ -247,7 +248,7 @@ public final class Main {
         IvySettings settings = initSettings(line, ivy);
         ivy.pushContext();
 
-        File cache = new File(settings.substitute(line.getOptionValue("cache", settings
+        File cache = FileUtil.newFile(settings.substitute(line.getOptionValue("cache", settings
                 .getDefaultCache().getAbsolutePath())));
 
         if (line.hasOption("cache")) {
@@ -285,7 +286,7 @@ public final class Main {
             XmlModuleDescriptorWriter.write(md, ivyfile);
             confs = new String[] {"default"};
         } else {
-            ivyfile = new File(settings.substitute(line.getOptionValue("ivy", "ivy.xml")));
+            ivyfile = FileUtil.newFile(settings.substitute(line.getOptionValue("ivy", "ivy.xml")));
             if (!ivyfile.exists()) {
                 error("ivy file not found: " + ivyfile);
             } else if (ivyfile.isDirectory()) {
@@ -409,7 +410,7 @@ public final class Main {
                         System.getProperty("path.separator"));
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
-                    File file = new File(token);
+                    File file = FileUtil.newFile(token);
                     if (file.exists()) {
                         fileList.add(file);
                     } else {
@@ -443,7 +444,7 @@ public final class Main {
         if ("".equals(settingsPath)) {
             ivy.configureDefault();
         } else {
-            File conffile = new File(settingsPath);
+            File conffile = FileUtil.newFile(settingsPath);
             if (!conffile.exists()) {
                 error("ivy configuration file not found: " + conffile);
             } else if (conffile.isDirectory()) {

@@ -24,6 +24,7 @@ import org.apache.ivy.core.IvyPatternHelper;
 import org.apache.ivy.core.module.descriptor.DefaultArtifact;
 import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorWriter;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 
 public class RepositoryAnalyser {
@@ -32,7 +33,7 @@ public class RepositoryAnalyser {
         ModuleDescriptor[] mds = depAnalyser.analyze(finder.findJarModules());
         Message.info("found " + mds.length + " modules");
         for (int i = 0; i < mds.length; i++) {
-            File ivyFile = new File(IvyPatternHelper.substitute(
+            File ivyFile = FileUtil.newFile(IvyPatternHelper.substitute(
                 pattern,
                 DefaultArtifact.newIvyArtifact(mds[i].getModuleRevisionId(),
                     mds[i].getPublicationDate())));
@@ -54,7 +55,7 @@ public class RepositoryAnalyser {
         String jarjarLocation = args[0];
         String pattern = args[1];
 
-        JarJarDependencyAnalyser a = new JarJarDependencyAnalyser(new File(jarjarLocation));
+        JarJarDependencyAnalyser a = new JarJarDependencyAnalyser(FileUtil.newFile(jarjarLocation));
         new RepositoryAnalyser().analyse(pattern, a);
     }
 }

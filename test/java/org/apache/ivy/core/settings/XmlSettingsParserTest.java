@@ -592,8 +592,8 @@ public class XmlSettingsParserTest extends TestCase {
         assertNotNull(r);
         assertTrue(r instanceof PackagerResolver);
         PackagerResolver packager = (PackagerResolver) r;
-        assertEquals(new File(basedir, "packager/build"), packager.getBuildRoot());
-        assertEquals(new File(basedir, "packager/cache"), packager.getResourceCache());
+        assertEquals(FileUtil.newFile(basedir, "packager/build"), packager.getBuildRoot());
+        assertEquals(FileUtil.newFile(basedir, "packager/cache"), packager.getResourceCache());
     }
 
     public void testBaseDirVariables() throws Exception {
@@ -633,7 +633,7 @@ public class XmlSettingsParserTest extends TestCase {
     }
 
     private void assertLocationEquals(String expected, Object pattern) throws IOException {
-        assertEquals(new File(expected).getCanonicalFile(),
+        assertEquals(FileUtil.newFile(expected).getCanonicalFile(),
             new File((String) pattern).getCanonicalFile());
     }
 }

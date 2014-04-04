@@ -17,6 +17,8 @@
  */
 package org.apache.ivy.core;
 
+import org.apache.ivy.util.FileUtil;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,7 +54,7 @@ public abstract class RelativeUrlResolver {
      */
     public URL getURL(URL context, String file, String url) throws MalformedURLException {
         if (file != null) {
-            File f = new File(file);
+            File f = FileUtil.newFile(file);
             if (f.isAbsolute()) {
                 return f.toURI().toURL();
             } else {

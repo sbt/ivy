@@ -66,7 +66,7 @@ public class DeliverTest extends TestCase {
     public void testIVY1111() throws Exception {
         Project project = ivyDeliver.getProject();
         project.setProperty("ivy.settings.file", "test/repositories/IVY-1111/ivysettings.xml");
-        File ivyFile = new File(new URI(DeliverTest.class.getResource("ivy-1111.xml").toString()));
+        File ivyFile = FileUtil.newFile(new URI(DeliverTest.class.getResource("ivy-1111.xml").toString()));
 
         resolve(ivyFile);
 
@@ -88,7 +88,7 @@ public class DeliverTest extends TestCase {
     private String readFile(String fileName) throws IOException {
         StringBuffer retval = new StringBuffer();
 
-        File ivyFile = new File(fileName);
+        File ivyFile = FileUtil.newFile(fileName);
         BufferedReader reader = new BufferedReader(new FileReader(ivyFile));
 
         String line = null;

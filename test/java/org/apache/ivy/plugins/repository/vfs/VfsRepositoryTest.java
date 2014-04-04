@@ -55,7 +55,7 @@ public class VfsRepositoryTest extends TestCase {
         super.setUp();
         helper = new VfsTestHelper();
         repo = new VfsRepository();
-        scratchDir = new File(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR,
+        scratchDir = FileUtil.newFile(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR,
             VfsTestHelper.SCRATCH_DIR));
         scratchDir.mkdir();
     }
@@ -87,8 +87,8 @@ public class VfsRepositoryTest extends TestCase {
             }
 
             try {
-                repo.put(new File(srcFile), vfsURI.toString(), false);
-                if (!new File(srcFile).exists()) {
+                repo.put(FileUtil.newFile(srcFile), vfsURI.toString(), false);
+                if (!FileUtil.newFile(srcFile).exists()) {
                     fail("Put didn't happen. Src VfsURI: " + vfsURI.toString()
                             + ".\nExpected file: " + destFile);
                 }
@@ -108,7 +108,7 @@ public class VfsRepositoryTest extends TestCase {
         String testResource = VfsTestHelper.TEST_IVY_XML;
         String srcFile = FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, testResource);
         String destResource = VfsTestHelper.SCRATCH_DIR + "/" + testResource;
-        File destFile = new File(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, destResource));
+        File destFile = FileUtil.newFile(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, destResource));
 
         Iterator vfsURIs = helper.createVFSUriSet(destResource).iterator();
         while (vfsURIs.hasNext()) {
@@ -124,8 +124,8 @@ public class VfsRepositoryTest extends TestCase {
             destFile.createNewFile();
 
             try {
-                repo.put(new File(srcFile), vfsURI.toString(), true);
-                if (!new File(srcFile).exists()) {
+                repo.put(FileUtil.newFile(srcFile), vfsURI.toString(), true);
+                if (!FileUtil.newFile(srcFile).exists()) {
                     fail("Put didn't happen. Src VfsURI: " + vfsURI.toString()
                             + ".\nExpected file: " + destFile);
                 }
@@ -148,7 +148,7 @@ public class VfsRepositoryTest extends TestCase {
         String testResource = VfsTestHelper.TEST_IVY_XML;
         String srcFile = FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, testResource);
         String destResource = VfsTestHelper.SCRATCH_DIR + "/" + testResource;
-        File destFile = new File(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, destResource));
+        File destFile = FileUtil.newFile(FileUtil.concat(VfsTestHelper.TEST_REPO_DIR, destResource));
         destFile.getParentFile().mkdirs();
         destFile.createNewFile();
 
@@ -157,7 +157,7 @@ public class VfsRepositoryTest extends TestCase {
             VfsURI vfsURI = (VfsURI) vfsURIs.next();
 
             try {
-                repo.put(new File(srcFile), vfsURI.toString(), false);
+                repo.put(FileUtil.newFile(srcFile), vfsURI.toString(), false);
                 fail("Did not throw expected IOException from attempted overwrite of existing file");
             } catch (IOException e) {
             }
@@ -181,8 +181,8 @@ public class VfsRepositoryTest extends TestCase {
             }
 
             try {
-                repo.get(vfsURI.toString(), new File(testFile));
-                if (!new File(testFile).exists()) {
+                repo.get(vfsURI.toString(), FileUtil.newFile(testFile));
+                if (!FileUtil.newFile(testFile).exists()) {
                     fail("Expected file: " + testFile + "not found. Failed vfsURI: "
                             + vfsURI.toString());
                 }
@@ -200,7 +200,7 @@ public class VfsRepositoryTest extends TestCase {
      */
     public void testGetOverwriteExisting() throws Exception {
         String testResource = VfsTestHelper.TEST_IVY_XML;
-        File testFile = new File(FileUtil.concat(scratchDir.getAbsolutePath(), testResource));
+        File testFile = FileUtil.newFile(FileUtil.concat(scratchDir.getAbsolutePath(), testResource));
 
         Iterator vfsURIs = helper.createVFSUriSet(testResource).iterator();
         while (vfsURIs.hasNext()) {

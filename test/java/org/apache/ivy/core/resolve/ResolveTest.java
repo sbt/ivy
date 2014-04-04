@@ -252,7 +252,7 @@ public class ResolveTest extends TestCase {
                 .getAbsolutePath();
 
         ArtifactOrigin origin = getSavedArtifactOrigin(artifact);
-        File artInCache = new File(cache, getArchivePathInCache(artifact, origin));
+        File artInCache = FileUtil.newFile(cache, getArchivePathInCache(artifact, origin));
         assertFalse("should not download artifact in useOrigin mode.", artInCache.exists());
         assertEquals("location for artifact not correct.", expectedLocation,
             getArchiveFileInCache(artifact).getAbsolutePath());
@@ -831,19 +831,19 @@ public class ResolveTest extends TestCase {
         // dependencies
         assertTrue(getIvyFileInCache(ivy, ModuleRevisionId.newInstance("org1", "mod1.2", "2.0"))
                 .exists());
-        assertTrue(new File(cache, "mod1.2/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "mod1.2/ivy.xml").exists());
         assertTrue(getArchiveFileInCache(ivy, "org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
                 .exists());
-        assertTrue(new File(cache, "mod1.2.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "mod1.2.jar").exists());
     }
 
     public void testChangeCacheLayout2() throws Exception {
         Ivy ivy = new Ivy();
         ivy.configure(new File("test/repositories/ivysettings.xml"));
         ivy.getSettings().setDefaultRepositoryCacheBasedir(
-            new File(ivy.getSettings().getDefaultCache(), "repository").getAbsolutePath());
+            FileUtil.newFile(ivy.getSettings().getDefaultCache(), "repository").getAbsolutePath());
         ivy.getSettings().setDefaultResolutionCacheBasedir(
-            new File(ivy.getSettings().getDefaultCache(), "workspace").getAbsolutePath());
+            FileUtil.newFile(ivy.getSettings().getDefaultCache(), "workspace").getAbsolutePath());
         ivy.getSettings().validate();
         DefaultRepositoryCacheManager cacheMgr = (DefaultRepositoryCacheManager) ivy.getSettings()
                 .getDefaultRepositoryCacheManager();
@@ -871,10 +871,10 @@ public class ResolveTest extends TestCase {
         // dependencies
         assertTrue(getIvyFileInCache(ivy, ModuleRevisionId.newInstance("org1", "mod1.2", "2.0"))
                 .exists());
-        assertTrue(new File(cache, "repository/mod1.2/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "repository/mod1.2/ivy.xml").exists());
         assertTrue(getArchiveFileInCache(ivy, "org1", "mod1.2", "2.0", "mod1.2", "jar", "jar")
                 .exists());
-        assertTrue(new File(cache, "repository/mod1.2.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "repository/mod1.2.jar").exists());
     }
 
     public void testMultipleCache() throws Exception {
@@ -900,12 +900,12 @@ public class ResolveTest extends TestCase {
         // ivy file should be cached in default cache, and artifact in cache2
         assertTrue(cacheMgr1.getIvyFileInCache(depMrid).exists());
         assertFalse(cacheMgr1.getArchiveFileInCache(depArtifact).exists());
-        assertEquals(new File(cache, "repo1/mod1.1/ivy-1.0.xml").getCanonicalFile(), cacheMgr1
+        assertEquals(FileUtil.newFile(cache, "repo1/mod1.1/ivy-1.0.xml").getCanonicalFile(), cacheMgr1
                 .getIvyFileInCache(depMrid).getCanonicalFile());
 
         assertFalse(cacheMgr2.getIvyFileInCache(depMrid).exists());
         assertTrue(cacheMgr2.getArchiveFileInCache(depArtifact).exists());
-        assertEquals(new File(cache, "repo2/mod1.1-1.0/mod1.1.jar").getCanonicalFile(), cacheMgr2
+        assertEquals(FileUtil.newFile(cache, "repo2/mod1.1-1.0/mod1.1.jar").getCanonicalFile(), cacheMgr2
                 .getArchiveFileInCache(depArtifact).getCanonicalFile());
     }
 
@@ -2799,7 +2799,7 @@ public class ResolveTest extends TestCase {
         assertNotNull(crr);
         assertEquals(1, crr.getDownloadReports(depId).length);
 
-        File r = new File(cache, ResolveOptions.getDefaultResolveId(mrid.getModuleId()) + "-A.xml");
+        File r = FileUtil.newFile(cache, ResolveOptions.getDefaultResolveId(mrid.getModuleId()) + "-A.xml");
         assertTrue(r.exists());
         final boolean[] found = new boolean[] {false};
         SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
@@ -4915,9 +4915,9 @@ public class ResolveTest extends TestCase {
             getResolveOptions(ivy.getSettings(), new String[] {"*"}).setValidate(false));
         assertFalse(report.hasError());
 
-        assertTrue(new File(cache, "apache/mymodule/task1/1854/ivy.xml").exists());
-        assertTrue(new File(cache, "apache/mymodule/task1/1854/mymodule-windows.jar").exists());
-        assertTrue(new File(cache, "apache/mymodule/task1/1854/mymodule-linux.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1854/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1854/mymodule-windows.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1854/mymodule-linux.jar").exists());
 
         Set moduleRevisions = report.getConfigurationReport("default").getModuleRevisionIds();
         assertEquals(1, moduleRevisions.size());
@@ -4940,14 +4940,14 @@ public class ResolveTest extends TestCase {
             getResolveOptions(ivy.getSettings(), new String[] {"*"}).setValidate(false));
         assertFalse(report.hasError());
 
-        assertTrue(new File(cache, "apache/mymodule/task2/1748/ivy.xml").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1748/ivy.xml.original").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1748/mymodule-windows.jar").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1748/mymodule-linux.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1748/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1748/ivy.xml.original").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1748/mymodule-windows.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1748/mymodule-linux.jar").exists());
 
-        assertTrue(new File(cache, "apache/module2/task2/1976/ivy.xml").exists());
-        assertTrue(new File(cache, "apache/module2/task2/1976/module2-windows.jar").exists());
-        assertTrue(new File(cache, "apache/module2/task2/1976/module2-linux.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/module2/task2/1976/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/module2/task2/1976/module2-windows.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/module2/task2/1976/module2-linux.jar").exists());
     }
 
     public void testExtraAttributes3() throws Exception {
@@ -4981,10 +4981,10 @@ public class ResolveTest extends TestCase {
 
         assertFalse(report.hasError());
 
-        assertTrue(new File(cache, "apache/mymodule/task2/1749/ivy.xml").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1749/ivy.xml.original").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1749/mymodule-windows.jar").exists());
-        assertTrue(new File(cache, "apache/mymodule/task2/1749/mymodule-linux.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1749/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1749/ivy.xml.original").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1749/mymodule-windows.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task2/1749/mymodule-linux.jar").exists());
     }
 
     public void testNamespaceExtraAttributes() throws Exception {
@@ -4996,9 +4996,9 @@ public class ResolveTest extends TestCase {
             getResolveOptions(ivy.getSettings(), new String[] {"*"}).setValidate(true));
         assertFalse(report.hasError());
 
-        assertTrue(new File(cache, "apache/mymodule/task1/1855/ivy.xml").exists());
-        assertTrue(new File(cache, "apache/mymodule/task1/1855/mymodule-windows.jar").exists());
-        assertTrue(new File(cache, "apache/mymodule/task1/1855/mymodule-linux.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1855/ivy.xml").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1855/mymodule-windows.jar").exists());
+        assertTrue(FileUtil.newFile(cache, "apache/mymodule/task1/1855/mymodule-linux.jar").exists());
     }
 
     public void testBranches1() throws Exception {
@@ -5275,7 +5275,7 @@ public class ResolveTest extends TestCase {
         ivy.deliver("1.0.0", deliverDir.getAbsolutePath() + "/ivy-1.0.0.xml", new DeliverOptions()
                 .setResolveId(report.getResolveId()).setValidate(false).setPubdate(new Date()));
 
-        File deliveredIvyFile = new File(deliverDir, "ivy-1.0.0.xml");
+        File deliveredIvyFile = FileUtil.newFile(deliverDir, "ivy-1.0.0.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             ivy.getSettings(), deliveredIvyFile.toURI().toURL(), false);
@@ -5301,7 +5301,7 @@ public class ResolveTest extends TestCase {
         ivy.deliver("1.0.0", deliverDir.getAbsolutePath() + "/ivy-1.0.0.xml", new DeliverOptions()
                 .setResolveId(report.getResolveId()).setValidate(false).setPubdate(new Date()));
 
-        File deliveredIvyFile = new File(deliverDir, "ivy-1.0.0.xml");
+        File deliveredIvyFile = FileUtil.newFile(deliverDir, "ivy-1.0.0.xml");
         assertTrue(deliveredIvyFile.exists());
         ModuleDescriptor md = XmlModuleDescriptorParser.getInstance().parseDescriptor(
             ivy.getSettings(), deliveredIvyFile.toURI().toURL(), false);
@@ -5616,16 +5616,16 @@ public class ResolveTest extends TestCase {
 
         ArtifactDownloadReport adr = report.getAllArtifactsReports()[0];
         File cacheDir = ivy.getSettings().getDefaultRepositoryCacheBasedir();
-        assertEquals(new File(cacheDir, "packaging/module2/jars/module2-1.0.jar"),
+        assertEquals(FileUtil.newFile(cacheDir, "packaging/module2/jars/module2-1.0.jar"),
             adr.getLocalFile());
-        assertEquals(new File(cacheDir, "packaging/module2/jar_unpackeds/module2-1.0"),
+        assertEquals(FileUtil.newFile(cacheDir, "packaging/module2/jar_unpackeds/module2-1.0"),
             adr.getUnpackedLocalFile());
 
         File[] jarContents = adr.getUnpackedLocalFile().listFiles();
         Arrays.sort(jarContents);
-        assertEquals(new File(adr.getUnpackedLocalFile(), "META-INF"), jarContents[0]);
-        assertEquals(new File(adr.getUnpackedLocalFile(), "test.txt"), jarContents[1]);
-        assertEquals(new File(adr.getUnpackedLocalFile(), "META-INF/MANIFEST.MF"),
+        assertEquals(FileUtil.newFile(adr.getUnpackedLocalFile(), "META-INF"), jarContents[0]);
+        assertEquals(FileUtil.newFile(adr.getUnpackedLocalFile(), "test.txt"), jarContents[1]);
+        assertEquals(FileUtil.newFile(adr.getUnpackedLocalFile(), "META-INF/MANIFEST.MF"),
             jarContents[0].listFiles()[0]);
     }
 }

@@ -61,8 +61,8 @@ public class XmlReportOutputter implements ReportOutputter {
         Message.verbose("\treport for " + report.getModuleDescriptor().getModuleRevisionId() + " "
                 + report.getConfiguration() + " produced in " + reportFile);
 
-        File reportXsl = new File(reportParentDir, "ivy-report.xsl");
-        File reportCss = new File(reportParentDir, "ivy-report.css");
+        File reportXsl = FileUtil.newFile(reportParentDir, "ivy-report.xsl");
+        File reportCss = FileUtil.newFile(reportParentDir, "ivy-report.css");
         if (!reportXsl.exists()) {
             FileUtil.copy(XmlReportOutputter.class.getResourceAsStream("ivy-report.xsl"),
                 reportXsl, null);

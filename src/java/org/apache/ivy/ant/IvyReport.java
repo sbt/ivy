@@ -228,7 +228,7 @@ public class IvyReport extends IvyTask {
 
             File out;
             if (todir != null) {
-                out = new File(todir, getOutputPattern(confs[i], "xml"));
+                out = FileUtil.newFile(todir, getOutputPattern(confs[i], "xml"));
             } else {
                 out = getProject().resolveFile(getOutputPattern(confs[i], "xml"));
             }
@@ -244,7 +244,7 @@ public class IvyReport extends IvyTask {
         if (xslFile == null) {
             File css;
             if (todir != null) {
-                css = new File(todir, "ivy-report.css");
+                css = FileUtil.newFile(todir, "ivy-report.css");
             } else {
                 css = getProject().resolveFile("ivy-report.css");
             }
@@ -264,7 +264,7 @@ public class IvyReport extends IvyTask {
         // style should be a file (and not an url)
         // so we have to copy it from classpath to cache
         ResolutionCacheManager cacheMgr = getIvyInstance().getResolutionCacheManager();
-        File style = new File(cacheMgr.getResolutionCacheRoot(), "ivy-report.xsl");
+        File style = FileUtil.newFile(cacheMgr.getResolutionCacheRoot(), "ivy-report.xsl");
         if (!style.exists()) {
             Message.debug("copying ivy-report.xsl to " + style.getAbsolutePath());
             FileUtil.copy(XmlReportOutputter.class.getResourceAsStream("ivy-report.xsl"), style,
@@ -331,7 +331,7 @@ public class IvyReport extends IvyTask {
             for (int i = 0; i < confs.length; i++) {
                 File reportFile = cacheMgr
                         .getConfigurationResolveReportInCache(resolveId, confs[i]);
-                File outFile = new File(out, getOutputPattern(confs[i], ext));
+                File outFile = FileUtil.newFile(out, getOutputPattern(confs[i], ext));
 
                 log("Processing " + reportFile + " to " + outFile);
 
@@ -388,7 +388,7 @@ public class IvyReport extends IvyTask {
         // style should be a file (and not an url)
         // so we have to copy it from classpath to cache
         ResolutionCacheManager cacheMgr = getIvyInstance().getResolutionCacheManager();
-        File style = new File(cacheMgr.getResolutionCacheRoot(), styleResourceName);
+        File style = FileUtil.newFile(cacheMgr.getResolutionCacheRoot(), styleResourceName);
         FileUtil.copy(XmlReportOutputter.class.getResourceAsStream(styleResourceName), style, null);
         return style;
     }

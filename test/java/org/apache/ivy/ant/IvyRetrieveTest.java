@@ -64,7 +64,7 @@ public class IvyRetrieveTest extends TestCase {
     public void testSimple() throws Exception {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-simple.xml");
         retrieve.execute();
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar")).exists());
     }
 
@@ -72,9 +72,9 @@ public class IvyRetrieveTest extends TestCase {
         project.setProperty("ivy.dep.file", "test/java/org/apache/ivy/ant/ivy-381.xml");
         retrieve.setConf("*");
         retrieve.execute();
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "1.1",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "1.1",
             "mod1.2", "jar", "jar", "public")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org3", "mod3.2", "1.4",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org3", "mod3.2", "1.4",
             "mod3.2", "jar", "jar", "private")).exists());
     }
 
@@ -84,7 +84,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.getSettings().setValidate(false);
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.2",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.2",
             "mod1.2", "jar", "jar", "default")).exists());
     }
 
@@ -103,7 +103,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setRevision("2.0");
         retrieve.setInline(true);
         retrieve.execute();
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar")).exists());
     }
 
@@ -111,11 +111,11 @@ public class IvyRetrieveTest extends TestCase {
         project.setProperty("ivy.dep.file", "test/repositories/1/org6/mod6.2/ivys/ivy-0.4.xml");
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
             "mod6.1", "jar", "jar", "default")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
             "mod6.1", "jar", "jar", "extension")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.1",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.1",
             "mod1.2", "jar", "jar", "extension")).exists());
     }
 
@@ -124,13 +124,13 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setSync(true);
 
         File[] old = new File[] {
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
                     "mod6.1", "jar", "jar", "unknown")), // unknown configuration
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
                     "mod6.1", "unknown", "unknown", "default")), // unknown type
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
                     "unknown", "jar", "jar", "default")), // unknown artifact
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "unknown",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "unknown",
                     "mod6.1", "jar", "jar", "default")), // unknown revision
         };
         for (int i = 0; i < old.length; i++) {
@@ -138,11 +138,11 @@ public class IvyRetrieveTest extends TestCase {
         }
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
             "mod6.1", "jar", "jar", "default")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
             "mod6.1", "jar", "jar", "extension")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.1",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.1",
             "mod1.2", "jar", "jar", "extension")).exists());
         for (int i = 0; i < old.length; i++) {
             assertFalse(old[i] + " should have been deleted by sync", old[i].exists());
@@ -179,7 +179,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setConf("default");
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar")).exists());
     }
 
@@ -200,7 +200,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setResolveId("testWithAPreviousResolveAndResolveId");
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar")).exists());
     }
 
@@ -223,7 +223,7 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setUseOrigin(false);
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org1", "mod1.2", "2.0",
             "mod1.2", "jar", "jar")).exists());
     }
 
@@ -238,13 +238,13 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setUseOrigin(true);
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.3", "0.4.1",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.3", "0.4.1",
             "ivy", "ivy", "xml")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.1", "0.3", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.1", "0.3", "ivy",
             "ivy", "xml")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.1", "1.0", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.1", "1.0", "ivy",
             "ivy", "xml")).exists());
-        assertFalse(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.0",
+        assertFalse(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.0",
             "ivy", "ivy", "xml")).exists());
     }
 
@@ -302,13 +302,13 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setIvypattern(ivyPattern);
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.3", "0.4.1",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.3", "0.4.1",
             "ivy", "ivy", "xml")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.1", "0.3", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org2", "mod2.1", "0.3", "ivy",
             "ivy", "xml")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.1", "1.0", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.1", "1.0", "ivy",
             "ivy", "xml")).exists());
-        assertFalse(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.0",
+        assertFalse(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.0",
             "ivy", "ivy", "xml")).exists());
     }
 
@@ -320,11 +320,11 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setIvypattern(ivyPattern);
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
             "ivy", "xml", "default")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
             "ivy", "xml", "extension")).exists());
-        assertFalse(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.1",
+        assertFalse(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.1",
             "ivy", "ivy", "xml", "extension")).exists());
     }
 
@@ -338,13 +338,13 @@ public class IvyRetrieveTest extends TestCase {
         retrieve.setSync(true);
 
         File[] old = new File[] {
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
                     "mod6.1", "jar", "jar", "unknown")), // unknown configuration
-                new File(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
+                FileUtil.newFile(IvyPatternHelper.substitute(RETRIEVE_PATTERN, "org6", "mod6.1", "0.4",
                     "mod6.1", "unknown", "unknown", "default")), // unknown type
-                new File(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
+                FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
                     "ivy", "xml", "unk")), // unknown conf for ivy
-                new File(IvyPatternHelper.substitute(ivyPattern, "unknown", "mod6.1", "0.4", "ivy",
+                FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "unknown", "mod6.1", "0.4", "ivy",
                     "ivy", "xml", "default")), // unknown organisation for ivy
         };
         for (int i = 0; i < old.length; i++) {
@@ -353,11 +353,11 @@ public class IvyRetrieveTest extends TestCase {
 
         retrieve.execute();
 
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
             "ivy", "xml", "default")).exists());
-        assertTrue(new File(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
+        assertTrue(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org6", "mod6.1", "0.4", "ivy",
             "ivy", "xml", "extension")).exists());
-        assertFalse(new File(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.1",
+        assertFalse(FileUtil.newFile(IvyPatternHelper.substitute(ivyPattern, "org1", "mod1.2", "2.1",
             "ivy", "ivy", "xml", "extension")).exists());
         for (int i = 0; i < old.length; i++) {
             assertFalse(old[i] + " should have been deleted by sync", old[i].exists());

@@ -64,7 +64,7 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "testsimple.xml");
+        File reportFile = FileUtil.newFile(cache, "testsimple.xml");
         assertTrue(reportFile.exists());
         String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
 
@@ -84,7 +84,7 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "testbranch.xml");
+        File reportFile = FileUtil.newFile(cache, "testbranch.xml");
         assertTrue(reportFile.exists());
         String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
 
@@ -103,7 +103,7 @@ public class IvyRepositoryReportTest extends TestCase {
         report.setTodir(cache);
         report.execute();
 
-        File reportFile = new File(cache, "test-no-org.xml");
+        File reportFile = FileUtil.newFile(cache, "test-no-org.xml");
         assertTrue(reportFile.exists());
         String g = FileUtil.readEntirely(new BufferedReader(new FileReader(reportFile)));
 

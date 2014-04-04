@@ -71,8 +71,8 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
 
         // Create work space with build and resource cache directories
         workdir = new File("build/test/PackagerResolverTest");
-        builddir = new File(workdir, "build");
-        cachedir = new File(workdir, "resources");
+        builddir = FileUtil.newFile(workdir, "build");
+        cachedir = FileUtil.newFile(workdir, "resources");
         cleanupTempDirs();
         if (!builddir.mkdirs() || !cachedir.mkdirs()) {
             throw new Exception("can't create directories under " + workdir);
@@ -139,7 +139,7 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             assertEquals(DownloadStatus.SUCCESSFUL, ar.getDownloadStatus());
 
             // Verify resource cache now contains the distribution archive
-            assertTrue(new File(cachedir, "mod-1.0.tar.gz").exists());
+            assertTrue(FileUtil.newFile(cachedir, "mod-1.0.tar.gz").exists());
 
             // Download again, should use Ivy cache this time
             report = resolver.download(new Artifact[] {artifact}, downloadOptions());
@@ -206,11 +206,11 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.download(new Artifact[] {artifact}, downloadOptions());
 
             // assert that the file A.jar is extracted from the archive
-            File jar = new File(builddir, "org/A/1.0/artifacts/jars/A.jar");
+            File jar = FileUtil.newFile(builddir, "org/A/1.0/artifacts/jars/A.jar");
             assertTrue(jar.exists());
 
             // assert that the file README is not extracted from the archive
-            File readme = new File(builddir, "org/A/1.0/extract/A-1.0/README");
+            File readme = FileUtil.newFile(builddir, "org/A/1.0/extract/A-1.0/README");
             assertFalse(readme.exists());
         } finally {
             Locale.setDefault(oldLocale);
@@ -253,11 +253,11 @@ public class PackagerResolverTest extends AbstractDependencyResolverTest {
             resolver.download(new Artifact[] {artifact}, downloadOptions());
 
             // assert that the file B.jar is extracted from the archive
-            File jar = new File(builddir, "org/B/1.0/artifacts/jars/B.jar");
+            File jar = FileUtil.newFile(builddir, "org/B/1.0/artifacts/jars/B.jar");
             assertTrue(jar.exists());
 
             // assert that the file README is not extracted from the archive
-            File readme = new File(builddir, "org/B/1.0/extract/B-1.0/README");
+            File readme = FileUtil.newFile(builddir, "org/B/1.0/extract/B-1.0/README");
             assertFalse(readme.exists());
         } finally {
             Locale.setDefault(oldLocale);

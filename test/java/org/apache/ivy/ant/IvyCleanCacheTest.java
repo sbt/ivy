@@ -47,9 +47,9 @@ public class IvyCleanCacheTest extends TestCase {
                 .toExternalForm());
         settings.perform();
 
-        resolutionCache = new File(cacheDir, "resolution");
-        repoCache = new File(cacheDir, "repository");
-        repoCache2 = new File(cacheDir, "repository2");
+        resolutionCache = FileUtil.newFile(cacheDir, "resolution");
+        repoCache = FileUtil.newFile(cacheDir, "repository");
+        repoCache2 = FileUtil.newFile(cacheDir, "repository2");
         resolutionCache.mkdirs();
         repoCache.mkdirs();
         repoCache2.mkdirs();
