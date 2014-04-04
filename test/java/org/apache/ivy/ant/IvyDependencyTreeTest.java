@@ -20,6 +20,7 @@ package org.apache.ivy.ant;
 import java.io.File;
 
 import org.apache.ivy.ant.testutil.AntTaskTestCase;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;

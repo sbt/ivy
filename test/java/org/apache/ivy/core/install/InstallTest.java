@@ -25,6 +25,7 @@ import org.apache.ivy.Ivy;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.report.ResolveReport;
 import org.apache.ivy.plugins.matcher.PatternMatcher;
+import org.apache.ivy.util.FileUtil;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
 

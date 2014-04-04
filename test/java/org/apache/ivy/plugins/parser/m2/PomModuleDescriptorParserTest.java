@@ -42,6 +42,7 @@ import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParser;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParserTest;
 import org.apache.ivy.plugins.repository.url.URLResource;
 import org.apache.ivy.plugins.resolver.MockResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class PomModuleDescriptorParserTest extends AbstractModuleDescriptorParserTester {
     // junit test -- DO NOT REMOVE used by ant to know it's a junit test

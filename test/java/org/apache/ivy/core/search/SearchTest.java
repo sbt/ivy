@@ -33,6 +33,7 @@ import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.matcher.PatternMatcher;
 import org.apache.ivy.plugins.resolver.IBiblioResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class SearchTest extends TestCase {
     public void testListInMavenRepo() throws Exception {

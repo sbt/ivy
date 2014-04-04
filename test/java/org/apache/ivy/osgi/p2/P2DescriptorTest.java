@@ -36,6 +36,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.osgi.updatesite.UpdateSiteResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class P2DescriptorTest extends TestCase {
 

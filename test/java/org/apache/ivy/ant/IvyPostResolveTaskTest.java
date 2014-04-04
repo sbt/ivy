@@ -25,6 +25,7 @@ import org.apache.ivy.TestHelper;
 import org.apache.ivy.core.report.ResolveReport;
 import org.apache.ivy.util.CacheCleaner;
 import org.apache.ivy.util.DefaultMessageLogger;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

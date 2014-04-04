@@ -43,6 +43,7 @@ import org.apache.ivy.core.settings.XmlSettingsParser;
 import org.apache.ivy.core.sort.SortEngine;
 import org.apache.ivy.plugins.latest.LatestRevisionStrategy;
 import org.apache.ivy.plugins.latest.LatestTimeStrategy;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.MockMessageLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;

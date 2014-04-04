@@ -32,6 +32,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.settings.XmlSettingsParser;
 import org.apache.ivy.core.sort.SortEngine;
+import org.apache.ivy.util.FileUtil;
 
 /**
  * Test for DualResolver

@@ -27,6 +27,7 @@ import org.apache.ivy.Ivy;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
 import org.apache.ivy.plugins.resolver.IBiblioResolver;
 import org.apache.ivy.plugins.resolver.IvyRepResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class ConfigureTest extends TestCase {
     public void testDefault() throws ParseException, IOException {

@@ -33,6 +33,7 @@ import org.apache.ivy.osgi.repo.ModuleDescriptorWrapper;
 import org.apache.ivy.osgi.repo.RepoDescriptor;
 import org.apache.ivy.util.CacheCleaner;
 import org.apache.ivy.util.CollectionUtils;
+import org.apache.ivy.util.FileUtil;
 import org.xml.sax.SAXException;
 
 public class UpdateSiteLoaderTest extends TestCase {

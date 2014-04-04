@@ -54,6 +54,7 @@ import org.apache.ivy.osgi.repo.AbstractOSGiResolver.RequirementStrategy;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
 import org.apache.ivy.plugins.resolver.DualResolver;
 import org.apache.ivy.plugins.resolver.FileSystemResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class OBRResolverTest extends TestCase {
 

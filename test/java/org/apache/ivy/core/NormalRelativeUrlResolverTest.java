@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import junit.framework.TestCase;
+import org.apache.ivy.util.FileUtil;
 
 public class NormalRelativeUrlResolverTest extends TestCase {
 

@@ -40,6 +40,7 @@ import org.apache.ivy.osgi.repo.AbstractOSGiResolver.RequirementStrategy;
 import org.apache.ivy.osgi.repo.AggregatedOSGiResolver;
 import org.apache.ivy.osgi.updatesite.UpdateSiteResolver;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class AggregatedOSGiResolverTest extends TestCase {
 

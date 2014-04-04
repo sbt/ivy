@@ -29,6 +29,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.parser.ParserSettings;
+import org.apache.ivy.util.FileUtil;
 
 public class ModuleDescriptorMemoryCacheTest extends TestCase {
 

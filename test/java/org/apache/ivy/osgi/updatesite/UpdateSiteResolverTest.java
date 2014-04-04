@@ -39,6 +39,7 @@ import org.apache.ivy.core.search.OrganisationEntry;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.osgi.core.BundleInfo;
 import org.apache.ivy.plugins.resolver.DependencyResolver;
+import org.apache.ivy.util.FileUtil;
 
 public class UpdateSiteResolverTest extends TestCase {
 

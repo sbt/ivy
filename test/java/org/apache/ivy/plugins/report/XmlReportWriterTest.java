@@ -27,6 +27,7 @@ import org.apache.ivy.Ivy;
 import org.apache.ivy.core.report.ResolveReport;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.XMLHelper;
 import org.xml.sax.helpers.DefaultHandler;
 

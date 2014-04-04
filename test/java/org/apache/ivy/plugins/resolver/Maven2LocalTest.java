@@ -32,6 +32,7 @@ import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.core.sort.SortEngine;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 
 public class Maven2LocalTest extends TestCase {
     private IvySettings settings;

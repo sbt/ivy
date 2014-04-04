@@ -26,6 +26,7 @@ import org.apache.ivy.core.report.ResolveReport;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.util.CacheCleaner;
+import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.MockMessageLogger;
 
 public class IvyTest extends TestCase {
@@ -58,7 +59,7 @@ public class IvyTest extends TestCase {
                 .getContext().getIvy() == ivy);
 
         ResolveReport report = ivy.resolve(FileUtil.newFile(
-                "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"),
+                        "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml"),
             getResolveOptions(ivy, new String[] {"*"}));
         assertNotNull(report);
         assertFalse(report.hasError());

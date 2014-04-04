@@ -23,6 +23,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.apache.ivy.plugins.repository.file.FileRepository;
+import org.apache.ivy.util.FileUtil;
 
 public class ResolverHelperTest extends TestCase {
 
