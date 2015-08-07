@@ -635,23 +635,27 @@ public class PomModuleDescriptorBuilder {
         return mainArtifact;
     }
 
-    public Artifact getSourceArtifact() {
+    public static Artifact getSourceArtifact(final ModuleDescriptor md, final ModuleRevisionId mrid) {
         return new MDArtifact(
-            ivyModuleDescriptor, mrid.getName(), "source", "jar", 
+            md, mrid.getName(), "source", "jar",
             null, Collections.singletonMap("m:classifier", "sources"));
     }
 
-    public Artifact getSrcArtifact() {
+    public static Artifact getSrcArtifact(final ModuleDescriptor md, final ModuleRevisionId mrid) {
         return new MDArtifact(
-            ivyModuleDescriptor, mrid.getName(), "source", "jar", 
+            md, mrid.getName(), "source", "jar",
             null, Collections.singletonMap("m:classifier", "src"));
     }
 
-    public Artifact getJavadocArtifact() {
+    public static Artifact getJavadocArtifact(final ModuleDescriptor md, final ModuleRevisionId mrid) {
         return new MDArtifact(
-            ivyModuleDescriptor, mrid.getName(), "javadoc", "jar", 
+            md, mrid.getName(), "javadoc", "jar",
             null, Collections.singletonMap("m:classifier", "javadoc"));
     }
+
+    public Artifact getSourceArtifact()  { return getSourceArtifact(  ivyModuleDescriptor, mrid); }
+    public Artifact getSrcArtifact()     { return getSrcArtifact(     ivyModuleDescriptor, mrid); }
+    public Artifact getJavadocArtifact() { return getJavadocArtifact( ivyModuleDescriptor, mrid); }
 
     public void addSourceArtifact() {
         ivyModuleDescriptor.addArtifact("sources", getSourceArtifact());
