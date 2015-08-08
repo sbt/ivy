@@ -51,6 +51,7 @@ import org.apache.ivy.plugins.namespace.NameSpaceHelper;
 import org.apache.ivy.plugins.parser.ModuleDescriptorParser;
 import org.apache.ivy.plugins.parser.ModuleDescriptorParserRegistry;
 import org.apache.ivy.plugins.parser.ParserSettings;
+import org.apache.ivy.plugins.parser.m2.PomModuleDescriptorBuilder;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParser;
 import org.apache.ivy.plugins.repository.ArtifactResourceResolver;
 import org.apache.ivy.plugins.repository.Repository;
@@ -1218,6 +1219,13 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                             if (!prepAndDeleteArtifact(arts[j], options, backupDownloader)) return null;
                         }
                     }
+
+                    final Artifact sourceArtifact  = PomModuleDescriptorBuilder.getSourceArtifact(md, mrid);
+                    final Artifact srcArtifact     = PomModuleDescriptorBuilder.getSrcArtifact(md, mrid);
+                    final Artifact javadocArtifact = PomModuleDescriptorBuilder.getJavadocArtifact(md, mrid);
+                    if (!prepAndDeleteArtifact(sourceArtifact,  options, backupDownloader)) return null;
+                    if (!prepAndDeleteArtifact(srcArtifact,     options, backupDownloader)) return null;
+                    if (!prepAndDeleteArtifact(javadocArtifact, options, backupDownloader)) return null;
                 } else if (isChanging(dd, mrid, options)) {
                     Message.verbose(mrid
                         + " is changing, but has not changed: will trust cached artifacts if any");
