@@ -1211,6 +1211,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                     Message.verbose(mrid + " has changed: deleting old artifacts");
                     deleteOldArtifacts = true;
                 }
+                System.out.println("gh1750 ivy");
                 if (deleteOldArtifacts) {
                     String[] confs = md.getConfigurationsNames();
                     for (int i = 0; i < confs.length; i++) {
