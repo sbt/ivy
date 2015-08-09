@@ -51,6 +51,7 @@ import org.apache.ivy.plugins.namespace.NameSpaceHelper;
 import org.apache.ivy.plugins.parser.ModuleDescriptorParser;
 import org.apache.ivy.plugins.parser.ModuleDescriptorParserRegistry;
 import org.apache.ivy.plugins.parser.ParserSettings;
+import org.apache.ivy.plugins.parser.m2.PomModuleDescriptorBuilder;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParser;
 import org.apache.ivy.plugins.repository.ArtifactResourceResolver;
 import org.apache.ivy.plugins.repository.Repository;
@@ -1210,31 +1211,22 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                     Message.verbose(mrid + " has changed: deleting old artifacts");
                     deleteOldArtifacts = true;
                 }
+                System.out.println("gh1750 ivy");
                 if (deleteOldArtifacts) {
                     String[] confs = md.getConfigurationsNames();
                     for (int i = 0; i < confs.length; i++) {
                         Artifact[] arts = md.getArtifacts(confs[i]);
                         for (int j = 0; j < arts.length; j++) {
-                            Artifact transformedArtifact = NameSpaceHelper.transform(
-                                arts[j], options.getNamespace().getToSystemTransformer());
-                            ArtifactOrigin origin = getSavedArtifactOrigin(
-                                transformedArtifact);
-                            File artFile = getArchiveFileInCache(
-                                transformedArtifact, origin, false);
-                            if (artFile.exists()) {
-                                Message.debug("deleting " + artFile);
-                                if (!artFile.delete()) {
-                                    // Old artifacts couldn't get deleted!
-                                    // Restore the original ivy file so the next time we
-                                    // resolve the old artifacts are deleted again
-                                    backupDownloader.restore();
-                                    Message.error("Couldn't delete outdated artifact from cache: " + artFile);
-                                    return null;
-                                }
-                            }
-                            removeSavedArtifactOrigin(transformedArtifact);
+                            if (!prepAndDeleteArtifact(arts[j], options, backupDownloader)) return null;
                         }
                     }
+
+                    final Artifact sourceArtifact  = PomModuleDescriptorBuilder.getSourceArtifact(md, mrid);
+                    final Artifact srcArtifact     = PomModuleDescriptorBuilder.getSrcArtifact(md, mrid);
+                    final Artifact javadocArtifact = PomModuleDescriptorBuilder.getJavadocArtifact(md, mrid);
+                    if (!prepAndDeleteArtifact(sourceArtifact,  options, backupDownloader)) return null;
+                    if (!prepAndDeleteArtifact(srcArtifact,     options, backupDownloader)) return null;
+                    if (!prepAndDeleteArtifact(javadocArtifact, options, backupDownloader)) return null;
                 } else if (isChanging(dd, mrid, options)) {
                     Message.verbose(mrid
                         + " is changing, but has not changed: will trust cached artifacts if any");
@@ -1357,7 +1349,28 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
         }
         return isCheckmodified();
     }
-    
+
+    private boolean prepAndDeleteArtifact(final Artifact artifact, final CacheMetadataOptions options,
+                                          final BackupResourceDownloader backupDownloader) throws IOException {
+        final Artifact transformedArtifact =
+            NameSpaceHelper.transform(artifact, options.getNamespace().getToSystemTransformer());
+        final ArtifactOrigin origin = getSavedArtifactOrigin(transformedArtifact);
+        final File artFile = getArchiveFileInCache(transformedArtifact, origin, false);
+        if (artFile.exists()) {
+            Message.debug("deleting " + artFile);
+            if (!artFile.delete()) {
+                // Old artifacts couldn't get deleted!
+                // Restore the original ivy file so the next time we
+                // resolve the old artifacts are deleted again
+                backupDownloader.restore();
+                Message.error("Couldn't delete outdated artifact from cache: " + artFile);
+                return false;
+            }
+        }
+        removeSavedArtifactOrigin(transformedArtifact);
+        return true;
+    }
+
     public void clean() {
         FileUtil.forceDelete(getBasedir());
     }
