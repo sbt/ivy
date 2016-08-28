@@ -295,7 +295,9 @@ public class PomModuleDescriptorBuilder {
             return;
         }
 
-        DefaultDependencyDescriptor dd = new PomDependencyDescriptor(dep, ivyModuleDescriptor, moduleRevId);
+        List /*<ModuleId>*/ excluded = dep.getExcludedModules();
+        Boolean transitive = !containsExcludeAllElement(excluded);
+        DefaultDependencyDescriptor dd = new PomDependencyDescriptor(dep, ivyModuleDescriptor, moduleRevId, transitive);
         scope = (scope == null || scope.length() == 0) ? getDefaultScope(dep) : scope;
         ConfMapper mapping = (ConfMapper) MAVEN2_CONF_MAPPING.get(scope);
         mapping.addMappingConfs(dd, dep.isOptional());
@@ -334,22 +336,23 @@ public class PomModuleDescriptorBuilder {
         // inherited from parent POMs if either of the following is true:
         // the <exclusions> element is missing or the <exclusions> element
         // is present, but empty.
-        List /*<ModuleId>*/ excluded = dep.getExcludedModules();
+
         if (excluded.isEmpty()) {
             excluded = getDependencyMgtExclusions(ivyModuleDescriptor, dep.getGroupId(), dep.getArtifactId());
         }
-        for (Iterator itExcl = excluded.iterator(); itExcl.hasNext();) {
-            ModuleId excludedModule = (ModuleId) itExcl.next();
-            String[] confs = dd.getModuleConfigurations();
-            for (int k = 0; k < confs.length; k++) {
-                dd.addExcludeRule(confs[k], new DefaultExcludeRule(new ArtifactId(
-                    excludedModule, PatternMatcher.ANY_EXPRESSION,
-                                PatternMatcher.ANY_EXPRESSION,
-                                PatternMatcher.ANY_EXPRESSION),
-                                ExactPatternMatcher.INSTANCE, null));
+        if(transitive) {
+            for (Iterator itExcl = excluded.iterator(); itExcl.hasNext();) {
+                ModuleId excludedModule = (ModuleId) itExcl.next();
+                String[] confs = dd.getModuleConfigurations();
+                for (int k = 0; k < confs.length; k++) {
+                    dd.addExcludeRule(confs[k], new DefaultExcludeRule(new ArtifactId(
+                        excludedModule, PatternMatcher.ANY_EXPRESSION,
+                                    PatternMatcher.ANY_EXPRESSION,
+                                    PatternMatcher.ANY_EXPRESSION),
+                                    ExactPatternMatcher.INSTANCE, null));
+                }
             }
         }
-    
         ivyModuleDescriptor.addDependency(dd);
     }
 
@@ -452,6 +455,16 @@ public class PomModuleDescriptorBuilder {
         public List /*<ModuleId>*/ getExcludedModules() {
             return Collections.EMPTY_LIST; // probably not used?
         }
+    }
+
+    private boolean containsExcludeAllElement(List excluded) {
+        for (Iterator itExcl = excluded.iterator(); itExcl.hasNext();) {
+            ModuleId excludedModule = (ModuleId) itExcl.next();
+            if(excludedModule.getOrganisation().equals("*") && excludedModule.getName().equals("*")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String getDefaultVersion(PomDependencyData dep) {
@@ -672,8 +685,8 @@ public class PomModuleDescriptorBuilder {
         private final PomDependencyData pomDependencyData;
 
         private PomDependencyDescriptor(PomDependencyData pomDependencyData,
-                ModuleDescriptor moduleDescriptor, ModuleRevisionId revisionId) {
-            super(moduleDescriptor, revisionId, true, false, true);
+                ModuleDescriptor moduleDescriptor, ModuleRevisionId revisionId, Boolean transitive) {
+            super(moduleDescriptor, revisionId, true, false, transitive);
             this.pomDependencyData = pomDependencyData;
         }
 
