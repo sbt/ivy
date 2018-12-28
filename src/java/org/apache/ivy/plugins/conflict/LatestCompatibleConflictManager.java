@@ -45,8 +45,8 @@ import org.apache.ivy.util.Message;
  * the strict conflict manager), but it has the advantage of using a best effort algorithm to find a
  * set of compatible dependencies, even if it requires stepping back to older revisions (as long as
  * they are in the set of compatibility).
- * <p>
- * Here is an example of what this conflict manager is able to do:<br/> 
+ *
+ * Here is an example of what this conflict manager is able to do:<br> 
  * <b>Available Modules</b>:
  * <pre>
  * #A;2-&gt;{ #B;[1.0,1.5] #C;[2.0,2.5] }
@@ -55,12 +55,11 @@ import org.apache.ivy.util.Message;
  * #C;2.5-&gt;#D;[1.0,1.6]
  * </pre>
  * 
- * <b>Result</b>: #B;1.4, #C;2.5, #D;1.5<br/> 
+ * <b>Result</b>: #B;1.4, #C;2.5, #D;1.5<br> 
  * <b>Details</b>The conflict manager finds that the latest matching version
  * of #B (1.5) depends on a version of #D incompatible with what is expected by the latest matching
  * version of #C. Hence the conflict manager blacklists #B;1.5, and the version range [1.0,1.5] is
  * resolved again to end up with #B;1.4 which depends on #D;1.5, which is fine to work with #C;2.5.
- * </p>
  */
 public class LatestCompatibleConflictManager extends LatestConflictManager {
     public LatestCompatibleConflictManager() {

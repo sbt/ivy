@@ -186,7 +186,7 @@ public class TransferEvent extends IvyEvent {
      * Returns the request type.
      * 
      * @return Returns the request type. The Request type is one of
-     *         <code>TransferEvent.REQUEST_GET<code> or <code>TransferEvent.REQUEST_PUT<code>
+     *         <code>TransferEvent.REQUEST_GET</code> or <code>TransferEvent.REQUEST_PUT</code>
      */
     public int getRequestType() {
         return requestType;
@@ -197,7 +197,7 @@ public class TransferEvent extends IvyEvent {
      * 
      * @param requestType
      *            The requestType to set. The Request type value should be either
-     *            <code>TransferEvent.REQUEST_GET<code> or <code>TransferEvent.REQUEST_PUT<code>.
+     *            <code>TransferEvent.REQUEST_GET</code> or <code>TransferEvent.REQUEST_PUT</code>.
      * @throws IllegalArgumentException when
      */
     protected void setRequestType(final int requestType) {
@@ -302,20 +302,18 @@ public class TransferEvent extends IvyEvent {
     /**
      * Returns the elapsed time (in ms) between when the event entered one type until it entered
      * another event time.
-     * <p>
+     *
      * This is especially useful to get the elapsed transfer time:
      * <pre>
      * getElapsedTime(TransferEvent.TRANSFER_STARTED, TransferEvent.TRANSFER_COMPLETED);
      * </pre>
-     * </p>
-     * <p>
+     *
      * Special cases:
      * <ul>
      * <li>returns -1 if the event never entered the fromEventType or the toEventType.</li>
      * <li>returns 0 if the event entered toEventType before fromEventType</li>
      * </ul>
-     * </p>
-     * 
+     *
      * @param fromEventType
      *            the event type constant from which time should be measured
      * @param toEventType

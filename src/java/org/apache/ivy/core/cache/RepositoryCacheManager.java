@@ -43,9 +43,9 @@ public interface RepositoryCacheManager {
     /**
      * Saves the information of which resolvers were used to resolve a module (both for metadata and
      * artifact), so that this info can be loaded later (even after a jvm restart) for the use of
-     * {@link #findModuleInCache(DependencyDescriptor, CacheMetadataOptions, String)}.
+     * #findModuleInCache(DependencyDescriptor, CacheMetadataOptions, String).
      * 
-     * @param md
+     * @param descriptor
      *            the module descriptor resolved
      * @param metadataResolverName
      *            metadata resolver name

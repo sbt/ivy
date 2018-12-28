@@ -607,7 +607,7 @@ public class DefaultModuleDescriptor implements ModuleDescriptor {
      * 
      * @param moduleId
      * @param matcher
-     * @param resolverName
+     * @param manager
      */
     public void addConflictManager(ModuleId moduleId, PatternMatcher matcher,
             ConflictManager manager) {

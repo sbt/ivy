@@ -59,7 +59,6 @@ public final class FilterHelper {
      * @param  filter  The filter to use.
      * @return  A new collection instance containing the only the instance accepted by the filter.
      *
-     * <br />
      * Comment: We could have used 
      *          <a  href="http://jakarta.apache.org/commons/collections/">Commons-Collections</a>
      *          facility for this. If we accepted to add dependencies on third party jars.

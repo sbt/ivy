@@ -93,9 +93,9 @@ public class IvyEvent {
     }
 
     /**
-     * Returns the attributes of this event, as a Map(String->String)
+     * Returns the attributes of this event, as a Map(String-&gt;String)
      * 
-     * @return the attributes of this event, as a Map(String->String)
+     * @return the attributes of this event, as a Map(String-&gt;String)
      */
     public Map getAttributes() {
         return new HashMap(attributes);

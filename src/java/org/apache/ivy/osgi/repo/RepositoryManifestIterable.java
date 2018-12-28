@@ -37,7 +37,7 @@ public class RepositoryManifestIterable extends AbstractFSManifestIterable/* <St
     /**
      * Default constructor
      * 
-     * @param root
+     * @param repo
      *            the root directory of the file system to lookup
      */
     public RepositoryManifestIterable(Repository repo) {

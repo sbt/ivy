@@ -161,11 +161,11 @@ public abstract class XMLHelper {
     
     /**
      * Escapes invalid XML characters in the given character data using XML entities.
-     * For the moment, only the following characters are being escaped: (<), (&), (') 
+     * For the moment, only the following characters are being escaped: (&lt;), (&amp;), (') 
      * and (").
      * 
-     * Remark: we don't escape the (>) character to keep the readability of the
-     * configuration mapping! The XML spec only requires that the (&) and (<)
+     * Remark: we don't escape the (&gt;) character to keep the readability of the
+     * configuration mapping! The XML spec only requires that the (&amp;) and (&lt;)
      * characters are being escaped inside character data.
      * 
      * @param text the character data to escape

@@ -184,9 +184,8 @@ public class SearchEngine {
      * ModuleId are returned in the system namespace.
      * </p>
      * 
-     * @param criteria
+     * @param moduleCrit
      * @param matcher
-     * @return
      */
     public ModuleId[] listModules(ModuleId moduleCrit, PatternMatcher matcher) {
         List ret = new ArrayList();
@@ -221,7 +220,7 @@ public class SearchEngine {
      * ModuleRevisionId are returned in the system namespace.
      * </p>
      * 
-     * @param criteria
+     * @param moduleCrit
      * @param matcher
      * @return
      */

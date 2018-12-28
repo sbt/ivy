@@ -65,7 +65,7 @@ public class SshResolver extends AbstractSshBasedResolver {
     /**
      * set the command to check for existence of a file the command has to be a shell command
      * working on the target system and has to create an exit status of 0 for an existent file 
-     * and <> 0 for a non existing file given as argument the term %arg can be used in the command
+     * and &lt;&gt; 0 for a non existing file given as argument the term %arg can be used in the command
      * to substitue the path to be listed if %arg is not part of the command, the path will be 
      * appended to the command default is: "ls"
      */

@@ -51,7 +51,6 @@ public interface MessageLogger {
      * @see Message#MSG_VERBOSE
      * @see Message#MSG_INFO
      * @see Message#MSG_WARN
-     * @see Message#MSG_ERROR
      */
     public abstract void log(String msg, int level);
     /**

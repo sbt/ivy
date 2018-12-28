@@ -180,7 +180,7 @@ public class ResolveOptions extends LogOptions {
     }
 
     /**
-     * @pre can only be called if useSpecialConfs()==false.  When it is true, 
+     * can only be called if useSpecialConfs()==false.  When it is true, 
      * you have to provide a module desciptor so that configurations can be resolved.
      * @see #getConfs(ModuleDescriptor)
      */

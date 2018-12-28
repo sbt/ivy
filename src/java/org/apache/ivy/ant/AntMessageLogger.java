@@ -108,7 +108,7 @@ public class AntMessageLogger extends AbstractMessageLogger {
     /**
      * Constructs a new AntMEssageImpl instance.
      * 
-     * @param antProjectComponent
+     * @param task
      *            the ant project component this message implementation should use for logging. Must
      *            not be <code>null</code>.
      */

@@ -156,7 +156,7 @@ public class LatestConflictManager extends AbstractConflictManager {
     /**
      * To conform to configurator API
      * 
-     * @param latestStrategy
+     * @param strategyName
      */
     public void setLatest(String strategyName) {
         this.strategyName = strategyName;

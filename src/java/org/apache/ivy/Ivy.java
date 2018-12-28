@@ -72,7 +72,7 @@ import org.apache.ivy.util.MessageLoggerEngine;
 
 /**
  * <a href="http://ant.apache.org/ivy/">Ivy</a> is a free java based dependency manager.
- * <p>
+ *
  * This class is the main class of Ivy, which acts as a Facade to all services offered by Ivy:
  * <ul>
  * <li>resolve dependencies</li>
@@ -88,12 +88,11 @@ import org.apache.ivy.util.MessageLoggerEngine;
  * ivy.resolve(new URL(&quot;ivy.xml&quot;));
  * </pre>
  * 
- * </p>
  * <h2>Using Ivy engines directly</h2>
- * <p>
+ *
  * If the methods offered by the {@link Ivy} class are not flexible enough and you want to use Ivy
  * engines directly, you need to call the methods within a single {@link IvyContext} associated to
- * the {@link Ivy} instance you use.<br/> To do so, it is recommended to use the
+ * the {@link Ivy} instance you use.<br> To do so, it is recommended to use the
  * {@link #execute(org.apache.ivy.Ivy.IvyCallback)} method like this:
  * <pre>
  * Ivy ivy = Ivy.newInstance();
@@ -107,8 +106,6 @@ import org.apache.ivy.util.MessageLoggerEngine;
  *     }
  * });
  * </pre>
- * 
- * </p>
  */
 public class Ivy {
     /**
@@ -337,10 +334,10 @@ public class Ivy {
     
     /**
      * Executes the given callback in the context of this Ivy instance.
-     * <p>
+     *
      * Alternatively you can use the {@link #pushContext()} and {@link #popContext()} methods, but
      * this is not recommended:
-     * 
+     *
      * <pre>
      * Object result = null;
      * pushContext();
@@ -351,9 +348,7 @@ public class Ivy {
      * }
      * doSomethingWithResult(result);
      * </pre>
-     * 
-     * </p>
-     * 
+     *
      * @param callback
      * @return
      */
@@ -644,9 +639,6 @@ public class Ivy {
      * @param options
      *            Options to use to sort the descriptors.
      * @return a List of sorted ModuleDescriptors
-     * @throws CircularDependencyException
-     *             if a circular dependency exists and circular dependency strategy decide to throw
-     *             an exception
      */
     public List sortModuleDescriptors(Collection moduleDescriptors, SortOptions options) {
         pushContext();

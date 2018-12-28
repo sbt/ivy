@@ -421,11 +421,6 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
     /**
      * Saves the information of which resolver was used to resolve a md, so that this info can be
      * retrieve later (even after a jvm restart) by getSavedArtResolverName(ModuleDescriptor md)
-     * 
-     * @param md
-     *            the module descriptor resolved
-     * @param name
-     *            artifact resolver name
      */
     public void saveResolvers(
             ModuleDescriptor md, String metadataResolverName, String artifactResolverName) {

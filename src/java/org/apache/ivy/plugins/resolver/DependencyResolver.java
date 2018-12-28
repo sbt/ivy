@@ -158,7 +158,7 @@ public interface DependencyResolver {
     /**
      * List all the values the given token can take if other tokens are set as described in the
      * otherTokenValues map. For instance, if token = "revision" and the map contains
-     * "organisation"->"foo" "module"->"bar" The results will be the list of revisions of the module
+     * "organisation"-&gt;"foo" "module"-&gt;"bar" The results will be the list of revisions of the module
      * bar from the org foo.
      * <p>
      * Note that listing does not take into account namespaces, and return raw 
@@ -175,7 +175,7 @@ public interface DependencyResolver {
      *            the tokens of the query
      * @param criteria
      *            the token which have values
-     * @return the list of token values (Map<Strin, String>[]), must not be <code>null</code>
+     * @return the list of token values (Map&lt;Strin, String&gt;[]), must not be <code>null</code>
      */
     Map[] listTokenValues(String[] tokens, Map criteria);
 

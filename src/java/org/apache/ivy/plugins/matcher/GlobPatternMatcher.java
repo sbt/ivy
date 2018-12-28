@@ -30,11 +30,9 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * <li> * - Matches zero or more characters</li>
  * <li> ? - Matches exactly one character.</li>
  * </ul>
- * <p/> <b> Note that this matcher is available only with <a
- * href="http://jakarta.apache.org/oro"Apache Jakarta Oro 2.0.8</a> in your classpath.</b>
- * 
- * @see <a
- *      href="http://jakarta.apache.org/oro/api/org/apache/oro/text/GlobCompiler.html">GlobCompiler</a>
+ * <b> Note that this matcher is available only with <a href="http://jakarta.apache.org/oro">Apache Jakarta Oro 2.0.8</a> in your classpath.</b>
+ *
+ * @see <a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/GlobCompiler.html">GlobCompiler</a>
  */
 public/* @Immutable */final class GlobPatternMatcher extends AbstractPatternMatcher {
 
