@@ -23,6 +23,8 @@ lazy val root = (project in file(".")).
     // TODO - Read from version.properties
     git.baseVersion := "2.3.0-sbt",
     name := "ivy",
+    scalacOptions ++= Seq("-target:jvm-1.6"),
+    javacOptions ++= Seq("-target", "6", "-source", "6", "-Xlint", "-Xlint:-serial"),
     unmanagedSourceDirectories in Compile := Seq(
       baseDirectory.value / "src" / "java"
     ),
@@ -67,7 +69,6 @@ lazy val root = (project in file(".")).
       ),
     autoScalaLibrary := false,
     crossPaths := false,
-    javaVersionPrefix in javaVersionCheck := Some("1.6"),
     bintrayPackage := (bintrayPackage in ThisBuild).value,
     bintrayRepository := (bintrayRepository in ThisBuild).value
   )
