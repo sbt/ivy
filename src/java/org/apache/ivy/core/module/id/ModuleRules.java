@@ -125,7 +125,7 @@ public class ModuleRules {
      * Returns the rule object matching the given {@link ModuleId} and accepted by the given
      * {@link Filter}, or <code>null</code> if no rule applies.
      * 
-     * @param mrid
+     * @param mid
      *            the {@link ModuleRevisionId} to search the rule for. 
      *            Must not be <code>null</code>.
      * @param filter

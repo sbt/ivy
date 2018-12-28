@@ -125,7 +125,7 @@ public interface ModuleDescriptor
     Artifact[] getAllArtifacts();
 
     /**
-     * @retun The dependencies of the module. If there is no dependencies return an empty array (non
+     * @return The dependencies of the module. If there is no dependencies return an empty array (non
      *        null)
      */
     DependencyDescriptor[] getDependencies();

@@ -91,7 +91,7 @@ public final class StringUtils {
      * 
      * Example:
      * <pre>
-     * join(new String[] {"one", "two", "three"}, ", ") -> "one, two, three"
+     * join(new String[] {"one", "two", "three"}, ", ") -&gt; "one, two, three"
      * </pre>
      * 
      * @param  objs  The array of objects (<code>toString()</code> is used).
@@ -130,7 +130,7 @@ public final class StringUtils {
      * Encrypt the given string in a way which anybody having access to this method algorithm can
      * easily decrypt. This is useful only to avoid clear string storage in a file for example, but
      * shouldn't be considered as a real mean of security. This only works with simple characters
-     * (char < 256).
+     * (char &lt; 256).
      * 
      * @param str
      *            the string to encrypt

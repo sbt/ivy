@@ -278,7 +278,6 @@ public class IvyNodeUsage {
      *            the root module conf for which we'd like to know if the node is blacklisted
      * 
      * @return true if this node is blacklisted int he given root module conf, false otherwise
-     * @see #blacklist(String)
      */
     protected boolean isBlacklisted(String rootModuleConf) {
         return blacklisted.containsKey(rootModuleConf);

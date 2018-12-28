@@ -24,7 +24,7 @@ lazy val root = (project in file(".")).
     git.baseVersion := "2.3.0-sbt",
     name := "ivy",
     scalacOptions ++= Seq("-target:jvm-1.6"),
-    javacOptions ++= Seq("-target", "6", "-source", "6", "-Xlint", "-Xlint:-serial"),
+    javacOptions in (Compile, compile) ++= Seq("-target", "6", "-source", "6"),
     unmanagedSourceDirectories in Compile := Seq(
       baseDirectory.value / "src" / "java"
     ),

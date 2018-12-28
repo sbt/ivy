@@ -80,7 +80,7 @@ public class VfsResource implements Resource {
 
     /**
      * Get a list of direct descendents of the given resource. Note that attempts to get a list of
-     * children does <emphasize>not</emphasize> result in an error. Instead an error message is
+     * children does <em>not</em> result in an error. Instead an error message is
      * logged and an empty ArrayList returned.
      * 
      * @return A <code>ArrayList</code> of VFSResources
@@ -126,7 +126,7 @@ public class VfsResource implements Resource {
      * slashes instead of 3.
      * 
      * @param vfsURI
-     * @return a normalized <class>String</class> representing the VFS URI
+     * @return a normalized <code>String</code> representing the VFS URI
      */
     public static String normalize(String vfsURI) {
         if (vfsURI == null) {

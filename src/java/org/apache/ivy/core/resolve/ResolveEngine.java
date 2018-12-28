@@ -112,7 +112,7 @@ public class ResolveEngine {
 
     /**
      * Returns the currently configured dictator resolver, which when non null is used in place of
-     * any specified resolver in the {@link IvySettings}
+     * any specified resolver in the IvySettings
      * 
      * @return the currently configured dictator resolver, may be null.
      */
@@ -490,20 +490,6 @@ public class ResolveEngine {
      * Resolve the dependencies of a module without downloading corresponding artifacts. The module
      * to resolve is given by its ivy file URL. This method requires appropriate configuration of
      * the ivy instance, especially resolvers.
-     * 
-     * @param ivySource
-     *            url of the ivy file to use for dependency resolving
-     * @param confs
-     *            an array of configuration names to resolve - must not be null nor empty
-     * @param getCache
-     *            the cache to use - default cache is used if null
-     * @param date
-     *            the date to which resolution must be done - may be null
-     * @return an array of the resolved dependencies
-     * @throws ParseException
-     *             if a parsing problem occurred in the ivy file
-     * @throws IOException
-     *             if an IO problem was raised during ivy file parsing
      */
     public IvyNode[] getDependencies(URL ivySource, ResolveOptions options) throws ParseException,
             IOException {

@@ -98,7 +98,7 @@ public class XmlModuleDescriptorParser extends AbstractModuleDescriptorParser {
     }
 
     /**
-     * @param settings
+     * @param ivySettings
      * @param xmlURL
      *            the url pointing to the file to parse
      * @param res
@@ -544,8 +544,6 @@ public class XmlModuleDescriptorParser extends AbstractModuleDescriptorParser {
 
         /**
          * Describes how to merge configurations elements
-         * @param sourceMrid the source module revision id
-         * @param configurations array of configurations to be inherited 
          */
         protected void mergeConfigurations(ModuleDescriptor parent) {
             ModuleRevisionId sourceMrid = parent.getModuleRevisionId();

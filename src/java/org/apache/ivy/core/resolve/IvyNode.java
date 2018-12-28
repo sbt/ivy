@@ -1227,10 +1227,10 @@ public class IvyNode implements Comparable {
      * <p>
      * This is useful in combination with {@link RestartResolveProcess} for conflict manager
      * implementation which use a best effort strategy to find compatible dependency set, like
-     * {@link LatestCompatibleConflictManager}
+     * LatestCompatibleConflictManager
      * </p>
      * 
-     * @param rootModuleConf the root module configuration in which the node should be blacklisted
+     * @param bdata the root module configuration in which the node should be blacklisted
      */
     public void blacklist(IvyNodeBlacklist bdata) {
         if (data.getSettings().logResolvedRevision()) {
@@ -1275,7 +1275,6 @@ public class IvyNode implements Comparable {
      *            the root module conf for which we'd like to know if the node is blacklisted
      * 
      * @return true if this node is blacklisted int he given root module conf, false otherwise
-     * @see #blacklist(String)
      */
     public boolean isBlacklisted(String rootModuleConf) {
         return usage.isBlacklisted(rootModuleConf);
@@ -1285,7 +1284,6 @@ public class IvyNode implements Comparable {
      * Indicates if this node has been blacklisted in all root module configurations.
      * 
      * @return true if this node is blacklisted in all root module configurations, false otherwise
-     * @see #blacklist(String)
      */
     public boolean isCompletelyBlacklisted() {
         if (isRoot()) {

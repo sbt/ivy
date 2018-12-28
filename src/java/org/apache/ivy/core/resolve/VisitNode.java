@@ -42,12 +42,9 @@ import org.apache.ivy.util.Checks;
  * is requested from several module. In this case you will have one VisitNode per parent and per
  * root module configuration. Thus VisitNode stores data specific to the visit:
  * <ul>
- * <li>parent</li>
- * the node from which the visit is occuring
- * <li>parentConf</li>
- * the configuration of the parent in which this node is visited
- * <li>rootModuleConf</li>
- * the configuration of the root module which is currently resolved
+ * <li>parent - the node from which the visit is occuring</li>
+ * <li>parentConf - the configuration of the parent in which this node is visited</li>
+ * <li>rootModuleConf - the configuration of the root module which is currently resolved</li>
  * </ul>
  */
 public class VisitNode {
@@ -242,9 +239,7 @@ public class VisitNode {
 
     /**
      * Checks if the current node's parent configuration is transitive.
-     * 
-     * @param node
-     *            current node
+     *
      * @return true if the node's parent configuration is transitive
      */
     protected boolean isParentConfTransitive() {

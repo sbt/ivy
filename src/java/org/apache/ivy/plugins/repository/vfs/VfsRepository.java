@@ -118,9 +118,8 @@ public class VfsRepository extends AbstractRepository {
     /**
      * Get a VfsResource
      * 
-     * @param source
+     * @param vfsURI
      *            a <code>String</code> identifying a VFS Resource
-     * @throws <code>IOException</code> on failure
      * @see "Supported File Systems in the jakarta-commons-vfs documentation"
      */
     public Resource getResource(String vfsURI) throws IOException {
@@ -134,7 +133,6 @@ public class VfsRepository extends AbstractRepository {
      *            a <code>String</code> identifying the VFS resource to be fetched
      * @param destination
      *            a <code>File</code> identifying the destination file
-     * @throws <code>IOException</code> on failure
      * @see "Supported File Systems in the jakarta-commons-vfs documentation"
      */
     public void get(String srcVfsURI, File destination) throws IOException {
@@ -162,8 +160,6 @@ public class VfsRepository extends AbstractRepository {
      * 
      * @param vfsURI
      *            providing identifying a VFS provided resource
-     * @throws IOException
-     *             on failure.
      * @see "Supported File Systems in the jakarta-commons-vfs documentation"
      */
     public List list(String vfsURI) throws IOException {
@@ -195,7 +191,6 @@ public class VfsRepository extends AbstractRepository {
      *            a <code>String</code> identifying the destination VFS Resource.
      * @param overwrite
      *            whether to overwrite an existing resource.
-     * @throws <code>IOException</code> on failure.
      * @see "Supported File Systems in the jakarta-commons-vfs documentation"
      */
     public void put(File source, String vfsURI, boolean overwrite) throws IOException {

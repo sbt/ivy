@@ -28,7 +28,7 @@ public class CircularDependencyException extends RuntimeException {
     private ModuleRevisionId[] mrids;
 
     /**
-     * @param descriptors
+     * @param mrids
      *            module descriptors in order of circular dependency
      */
     public CircularDependencyException(final ModuleRevisionId[] mrids) {

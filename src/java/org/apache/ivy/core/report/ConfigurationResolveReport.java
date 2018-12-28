@@ -80,13 +80,12 @@ public class ConfigurationResolveReport {
     
     /**
      * Check if the set of dependencies has changed since the previous execution 
-     * of a resolution.<br/>
+     * of a resolution.
      * This function use the report file found in the cache.  So the function must be called
-     * before the new report is serialized there.</br>
+     * before the new report is serialized there.
      * This function also use the internal dependencies that must already be filled.
      * This function might be 'heavy' because it may have to parse the previous 
      * report.
-     * @return
      */
     public void checkIfChanged() {
         ResolutionCacheManager cache = resolveEngine.getSettings().getResolutionCacheManager();
@@ -111,7 +110,7 @@ public class ConfigurationResolveReport {
     }
     
     /**
-     * @pre checkIfChanged has been called.
+     * checkIfChanged has been called.
      */
     public boolean hasChanged() {        
         return hasChanged.booleanValue();

@@ -18,7 +18,9 @@
 package org.apache.ivy.plugins.matcher;
 
 /**
- * Implementation of an exact matcher. <p/> The matching will be performed against an expression
+ * Implementation of an exact matcher.
+ *
+ * The matching will be performed against an expression
  * being a string. It will only matches if both strings are equal (per equals()) rule or if both
  * strings are null.
  */

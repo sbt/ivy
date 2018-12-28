@@ -18,7 +18,9 @@
 package org.apache.ivy.plugins.matcher;
 
 /**
- * Interface for a pattern matcher. <p/> The pattern matcher is the main abstraction regarding the
+ * Interface for a pattern matcher.
+ *
+ * The pattern matcher is the main abstraction regarding the
  * matching of an expression. Implementation may vary depending on the expression syntax handling
  * that is desired.
  */
