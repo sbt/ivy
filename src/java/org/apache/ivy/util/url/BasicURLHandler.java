@@ -40,6 +40,7 @@ import org.apache.ivy.util.Message;
 public class BasicURLHandler extends AbstractURLHandler {
 
     private static final int BUFFER_SIZE = 64 * 1024;
+    private static final int ERROR_BODY_TRUNCATE_LEN = 512;
 
     private static final class HttpStatus {
         static final int SC_OK = 200;
@@ -261,9 +262,47 @@ public class BasicURLHandler extends AbstractURLHandler {
                     /* ignored */
                 }
             }
-            validatePutStatusCode(dest, conn.getResponseCode(), conn.getResponseMessage());
+
+            // initiate the connection
+            int responseCode = conn.getResponseCode();
+
+            String extra = "";
+            InputStream errorStream = conn.getErrorStream();
+            if(errorStream != null) {
+                InputStream decodingStream = getDecodingInputStream(conn.getContentEncoding(), errorStream);
+                byte[] truncated = readTruncated(decodingStream, ERROR_BODY_TRUNCATE_LEN);
+                String charSet = getCharSetFromContentType(conn.getContentType());
+                extra = "; Response Body: " + new String(truncated, charSet);
+            }
+
+            validatePutStatusCode(dest, responseCode, conn.getResponseMessage() + extra);
         } finally {
             disconnect(conn);
+        }
+    }
+
+    private byte[] readTruncated(InputStream is, int maxLen) throws IOException{
+        ByteArrayOutputStream os = new ByteArrayOutputStream(maxLen);
+        try{
+            int count = 0;
+            int b = is.read();
+            boolean truncated = false;
+            while (!truncated && b >= 0) {
+                if (count >= maxLen) {
+                    truncated = true;
+                } else {
+                    os.write(b);
+                    count += 1;
+                    b = is.read();
+                }
+            }
+            return os.toByteArray();
+        }finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                /* ignored */
+            }
         }
     }
 
