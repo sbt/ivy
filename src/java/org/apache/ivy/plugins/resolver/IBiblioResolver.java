@@ -67,8 +67,8 @@ public class IBiblioResolver extends URLResolver {
 
     public static final String DEFAULT_PATTERN = "[module]/[type]s/[artifact]-[revision].[ext]";
 
-    public static final String DEFAULT_ROOT = "http://www.ibiblio.org/maven/";
-    public static final String DEFAULT_M2_ROOT = "http://repo1.maven.org/maven2/";
+    public static final String DEFAULT_ROOT = "https://www.ibiblio.org/maven/";
+    public static final String DEFAULT_M2_ROOT = "https://repo1.maven.org/maven2/";
 
     private String root = null;
 

@@ -86,6 +86,13 @@ public final class IvyAuthenticator extends Authenticator {
             Message.debug("authentication: k='"
                     + Credentials.buildKey(getRequestingPrompt(), getRequestingHost()) + "' c='" + c
                     + "'");
+
+            // sbt change, driven by https://github.com/sbt/sbt/issues/2366
+            if (c == null) {
+                c = CredentialsStore.INSTANCE.getCredentials(null, getRequestingHost());
+                Message.debug("authentication: k='"
+                        + Credentials.buildKey(null, getRequestingHost()) + "' c='" + c + "'");
+            }
             if (c != null) {
                 final String password = c.getPasswd() == null ? "" : c.getPasswd();
                 result = new PasswordAuthentication(c.getUserName(), password.toCharArray());
