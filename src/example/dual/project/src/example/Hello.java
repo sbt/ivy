@@ -33,7 +33,7 @@ public final class Hello {
             + " : " + WordUtils.capitalizeFully(message));
         
         HttpClient client = new HttpClient();
-        HeadMethod head = new HeadMethod("http://www.ibiblio.org/");
+        HeadMethod head = new HeadMethod("https://www.ibiblio.org/");
         client.executeMethod(head);
         
         int status = head.getStatusCode();

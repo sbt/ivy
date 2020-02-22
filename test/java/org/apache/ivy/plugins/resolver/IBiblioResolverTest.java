@@ -84,22 +84,22 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
     public void testDefaults() {
         IBiblioResolver resolver = new IBiblioResolver();
         _settings.setVariable("ivy.ibiblio.default.artifact.root",
-            "http://www.ibiblio.org/mymaven/");
+            "https://www.ibiblio.org/mymaven/");
         _settings.setVariable("ivy.ibiblio.default.artifact.pattern",
             "[module]/jars/[artifact]-[revision].jar");
         resolver.setSettings(_settings);
         List l = resolver.getArtifactPatterns();
         assertNotNull(l);
         assertEquals(1, l.size());
-        assertEquals("http://www.ibiblio.org/mymaven/[module]/jars/[artifact]-[revision].jar", l
+        assertEquals("https://www.ibiblio.org/mymaven/[module]/jars/[artifact]-[revision].jar", l
                 .get(0));
     }
 
     public void testInitFromConf() throws Exception {
-        _settings.setVariable("ivy.ibiblio.default.artifact.root", "http://www.ibiblio.org/maven/");
+        _settings.setVariable("ivy.ibiblio.default.artifact.root", "https://www.ibiblio.org/maven/");
         _settings.setVariable("ivy.ibiblio.default.artifact.pattern",
             "[module]/jars/[artifact]-[revision].jar");
-        _settings.setVariable("my.ibiblio.root", "http://www.ibiblio.org/mymaven/");
+        _settings.setVariable("my.ibiblio.root", "https://www.ibiblio.org/mymaven/");
         _settings.setVariable("my.ibiblio.pattern", "[module]/[artifact]-[revision].jar");
         _settings.load(IBiblioResolverTest.class.getResource("ibiblioresolverconf.xml"));
         IBiblioResolver resolver = (IBiblioResolver) _settings.getResolver("ibiblioA");
@@ -107,7 +107,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         List l = resolver.getArtifactPatterns();
         assertNotNull(l);
         assertEquals(1, l.size());
-        assertEquals("http://www.ibiblio.org/mymaven/[module]/[artifact]-[revision].jar", l.get(0));
+        assertEquals("https://www.ibiblio.org/mymaven/[module]/[artifact]-[revision].jar", l.get(0));
 
         resolver = (IBiblioResolver) _settings.getResolver("ibiblioB");
         assertNotNull(resolver);
@@ -115,7 +115,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         assertNotNull(l);
         assertEquals(1, l.size());
         assertEquals(
-            "http://www.ibiblio.org/mymaven/[organisation]/jars/[artifact]-[revision].jar", l
+            "https://www.ibiblio.org/mymaven/[organisation]/jars/[artifact]-[revision].jar", l
                     .get(0));
 
         resolver = (IBiblioResolver) _settings.getResolver("ibiblioC");
@@ -125,7 +125,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         assertNotNull(l);
         assertEquals(1, l.size());
         assertEquals(
-            "http://repo1.maven.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
+            "https://repo1.maven.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
             l.get(0));
 
         resolver = (IBiblioResolver) _settings.getResolver("ibiblioD");
@@ -134,7 +134,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         l = resolver.getArtifactPatterns();
         assertNotNull(l);
         assertEquals(1, l.size());
-        assertEquals("http://www.ibiblio.org/maven/[module]/jars/[artifact]-[revision].jar", l
+        assertEquals("https://www.ibiblio.org/maven/[module]/jars/[artifact]-[revision].jar", l
                 .get(0));
 
         resolver = (IBiblioResolver) _settings.getResolver("ibiblioE");
@@ -144,7 +144,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         assertNotNull(l);
         assertEquals(1, l.size());
         assertEquals(
-            "http://www.ibiblio.org/mymaven/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
+            "https://www.ibiblio.org/mymaven/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
             l.get(0));
 
         resolver = (IBiblioResolver) _settings.getResolver("ibiblioF");
@@ -154,7 +154,7 @@ public class IBiblioResolverTest extends AbstractDependencyResolverTest {
         assertNotNull(l);
         assertEquals(1, l.size());
         assertEquals(
-            "http://www.ibiblio.org/mymaven/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
+            "https://www.ibiblio.org/mymaven/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]",
             l.get(0));
     }
 

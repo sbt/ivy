@@ -71,7 +71,7 @@ public class IvyRepResolverTest extends AbstractDependencyResolverTest {
         _settings.setVariable("ivy.ivyrep.default.ivy.pattern",
             "[organisation]/[module]/ivy-[revision].[ext]");
         _settings
-                .setVariable("ivy.ivyrep.default.artifact.root", "http://www.ibiblio.org/mymaven/");
+                .setVariable("ivy.ivyrep.default.artifact.root", "https://www.ibiblio.org/mymaven/");
         _settings.setVariable("ivy.ivyrep.default.artifact.pattern",
             "[module]/jars/[artifact]-[revision].jar");
         resolver.setSettings(_settings);
@@ -84,7 +84,7 @@ public class IvyRepResolverTest extends AbstractDependencyResolverTest {
         l = resolver.getArtifactPatterns();
         assertNotNull(l);
         assertEquals(1, l.size());
-        assertEquals("http://www.ibiblio.org/mymaven/[module]/jars/[artifact]-[revision].jar", l
+        assertEquals("https://www.ibiblio.org/mymaven/[module]/jars/[artifact]-[revision].jar", l
                 .get(0));
     }
     
