@@ -28,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.net.URLDecoder;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.util.CopyProgressListener;
@@ -198,10 +199,20 @@ public class BasicURLHandler extends AbstractURLHandler {
             srcConn.setRequestProperty("Accept-Encoding", "gzip,deflate");
             if (srcConn instanceof HttpURLConnection) {
                 HttpURLConnection httpCon = (HttpURLConnection) srcConn;
-                if (!checkStatusCode(src, httpCon)) {
-                    throw new IOException(
-                        "The HTTP response code for " + src + " did not indicate a success."
-                                + " See log for more detail.");
+                int status = httpCon.getResponseCode();
+                if (status == 302) {
+                   String location = httpCon.getHeaderField("Location");
+                    location = URLDecoder.decode(location, "UTF-8");
+                    URL next = new URL(location); 
+                    download(next,dest,l);
+                    disconnect(srcConn);
+                    return;
+                }else {
+                    if (!checkStatusCode(src, httpCon)) {
+                        throw new IOException(
+                            "The HTTP response code for " + src + " did not indicate a success."
+                                    + " See log for more detail.");
+                    }
                 }
             }
 
