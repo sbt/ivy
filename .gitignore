@@ -2,3 +2,5 @@ build/
 lib/
 test/jar-repos/
 test/repositories/
+target/
+.idea/

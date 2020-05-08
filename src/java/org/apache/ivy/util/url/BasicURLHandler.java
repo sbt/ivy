@@ -28,6 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.util.CopyProgressListener;
@@ -251,6 +253,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             conn.setRequestProperty("Content-length", Long.toString(source.length()));
             conn.setInstanceFollowRedirects(true);
 
+            Message.debug("Request Headers:" + getHeadersAsDebugString(conn.getRequestProperties()));
             InputStream in = new FileInputStream(source);
             try {
                 OutputStream os = conn.getOutputStream();
@@ -268,36 +271,55 @@ public class BasicURLHandler extends AbstractURLHandler {
 
             String extra = "";
             InputStream errorStream = conn.getErrorStream();
-            if(errorStream != null) {
-                InputStream decodingStream = getDecodingInputStream(conn.getContentEncoding(), errorStream);
-                byte[] truncated = readTruncated(decodingStream, ERROR_BODY_TRUNCATE_LEN);
-                String charSet = getCharSetFromContentType(conn.getContentType());
-                extra = "; Response Body: " + new String(truncated, charSet);
+            InputStream responseStream = conn.getInputStream();
+            if (errorStream != null) {
+                extra = "; Response Body: " + readTruncated(errorStream, ERROR_BODY_TRUNCATE_LEN,
+                        conn.getContentType(), conn.getContentEncoding());
+            } else if (responseStream != null) {
+                InputStream decodingStream = getDecodingInputStream(conn.getContentEncoding(), responseStream);
+                extra = "; Response Body: " + readTruncated(responseStream, ERROR_BODY_TRUNCATE_LEN,
+                        conn.getContentType(), conn.getContentEncoding());
             }
-
+            Message.debug("Response Headers:" + getHeadersAsDebugString(conn.getHeaderFields()));
             validatePutStatusCode(dest, responseCode, conn.getResponseMessage() + extra);
         } finally {
             disconnect(conn);
         }
     }
 
-    private byte[] readTruncated(InputStream is, int maxLen) throws IOException{
-        ByteArrayOutputStream os = new ByteArrayOutputStream(maxLen);
-        try{
-            int count = 0;
-            int b = is.read();
-            boolean truncated = false;
-            while (!truncated && b >= 0) {
-                if (count >= maxLen) {
-                    truncated = true;
-                } else {
-                    os.write(b);
-                    count += 1;
-                    b = is.read();
+    private String getHeadersAsDebugString(Map<String, List<String>> headers) throws IOException {
+        StringBuilder builder = new StringBuilder("");
+
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> header : headers.entrySet()) {
+                String key = header.getKey();
+                if (key != null) {
+                    builder.append(header.getKey());
+                    builder.append(": ");
                 }
+                builder.append(String.join("\n    ", header.getValue()));
+                builder.append("\n");
             }
-            return os.toByteArray();
-        }finally {
+        }
+        return builder.toString();
+    }
+
+    private String readTruncated(InputStream is, int maxLen, String contentType,
+                                 String contentEncoding) throws IOException {
+
+        InputStream decodingStream = getDecodingInputStream(contentEncoding, is);
+        String charSet = getCharSetFromContentType(contentType);
+        ByteArrayOutputStream os = new ByteArrayOutputStream(maxLen);
+        try {
+            int count = 0;
+            int b = decodingStream.read();
+            while (count < maxLen && b >= 0) {
+                os.write(b);
+                count += 1;
+                b = decodingStream.read();
+            }
+            return new String(os.toByteArray(), charSet);
+        } finally {
             try {
                 is.close();
             } catch (IOException e) {
