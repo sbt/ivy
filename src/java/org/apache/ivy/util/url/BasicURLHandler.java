@@ -202,7 +202,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             if (srcConn instanceof HttpURLConnection) {
                 HttpURLConnection httpCon = (HttpURLConnection) srcConn;
                 int status = httpCon.getResponseCode();
-                if (status == 302) {
+                if (status == 302 || status == 301) {
                    String location = httpCon.getHeaderField("Location");
                     location = URLDecoder.decode(location, "UTF-8");
                     URL next = new URL(location); 
