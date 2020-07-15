@@ -164,6 +164,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             conn = url.openConnection();
             conn.setRequestProperty("User-Agent", "Apache Ivy/" + Ivy.getIvyVersion());
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
+            conn.setRequestProperty("Accept", "application/octet-stream, application/json, application/xml, */*");
             if (conn instanceof HttpURLConnection) {
                 HttpURLConnection httpCon = (HttpURLConnection) conn;
                 if (!checkStatusCode(url, httpCon)) {
@@ -199,6 +200,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             srcConn = src.openConnection();
             srcConn.setRequestProperty("User-Agent", "Apache Ivy/" + Ivy.getIvyVersion());
             srcConn.setRequestProperty("Accept-Encoding", "gzip,deflate");
+            srcConn.setRequestProperty("Accept", "application/octet-stream, application/json, application/xml, */*");
             if (srcConn instanceof HttpURLConnection) {
                 HttpURLConnection httpCon = (HttpURLConnection) srcConn;
                 int status = httpCon.getResponseCode();
@@ -260,6 +262,7 @@ public class BasicURLHandler extends AbstractURLHandler {
             conn.setDoOutput(true);
             conn.setRequestMethod("PUT");
             conn.setRequestProperty("User-Agent", "Apache Ivy/" + Ivy.getIvyVersion());
+            conn.setRequestProperty("Accept", "application/octet-stream, application/json, application/xml, */*");
             conn.setRequestProperty("Content-type", "application/octet-stream");
             conn.setRequestProperty("Content-length", Long.toString(source.length()));
             conn.setInstanceFollowRedirects(true);

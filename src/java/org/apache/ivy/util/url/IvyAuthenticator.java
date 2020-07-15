@@ -89,6 +89,7 @@ public final class IvyAuthenticator extends Authenticator {
 
             // sbt change, driven by https://github.com/sbt/sbt/issues/2366
             if (c == null) {
+                Message.debug("authentication: requesting prompt: " + getRequestingPrompt());
                 c = CredentialsStore.INSTANCE.getCredentials(null, getRequestingHost());
                 Message.debug("authentication: k='"
                         + Credentials.buildKey(null, getRequestingHost()) + "' c='" + c + "'");
