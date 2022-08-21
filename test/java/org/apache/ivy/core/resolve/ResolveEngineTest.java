@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.core.cache.ArtifactOrigin;
+import org.apache.ivy.core.cache.DefaultResolutionCacheManager;
 import org.apache.ivy.core.module.descriptor.Artifact;
 import org.apache.ivy.core.module.descriptor.DefaultArtifact;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
@@ -77,6 +78,38 @@ public class ResolveEngineTest extends TestCase {
             engine, 
             new DefaultArtifact(ModuleRevisionId.parse("org1#mod1.1;1.0"), new Date(), "mod1.1", "jar", "jar"), 
             new File("test/repositories/1/org1/mod1.1/jars/mod1.1-1.0.jar"));
+    }
+
+    public void testWontWriteResolvedDependenciesOutsideOfCache() throws Exception {
+        final DefaultResolutionCacheManager orig = (DefaultResolutionCacheManager) ivy.getSettings()
+            .getResolutionCacheManager();
+
+        DefaultResolutionCacheManager fake = new DefaultResolutionCacheManager() {
+            {
+                setBasedir(orig.getBasedir());
+                setSettings(ivy.getSettings());
+            }
+
+            @Override
+            public File getResolvedIvyPropertiesInCache(ModuleRevisionId mrid) {
+                return new File(getBasedir(), "../foo.properties");
+            }
+        };
+
+        ivy.getSettings().setResolutionCacheManager(fake);
+        ResolveEngine engine = new ResolveEngine(ivy.getSettings(), ivy.getEventManager(),
+                ivy.getSortEngine());
+
+        ResolveOptions options = new ResolveOptions();
+        options.setConfs(new String[] {"*"});
+
+        ModuleRevisionId mRevId = ModuleRevisionId.parse("org1#mod1.1;1.0");
+        try {
+            engine.resolve(mRevId, options, true);
+            fail("expected an exception");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
 
     private void testLocateThenDownload(ResolveEngine engine, Artifact artifact, File artifactFile) {

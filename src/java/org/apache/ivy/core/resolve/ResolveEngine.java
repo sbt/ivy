@@ -41,6 +41,7 @@ import org.apache.ivy.Ivy;
 import org.apache.ivy.core.IvyContext;
 import org.apache.ivy.core.LogOptions;
 import org.apache.ivy.core.cache.ArtifactOrigin;
+import org.apache.ivy.core.cache.DefaultResolutionCacheManager;
 import org.apache.ivy.core.cache.ResolutionCacheManager;
 import org.apache.ivy.core.event.EventManager;
 import org.apache.ivy.core.event.download.PrepareDownloadEvent;
@@ -247,6 +248,9 @@ public class ResolveEngine {
             // this is used by the deliver task to resolve dynamic revisions to static ones
             File ivyPropertiesInCache = cacheManager.getResolvedIvyPropertiesInCache(
                         md.getResolvedModuleRevisionId());
+            if (cacheManager instanceof DefaultResolutionCacheManager) {
+                ((DefaultResolutionCacheManager) cacheManager).assertInsideCache(ivyPropertiesInCache);
+            }
             Properties props = new Properties();
             if (dependencies.length > 0) {
                 Map forcedRevisions = new HashMap();
