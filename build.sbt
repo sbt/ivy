@@ -15,10 +15,11 @@ lazy val root = (project in file(".")).
       developers := List(
         Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
       ),
-      bintrayReleaseOnPublish := false,
-      bintrayOrganization := Some("sbt"),
-      bintrayRepository := "maven-releases",
-      bintrayPackage := "ivy"
+      pomIncludeRepository := { _ => false },
+      publishTo := {
+        val nexus = "https://oss.sonatype.org/"
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+      }
     )),
     // TODO - Read from version.properties
     git.baseVersion := "2.3.0-sbt",
@@ -39,7 +40,7 @@ lazy val root = (project in file(".")).
     copyLicenseFiles := {
       val dir = (resourceManaged in Compile).value
       val bd = baseDirectory.value
-      val copies = 
+      val copies =
         Map(
           (bd / "LICENSE") -> (dir / "META-INF" / "LICENSE"),
           (bd / "NOTICE") -> (dir / "META-INF" / "NOTICE")
@@ -68,7 +69,5 @@ lazy val root = (project in file(".")).
         "oro" % "oro" % "2.0.8" % "provided"
       ),
     autoScalaLibrary := false,
-    crossPaths := false,
-    bintrayPackage := (bintrayPackage in ThisBuild).value,
-    bintrayRepository := (bintrayRepository in ThisBuild).value
+    crossPaths := false
   )
