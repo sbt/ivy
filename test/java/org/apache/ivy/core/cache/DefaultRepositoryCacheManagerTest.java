@@ -18,6 +18,7 @@
 package org.apache.ivy.core.cache;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -27,7 +28,12 @@ import org.apache.ivy.core.module.descriptor.Artifact;
 import org.apache.ivy.core.module.descriptor.DefaultArtifact;
 import org.apache.ivy.core.module.id.ModuleId;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
+import org.apache.ivy.core.report.ArtifactDownloadReport;
+import org.apache.ivy.core.report.DownloadStatus;
 import org.apache.ivy.core.settings.IvySettings;
+import org.apache.ivy.plugins.repository.ArtifactResourceResolver;
+import org.apache.ivy.plugins.repository.url.URLResource;
+import org.apache.ivy.plugins.resolver.util.ResolvedResource;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
 
@@ -41,9 +47,11 @@ public class DefaultRepositoryCacheManagerTest extends TestCase {
 
     private ArtifactOrigin origin;
 
+    private Ivy ivy;
+
     protected void setUp() throws Exception {
         File f = File.createTempFile("ivycache", ".dir");
-        Ivy ivy = new Ivy();
+        ivy = new Ivy();
         ivy.configureDefault();
         IvySettings settings = ivy.getSettings();
         f.delete(); // we want to use the file as a directory, so we delete the file itself
@@ -98,6 +106,55 @@ public class DefaultRepositoryCacheManagerTest extends TestCase {
         artifact = createArtifact("org", "module", "rev", "name", "type", "ext1");
         found = cacheManager.getSavedArtifactOrigin(artifact);
         assertTrue(ArtifactOrigin.isUnknown(found));
+    }
+
+    public void testWontWritePropertiesOutsideOfCache() {
+        cacheManager.setDataFilePattern("a/../../../../../../");
+        try {
+            cacheManager.saveArtifactOrigin(artifact, origin);
+            fail("expected an exception");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+
+        ModuleId mi = new ModuleId("org", "module");
+        ModuleRevisionId mridLatest = new ModuleRevisionId(mi, "trunk", "latest.integration");
+        try {
+            cacheManager.saveResolvedRevision(mridLatest, "1.1");
+            fail("expected an exception");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
+
+    public void testWontDownloadOutsideOfCache() throws Exception {
+        DefaultRepositoryCacheManager mgr = new DefaultRepositoryCacheManager() {
+            {
+                setUseOrigin(false);
+                setSettings(ivy.getSettings());
+                setBasedir(cacheManager.getBasedir());
+            }
+
+            @Override
+            public String getArchivePathInCache(Artifact artifact, ArtifactOrigin origin) {
+                return "../foo.txt";
+            }
+        };
+
+        ArtifactResourceResolver resolver = new ArtifactResourceResolver() {
+            @Override
+            public ResolvedResource resolve(Artifact artifact) {
+                try {
+                    return new ResolvedResource(new URLResource(new URL("https://ant.apache.org/")), "latest");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        };
+
+        ArtifactDownloadReport report = mgr.download(artifact, resolver, null, new CacheDownloadOptions());
+        assertEquals(DownloadStatus.FAILED, report.getDownloadStatus());
+        assertTrue(report.getDownloadDetails().contains("is outside"));
     }
 
     protected Artifact createArtifact(String org, String module, String rev, String name,

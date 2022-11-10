@@ -574,9 +574,10 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
     }
 
     private PropertiesFile getCachedDataFile(ModuleRevisionId mRevId) {
-        return new PropertiesFile(new File(getRepositoryCacheRoot(), 
-            IvyPatternHelper.substitute(
-                getDataFilePattern(), mRevId)), "ivy cached data file for " + mRevId);
+        File file = new File(getRepositoryCacheRoot(), IvyPatternHelper.substitute(
+            getDataFilePattern(), mRevId));
+        assertInsideCache(file);
+        return new PropertiesFile(file, "ivy cached data file for " + mRevId);
     }
 
     public ResolvedModuleRevision findModuleInCache(
@@ -873,7 +874,8 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                                 throw new IllegalStateException("invalid settings for '"
                                     + resourceResolver
                                     + "': pointing repository to ivy cache is forbidden !");
-                            } 
+                            }
+                            assertInsideCache(archiveFile);
                             if (listener != null) {
                                 listener.startArtifactDownload(this, artifactRef, artifact, origin);
                             }
@@ -960,6 +962,7 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
                         }
 
                         // actual download
+                        assertInsideCache(archiveFile);
                         if (archiveFile.exists()) {
                             archiveFile.delete();
                         }
@@ -1408,6 +1411,16 @@ public class DefaultRepositoryCacheManager implements RepositoryCacheManager, Iv
         Message.debug("\t\tlockingStrategy: " + getLockStrategy().getName());
         Message.debug("\t\tchangingPattern: " + getChangingPattern());
         Message.debug("\t\tchangingMatcher: " + getChangingMatcherName());
+    }
+
+    /**
+     * @throws IllegalArgumentException if the given path points outside of the cache.
+     */
+    public final void assertInsideCache(File fileInCache) {
+        File root = getRepositoryCacheRoot();
+        if (root != null && !FileUtil.isLeadingPath(root, fileInCache)) {
+            throw new IllegalArgumentException(fileInCache + " is outside of the cache");
+        }
     }
 
     /**

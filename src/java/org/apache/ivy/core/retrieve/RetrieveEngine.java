@@ -267,6 +267,11 @@ public class RetrieveEngine {
         String destIvyPattern = IvyPatternHelper.substituteVariables(options.getDestIvyPattern(),
             settings.getVariables());
 
+        File fileRetrieveRoot = settings.resolveFile(IvyPatternHelper
+                .getTokenRoot(destFilePattern));
+        File ivyRetrieveRoot = destIvyPattern == null ? null : settings
+                .resolveFile(IvyPatternHelper.getTokenRoot(destIvyPattern));
+
         // find what we must retrieve where
 
         // ArtifactDownloadReport source -> Set (String copyDestAbsolutePath)
@@ -297,6 +302,7 @@ public class RetrieveEngine {
                 ArtifactDownloadReport artifact = (ArtifactDownloadReport) iter.next();
                 String destPattern = "ivy".equals(artifact.getType()) ? destIvyPattern
                         : destFilePattern;
+                File root = "ivy".equals(artifact.getType()) ? ivyRetrieveRoot : fileRetrieveRoot;
                 
                 if (!"ivy".equals(artifact.getType())
                         && !options.getArtifactFilter().accept(artifact.getArtifact())) {
@@ -311,7 +317,14 @@ public class RetrieveEngine {
                     dest = new HashSet();
                     artifactsToCopy.put(artifact, dest);
                 }
-                String copyDest = settings.resolveFile(destFileName).getAbsolutePath();
+                File copyDestFile = settings.resolveFile(destFileName).getAbsoluteFile();
+                if (root != null &&
+                    !FileUtil.isLeadingPath(root, copyDestFile)) {
+                    Message.warn("not retrieving artifact " + artifact + " as its destination "
+                                 + copyDestFile + " is not inside " + root);
+                    continue;
+                }
+                String copyDest = copyDestFile.getPath();
 
                 String[] destinations = new String[] {copyDest};
                 if (options.getMapper() != null) {

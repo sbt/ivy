@@ -27,12 +27,15 @@ import junit.framework.TestCase;
 
 import org.apache.ivy.Ivy;
 import org.apache.ivy.core.IvyPatternHelper;
+import org.apache.ivy.core.cache.ResolutionCacheManager;
 import org.apache.ivy.core.event.IvyEvent;
 import org.apache.ivy.core.event.IvyListener;
 import org.apache.ivy.core.event.retrieve.EndRetrieveArtifactEvent;
 import org.apache.ivy.core.event.retrieve.EndRetrieveEvent;
 import org.apache.ivy.core.event.retrieve.StartRetrieveArtifactEvent;
 import org.apache.ivy.core.event.retrieve.StartRetrieveEvent;
+import org.apache.ivy.core.module.descriptor.Configuration;
+import org.apache.ivy.core.module.descriptor.DefaultModuleDescriptor;
 import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.report.ResolveReport;
@@ -40,7 +43,15 @@ import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.util.Message;
 import org.apache.ivy.util.MockMessageLogger;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Delete;
+import org.apache.tools.ant.types.FilterChain;
+import org.apache.tools.ant.filters.TokenFilter.ReplaceString;
+import java.net.URL;
+import java.nio.file.Path;
+import java.text.ParseException;
+import java.util.Set;
+
 
 public class RetrieveTest extends TestCase {
     private Ivy ivy;
@@ -91,6 +102,43 @@ public class RetrieveTest extends TestCase {
         ivy.retrieve(md.getModuleRevisionId(), pattern, getRetrieveOptions());
         assertTrue(new File(IvyPatternHelper.substitute(pattern, "org1", "mod1.2", "2.0", "mod1.2",
             "jar", "jar", "default")).exists());
+    }
+
+    public void testWontRetrieveOutsideOfDestRoot() throws Exception {
+        ResolveReport report = ivy.resolve(new File(
+                "test/repositories/1/org1/mod1.1/ivys/ivy-1.0.xml").toURI().toURL(),
+            getResolveOptions(new String[] {"*"}));
+        assertNotNull(report);
+        ModuleDescriptor md = report.getModuleDescriptor();
+        assertNotNull(md);
+
+        Ivy testIvy = Ivy.newInstance();
+        testIvy.configure(new File("test/repositories/ivysettings.xml"));
+        testIvy.getSettings()
+            .setResolutionCacheManager(new FindAllResolutionCacheManager(ivy.getResolutionCacheManager(), md));
+
+        Copy copy = new Copy();
+        copy.setProject(new Project());
+        copy.setFile(new File("build/cache/org1-mod1.1-default.xml"));
+        copy.setTofile(new File("build/cache/fake-default.xml"));
+        FilterChain fc = copy.createFilterChain();
+        ReplaceString rsOrg = new ReplaceString();
+        rsOrg.setFrom("organisation=\"org1\"");
+        rsOrg.setTo("organisation=\"fake\"");
+        fc.addReplaceString(rsOrg);
+        copy.setOverwrite(true);
+        copy.execute();
+
+        ModuleRevisionId id = ModuleRevisionId.newInstance("fake", "a", "1.1");
+        ModuleDescriptor fake = DefaultModuleDescriptor.newDefaultInstance(id);
+        String pattern = "build/[organisation]/../../../[artifact]-[revision].[ext]";
+        try {
+            testIvy.retrieve(fake.getModuleRevisionId(),
+                getRetrieveOptions().setDestArtifactPattern(pattern));
+            fail("expected an exception");
+        } catch (RuntimeException ex) {
+            assertTrue(ex.getCause() instanceof IllegalArgumentException);
+        }
     }
 
     public void testRetrieveSameFileConflict() throws Exception {
@@ -286,4 +334,58 @@ public class RetrieveTest extends TestCase {
         return new ResolveOptions().setConfs(confs);
     }
 
+
+    private static class FindAllResolutionCacheManager implements ResolutionCacheManager {
+
+        private final ResolutionCacheManager real;
+        private final ModuleRevisionId staticMrid;
+        private final ModuleDescriptor staticModuleDescriptor;
+        private static final String RESOLVE_ID = "org1-mod1.1";
+
+        private FindAllResolutionCacheManager(ResolutionCacheManager real, ModuleDescriptor md) {
+            this.real = real;
+            staticModuleDescriptor = md;
+            staticMrid = md.getModuleRevisionId();
+        }
+
+        public File getResolutionCacheRoot() {
+            return real.getResolutionCacheRoot();
+        }
+
+        public File getResolvedIvyFileInCache(ModuleRevisionId mrid) {
+            return real.getResolvedIvyFileInCache(staticMrid);
+        }
+
+        public File getResolvedIvyPropertiesInCache(ModuleRevisionId mrid) {
+            return real.getResolvedIvyPropertiesInCache(staticMrid);
+        }
+
+        public File getConfigurationResolveReportInCache(String resolveId, String conf) {
+            return new File("build/cache/fake-default.xml");
+        }
+
+        public File[] getConfigurationResolveReportsInCache(final String resolveId) {
+            return real.getConfigurationResolveReportsInCache(RESOLVE_ID);
+        }
+
+        public ModuleDescriptor getResolvedModuleDescriptor(ModuleRevisionId mrid)
+            throws ParseException, IOException {
+            if (mrid.getOrganisation().equals("fake")) {
+                DefaultModuleDescriptor md = new DefaultModuleDescriptor(staticModuleDescriptor.getParser(), staticModuleDescriptor.getResource());
+                md.setModuleRevisionId(mrid);
+                md.setPublicationDate(staticModuleDescriptor.getPublicationDate());
+                for (Configuration conf : staticModuleDescriptor.getConfigurations()) {
+                    md.addConfiguration(conf);
+                }
+                return md;
+            }
+            return real.getResolvedModuleDescriptor(mrid);
+        }
+
+        public void saveResolvedModuleDescriptor(ModuleDescriptor md) {
+        }
+
+        public void clean() {
+        }
+    }
 }

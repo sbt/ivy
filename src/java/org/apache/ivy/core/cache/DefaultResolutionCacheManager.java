@@ -164,6 +164,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
     public void saveResolvedModuleDescriptor(ModuleDescriptor md) throws ParseException, IOException {
         ModuleRevisionId mrevId = md.getResolvedModuleRevisionId();
         File ivyFileInCache = getResolvedIvyFileInCache(mrevId);
+        assertInsideCache(ivyFileInCache);
         md.toIvyFile(ivyFileInCache);
         
         Properties paths = new Properties();
@@ -171,12 +172,22 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
         
         if (!paths.isEmpty()) {
             File parentsFile = getResolvedIvyPropertiesInCache(ModuleRevisionId.newInstance(mrevId, mrevId.getRevision() + "-parents"));
+            assertInsideCache(parentsFile);
             FileOutputStream out = new FileOutputStream(parentsFile);
             paths.store(out, null);
             out.close();
         }
     }
-    
+
+    /**
+     * @throws IllegalArgumentException if the given path points outside of the cache.
+     */
+    public final void assertInsideCache(File fileInCache) {
+        if (!FileUtil.isLeadingPath(getResolutionCacheRoot(), fileInCache)) {
+            throw new IllegalArgumentException(fileInCache + " is outside of the cache");
+        }
+    }
+
     private void saveLocalParents(ModuleRevisionId baseMrevId, ModuleDescriptor md, File mdFile, Properties paths) throws ParseException, IOException {
         ExtendsDescriptor[] parents = md.getInheritedDescriptors();
         for (int i = 0; i < parents.length; i++) {
@@ -188,6 +199,7 @@ public class DefaultResolutionCacheManager implements ResolutionCacheManager, Iv
             ModuleDescriptor parent = parents[i].getParentMd();
             ModuleRevisionId pRevId = ModuleRevisionId.newInstance(baseMrevId, baseMrevId.getRevision() + "-parent." + paths.size());
             File parentFile = getResolvedIvyFileInCache(pRevId);
+            assertInsideCache(parentFile);            
             parent.toIvyFile(parentFile);
             
             paths.setProperty(mdFile.getName() + "|" + parents[i].getLocation(), parentFile.getAbsolutePath());
