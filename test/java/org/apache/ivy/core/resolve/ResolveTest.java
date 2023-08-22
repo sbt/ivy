@@ -300,14 +300,13 @@ public class ResolveTest extends TestCase {
             int expectedNumberOfDependencies) {
         Ivy ivy = new Ivy();
         Throwable th = null;
-        Properties p = System.getProperties();
+        Properties p = (Properties) System.getProperties().clone();
         try {
-            System.setProperties(new Properties());
             System.setProperty(XMLHelper.ALLOW_DOCTYPE_PROCESSING, "true");
             if (externalResourcesSystemProperty != null) {
                 System.setProperty(XMLHelper.EXTERNAL_RESOURCES, externalResourcesSystemProperty);
             }
-            ivy.configure(new File("test/repositories/xml-entities/ivysettings.xml"));
+            ivy.configure(new File("test/repositories/xml-entities/ivysettings.xml").toURL());
             ResolveReport report = ivy.resolve(new File("test/repositories/xml-entities/ivy.xml").toURL(),
                 getResolveOptions(new String[] {"*"}));
             assertNotNull(report);
