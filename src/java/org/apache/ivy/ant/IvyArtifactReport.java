@@ -29,8 +29,6 @@ import java.util.Set;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
@@ -44,6 +42,7 @@ import org.apache.ivy.core.resolve.IvyNode;
 import org.apache.ivy.core.resolve.ResolveOptions;
 import org.apache.ivy.core.resolve.ResolvedModuleRevision;
 import org.apache.ivy.core.retrieve.RetrieveOptions;
+import org.apache.ivy.util.XMLHelper;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.xml.sax.SAXException;
@@ -133,9 +132,9 @@ public class IvyArtifactReport extends IvyPostResolveTask {
     private void generateXml(IvyNode[] dependencies,
             Map moduleRevToArtifactsMap, Map artifactsToCopy) {
         try {
-            FileOutputStream fileOuputStream = new FileOutputStream(tofile);
+            FileOutputStream fileOutputStream = new FileOutputStream(tofile);
             try {
-                TransformerHandler saxHandler = createTransformerHandler(fileOuputStream);
+                TransformerHandler saxHandler = createTransformerHandler(fileOutputStream);
 
                 saxHandler.startDocument();
                 saxHandler.startElement(null, "modules", "modules", new AttributesImpl());
@@ -177,7 +176,7 @@ public class IvyArtifactReport extends IvyPostResolveTask {
                 saxHandler.endElement(null, "modules", "modules");
                 saxHandler.endDocument();
             } finally {
-                fileOuputStream.close();
+                fileOutputStream.close();
             }
         } catch (SAXException e) {
             throw new BuildException("impossible to generate report", e);
@@ -188,15 +187,12 @@ public class IvyArtifactReport extends IvyPostResolveTask {
         }
     }
 
-    private TransformerHandler createTransformerHandler(FileOutputStream fileOuputStream)
-            throws TransformerFactoryConfigurationError, TransformerConfigurationException,
-            SAXException {
-        SAXTransformerFactory transformerFact = (SAXTransformerFactory) SAXTransformerFactory
-                .newInstance();
-        TransformerHandler saxHandler = transformerFact.newTransformerHandler();
+    private TransformerHandler createTransformerHandler(FileOutputStream fileOutputStream)
+            throws TransformerConfigurationException, SAXException {
+        TransformerHandler saxHandler = XMLHelper.getTransformerHandler();
         saxHandler.getTransformer().setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         saxHandler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
-        saxHandler.setResult(new StreamResult(fileOuputStream));
+        saxHandler.setResult(new StreamResult(fileOutputStream));
         return saxHandler;
     }
 

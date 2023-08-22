@@ -73,7 +73,7 @@ public final class StringUtils {
      *            the exception to get the stack trace from.
      * @return the exception stack trace
      */
-    public static String getStackTrace(Exception e) {
+    public static String getStackTrace(Throwable e) {
         if (e == null) {
             return "";
         }
