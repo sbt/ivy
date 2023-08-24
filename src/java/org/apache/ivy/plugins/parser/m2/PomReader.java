@@ -96,12 +96,13 @@ public class PomReader {
                 public InputSource resolveEntity(String publicId, String systemId) 
                                 throws SAXException, IOException {
                     if ((systemId != null) && systemId.endsWith("m2-entities.ent")) {
+                        // IVY-921: return an InputSource for our local packaged m2-entities.ent file
                         return new InputSource(
                                         PomReader.class.getResourceAsStream("m2-entities.ent"));
                     }
                     return null;
                 }
-            });
+            }, true, XMLHelper.ExternalResources.IGNORE);
             projectElement = pomDomDoc.getDocumentElement();
             if (!PROJECT.equals(projectElement.getNodeName()) && !MODEL.equals(projectElement.getNodeName())) {
                 throw new SAXParseException("project must be the root tag" , res.getName() , 

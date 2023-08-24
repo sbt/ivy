@@ -34,7 +34,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -49,6 +48,7 @@ import org.apache.ivy.plugins.report.XmlReportOutputter;
 import org.apache.ivy.plugins.report.XmlReportParser;
 import org.apache.ivy.util.FileUtil;
 import org.apache.ivy.util.Message;
+import org.apache.ivy.util.XMLHelper;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.XSLTProcess;
 import org.apache.tools.ant.util.JAXPUtils;
@@ -321,9 +321,8 @@ public class IvyReport extends IvyTask {
             Source xsltSource = new StreamSource(xsltStream, JAXPUtils.getSystemId(style));
             
             // create transformer
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-            Transformer transformer = tFactory.newTransformer(xsltSource);
-            
+            Transformer transformer = XMLHelper.getTransformer(xsltSource);
+
             // add standard parameters
             transformer.setParameter("confs", conf);
             transformer.setParameter("extension", xslext);

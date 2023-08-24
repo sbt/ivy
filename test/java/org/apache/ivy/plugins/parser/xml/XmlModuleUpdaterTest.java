@@ -31,6 +31,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -44,13 +45,21 @@ import org.apache.ivy.core.settings.IvySettings;
 import org.apache.ivy.plugins.repository.BasicResource;
 import org.apache.ivy.util.FileUtil;
 import org.xml.sax.SAXParseException;
+import org.apache.ivy.util.XMLHelper;
 
 public class XmlModuleUpdaterTest extends TestCase {
-    
+    Properties p = (Properties) System.getProperties().clone();
+
+    protected void setUp() {
+        System.setProperty(XMLHelper.ALLOW_DOCTYPE_PROCESSING, "true");
+        System.setProperty(XMLHelper.EXTERNAL_RESOURCES, "all");
+    }
+
     protected void tearDown() throws Exception {
         super.tearDown();
         
         XmlModuleDescriptorUpdater.LINE_SEPARATOR = System.getProperty("line.separator");
+        System.setProperties(p);
     }
 
     public void testUpdate() throws Exception {

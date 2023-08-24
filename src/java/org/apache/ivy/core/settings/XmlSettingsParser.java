@@ -33,8 +33,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.SAXParserFactory;
-
 import org.apache.ivy.core.IvyPatternHelper;
 import org.apache.ivy.core.cache.RepositoryCacheManager;
 import org.apache.ivy.core.module.status.StatusManager;
@@ -47,6 +45,7 @@ import org.apache.ivy.util.Checks;
 import org.apache.ivy.util.Configurator;
 import org.apache.ivy.util.FileResolver;
 import org.apache.ivy.util.Message;
+import org.apache.ivy.util.XMLHelper;
 import org.apache.ivy.util.url.CredentialsStore;
 import org.apache.ivy.util.url.URLHandler;
 import org.apache.ivy.util.url.URLHandlerRegistry;
@@ -152,12 +151,8 @@ public class XmlSettingsParser extends DefaultHandler {
 
     private void doParse(URL settingsUrl) throws IOException, ParseException {
         this.settings = settingsUrl;
-        InputStream stream = null;
         try {
-            stream = URLHandlerRegistry.getDefault().openStream(settingsUrl);
-            InputSource inSrc = new InputSource(stream);
-            inSrc.setSystemId(settingsUrl.toExternalForm());
-            SAXParserFactory.newInstance().newSAXParser().parse(settingsUrl.toExternalForm(), this);
+            XMLHelper.parse(settingsUrl, null, this);
             ivy.validate();
         } catch (IOException e) {
             throw e;
@@ -166,14 +161,6 @@ public class XmlSettingsParser extends DefaultHandler {
                     + ": " + e.getMessage(), 0);
             pe.initCause(e);
             throw pe;
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    // ignored
-                }
-            }
         }
     }
 
