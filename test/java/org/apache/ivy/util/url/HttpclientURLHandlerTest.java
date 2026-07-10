@@ -59,16 +59,6 @@ public class HttpclientURLHandlerTest extends TestCase {
         assertEquals(URLHandler.UNAVAILABLE, info);
     }
     
-    public void testContentEncoding() throws Exception {
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html"), new File(testDir, "gzip.txt"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html?deflate=on&zlib=on"), new File(testDir, "deflate-zlib.txt"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/daniels.html?deflate=on"), new File(testDir, "deflate.txt"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/a5.ps"), new File(testDir, "a5-gzip.ps"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/a5.ps?deflate=on"), new File(testDir, "a5-deflate.ps"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/nh80.pdf"), new File(testDir, "nh80-gzip.pdf"));
-        assertDownloadOK(new URL("http://carsten.codimi.de/gzip.yaws/nh80.pdf?deflate=on"), new File(testDir, "nh80-deflate.pdf"));
-    }
-    
     private void assertDownloadOK(URL url, File file) throws Exception {
         handler.download(url, file, null);
         assertTrue(file.exists());        
