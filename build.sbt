@@ -1,44 +1,31 @@
-import com.typesafe.sbt.SbtGit._
-
 lazy val copyLicenseFiles = taskKey[Seq[File]]("copies needed files for jar.")
 lazy val makeModuleProperties = taskKey[Seq[File]]("Create module.properties file.")
 
 lazy val root = (project in file(".")).
   settings(versionWithGit: _*).
   settings(
-    inThisBuild(Seq(
-      organization := "org.scala-sbt.ivy",
-      homepage := Some(url("https://github.com/sbt/ivy")),
-      description := "patched Ivy for sbt",
-      licenses := List("Apache-2.0" -> url("https://github.com/sbt/ivy/blob/2.3.x-sbt/LICENSE")),
-      scmInfo := Some(ScmInfo(url("https://github.com/sbt/ivy"), "git@github.com:sbt/ivy.git")),
-      developers := List(
-        Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
-      ),
-      pomIncludeRepository := { _ => false },
-      publishTo := {
-        val nexus = "https://oss.sonatype.org/"
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-      }
-    )),
     // TODO - Read from version.properties
     git.baseVersion := "2.3.0-sbt",
     name := "ivy",
     scalacOptions ++= Seq("-target:jvm-1.8"),
-    javacOptions in (Compile, compile) ++= Seq("-target", "8", "-source", "8"),
-    unmanagedSourceDirectories in Compile := Seq(
+    Compile / compile / javacOptions ++= Seq("-target", "8", "-source", "8"),
+    Compile / unmanagedSourceDirectories := Seq(
       baseDirectory.value / "src" / "java"
     ),
-    unmanagedJars in Compile := Seq.empty,
-    unmanagedResourceDirectories in Compile :=
-      (unmanagedSourceDirectories in Compile).value,
-    includeFilter in (unmanagedResources in Compile) :=
+    Compile / unmanagedJars := Seq.empty,
+    Compile / unmanagedResourceDirectories :=
+      (Compile / unmanagedSourceDirectories).value,
+    Compile / unmanagedResources / includeFilter :=
        "*.png" | "*.xml" | "*.properties" | "*.xsl" | "*.xsd" | "*.css" | "*.html" | "*.template" | "*.ent",
-    excludeFilter in (unmanagedResources in Compile) :=
+    Compile / unmanagedResources / excludeFilter :=
        "*.java",
+    Test / unmanagedSourceDirectories := Seq(
+      baseDirectory.value / "test" / "java"
+    ),
+    Test / unmanagedClasspath := Seq.empty,
     compileOrder := CompileOrder.JavaThenScala,
     copyLicenseFiles := {
-      val dir = (resourceManaged in Compile).value
+      val dir = ((Compile / resourceManaged)).value
       val bd = baseDirectory.value
       val copies =
         Map(
@@ -49,14 +36,14 @@ lazy val root = (project in file(".")).
       (copies map (_._2))(collection.breakOut)
     },
     makeModuleProperties := {
-      val dir = (resourceManaged in Compile).value
+      val dir = ((Compile / resourceManaged)).value
       val file = dir / "module.properties"
         IO.write(file, s"version=${version.value}\n")
       Seq(file)
     },
     // TODO - copy ivysettings to ivyconf files for backwards compatibility.
-    resourceGenerators in Compile += copyLicenseFiles.taskValue,
-    resourceGenerators in Compile += makeModuleProperties.taskValue,
+    Compile / resourceGenerators += copyLicenseFiles.taskValue,
+    Compile / resourceGenerators += makeModuleProperties.taskValue,
     libraryDependencies ++=
       Seq(
         "org.apache.ant" %"ant-nodeps" % "1.7.1" % "provided",
@@ -66,8 +53,25 @@ lazy val root = (project in file(".")).
         "com.jcraft" % "jsch.agentproxy" % "0.0.6" % "provided",
         "com.jcraft" % "jsch.agentproxy.connector-factory" % "0.0.6" % "provided",
         "commons-vfs" % "commons-vfs" % "1.0" % "provided",
-        "oro" % "oro" % "2.0.8" % "provided"
+        "oro" % "oro" % "2.0.8" % "provided",
+        "org.apache.ant" %"ant-testutil" % "1.7.1" % Test,
+        "commons-lang" % "commons-lang" % "2.6" % Test,
       ),
     autoScalaLibrary := false,
     crossPaths := false
   )
+
+ThisBuild / organization := "org.scala-sbt.ivy"
+ThisBuild / homepage := Some(url("https://github.com/sbt/ivy"))
+ThisBuild / description := "patched Ivy for sbt"
+ThisBuild / licenses := List("Apache-2.0" -> url("https://github.com/sbt/ivy/blob/2.3.x-sbt/LICENSE"))
+ThisBuild / scmInfo := Some(ScmInfo(url("https://github.com/sbt/ivy"), "git@github.com:sbt/ivy.git"))
+ThisBuild / developers := List(
+  Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
+)
+ThisBuild / pomIncludeRepository := { _ => false }
+ThisBuild / publishTo := {
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (version.value.endsWith("-SNAPSHOT")) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
+}
