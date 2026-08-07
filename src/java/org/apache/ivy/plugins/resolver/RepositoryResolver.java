@@ -213,6 +213,7 @@ public class RepositoryResolver extends AbstractPatternsBasedResolver {
 
         String dest = getDestination(destPattern, artifact, mrid);
 
+        Message.info("\tpublishing " + artifact.getName() + " to " + hidePassword(repository.standardize(dest)));
         put(artifact, src, dest, overwrite);
         Message.info("\tpublished " + artifact.getName() + " to " + hidePassword(repository.standardize(dest)));
     }
